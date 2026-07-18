@@ -1,0 +1,25 @@
+@model List<DangPhatFlex.Web.Models.ProductCategory>
+
+<section class="container py-4">
+    <h1>Danh mục sản phẩm</h1>
+    <a class="btn btn-brand mb-3" asp-action="Create">Thêm danh mục</a>
+    <table class="table">
+        <thead><tr><th>Tên</th><th>Slug</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var c in Model)
+            {
+                <tr>
+                    <td>@c.Name</td>
+                    <td>@c.Slug</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@c.Id">Sửa</a>
+                        <form asp-action="Delete" asp-route-id="@c.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-link text-danger p-0 ms-2"
+                                    onclick="return confirm('Xóa danh mục này?');">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

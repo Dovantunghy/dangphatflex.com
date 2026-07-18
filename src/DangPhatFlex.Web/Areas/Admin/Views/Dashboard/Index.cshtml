@@ -1,0 +1,17 @@
+<section class="container py-4">
+    <h1>Bảng điều khiển</h1>
+    <div class="row g-3">
+        <div class="col-md-4">
+            <div class="card p-3"><strong>Sản phẩm:</strong> @ViewData["ProductCount"]</div>
+        </div>
+        <div class="col-md-4">
+            <div class="card p-3"><strong>Liên hệ mới:</strong> @ViewData["NewContactCount"]</div>
+        </div>
+    </div>
+    <ul class="mt-4">
+        <li><a asp-controller="ProductCategories" asp-action="Index">Quản lý danh mục sản phẩm</a></li>
+        <li><a asp-controller="Products" asp-action="Index">Quản lý sản phẩm</a></li>
+        <li><a asp-controller="CompanyInfo" asp-action="Edit">Thông tin công ty</a></li>
+        <li><a asp-controller="ContactSubmissions" asp-action="Index">Danh sách liên hệ</a></li>
+    </ul>
+</section>
