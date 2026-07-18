@@ -1,0 +1,54 @@
+@model DangPhatFlex.Web.Areas.Admin.Models.ProductFormViewModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    var categories = ViewData["Categories"] as List<DangPhatFlex.Web.Models.ProductCategory> ?? new();
+}
+
+<section class="container py-4">
+    <h1>Sửa sản phẩm</h1>
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3">
+            <label asp-for="ProductCategoryId" class="form-label">Danh mục</label>
+            <select asp-for="ProductCategoryId" class="form-select" asp-items="@(new SelectList(categories, "Id", "Name"))"></select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Slug" class="form-label">Slug (để trống để tự sinh)</label>
+            <input asp-for="Slug" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="mb-3">
+            <label asp-for="MainImage" class="form-label">Ảnh chính</label>
+            <input asp-for="MainImage" type="file" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="MainImageAlt" class="form-label">Alt text ảnh (bắt buộc)</label>
+            <input asp-for="MainImageAlt" class="form-control" />
+            <span asp-validation-for="MainImageAlt" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DatasheetPdf" class="form-label">Datasheet PDF</label>
+            <input asp-for="DatasheetPdf" type="file" class="form-control" />
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3"><label asp-for="InnerDiameter" class="form-label"></label><input asp-for="InnerDiameter" class="form-control" /></div>
+            <div class="col-md-6 mb-3"><label asp-for="OuterDiameter" class="form-label"></label><input asp-for="OuterDiameter" class="form-control" /></div>
+            <div class="col-md-6 mb-3"><label asp-for="HoseType" class="form-label"></label><input asp-for="HoseType" class="form-control" /></div>
+            <div class="col-md-6 mb-3"><label asp-for="MaxTemperature" class="form-label"></label><input asp-for="MaxTemperature" class="form-control" /></div>
+            <div class="col-md-6 mb-3"><label asp-for="MaxPressure" class="form-label"></label><input asp-for="MaxPressure" class="form-control" /></div>
+            <div class="col-md-6 mb-3"><label asp-for="MinBendRadius" class="form-label"></label><input asp-for="MinBendRadius" class="form-control" /></div>
+            <div class="col-md-12 mb-3"><label asp-for="Standards" class="form-label"></label><input asp-for="Standards" class="form-control" /></div>
+        </div>
+        <div class="mb-3"><label asp-for="MetaTitle" class="form-label"></label><input asp-for="MetaTitle" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="MetaDescription" class="form-label"></label><textarea asp-for="MetaDescription" class="form-control"></textarea></div>
+        <button type="submit" class="btn btn-brand">Lưu</button>
+    </form>
+</section>

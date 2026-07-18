@@ -12,6 +12,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ISlugService, SlugService>();
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
+builder.Services.AddScoped<IFileUploadService, FileUploadService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
