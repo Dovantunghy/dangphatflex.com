@@ -37,4 +37,16 @@ public class SeoController : Controller
 
         return Content(sb.ToString(), "application/xml", Encoding.UTF8);
     }
+
+    [Route("/robots.txt")]
+    public IActionResult Robots()
+    {
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+        var sb = new StringBuilder();
+        sb.AppendLine("User-agent: *");
+        sb.AppendLine("Allow: /");
+        sb.AppendLine($"Sitemap: {baseUrl}/sitemap.xml");
+
+        return Content(sb.ToString(), "text/plain", Encoding.UTF8);
+    }
 }

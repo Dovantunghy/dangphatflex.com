@@ -32,4 +32,15 @@ public class SeoControllerTests : IClassFixture<TestWebApplicationFactory>
 
         response.EnsureSuccessStatusCode();
     }
+
+    [Fact]
+    public async Task RobotsTxt_ContainsAbsoluteSitemapUrl()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync("/robots.txt");
+
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+        Assert.Matches(@"Sitemap: https?://[^\s]+/sitemap\.xml", content);
+    }
 }
