@@ -27,6 +27,7 @@ public class ContactController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index(ContactFormViewModel model)
     {
         if (!ModelState.IsValid)
