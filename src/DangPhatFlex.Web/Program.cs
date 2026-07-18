@@ -2,6 +2,7 @@ using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using DangPhatFlex.Web.Data;
 using DangPhatFlex.Web.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddScoped<ISlugService, SlugService>();
 builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+    options.Password.RequireNonAlphanumeric = false;
+    options.SignIn.RequireConfirmedAccount = false;
+})
+.AddRoles<IdentityRole>()
+.AddEntityFrameworkStores<AppDbContext>();
+
 // Responses are always served as UTF-8, so allow the full Unicode range through Razor's
 // HtmlEncoder instead of the ASCII-only default, which HTML-entity-encodes every
 // Vietnamese diacritic in dynamic (@expression) output.
@@ -19,6 +28,7 @@ builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -33,6 +43,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -46,12 +57,18 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}",
     defaults: new { area = "Public" });
 
+app.MapRazorPages();
+
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     var slugService = scope.ServiceProvider.GetRequiredService<ISlugService>();
     context.Database.Migrate();
     DbSeeder.Seed(context, slugService);
+
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await IdentitySeeder.SeedAsync(userManager, roleManager, app.Configuration);
 }
 
 app.Run();
