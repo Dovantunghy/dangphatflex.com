@@ -1,0 +1,21 @@
+@model DangPhatFlex.Web.Models.CompanyInfo
+
+<section class="container py-5">
+    <h1>Giới thiệu công ty</h1>
+    <h2 class="text-muted">@Model?.LegalName</h2>
+    <p class="lead">@Model?.Tagline</p>
+    <div class="about-content">
+        <p>@Model?.AboutContent</p>
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <strong>Địa chỉ:</strong> @Model?.Address
+        </div>
+        <div class="col-md-3">
+            <strong>Hotline:</strong> @Model?.Hotline
+        </div>
+        <div class="col-md-3">
+            <strong>Email:</strong> @Model?.Email
+        </div>
+    </div>
+</section>
