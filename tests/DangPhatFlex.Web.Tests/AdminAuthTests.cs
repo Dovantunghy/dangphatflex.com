@@ -21,4 +21,16 @@ public class AdminAuthTests : IClassFixture<TestWebApplicationFactory>
         Assert.Equal(System.Net.HttpStatusCode.Redirect, response.StatusCode);
         Assert.Contains("/Identity/Account/Login", response.Headers.Location!.ToString());
     }
+
+    [Fact]
+    public async Task LoginPage_Get_ReturnsSuccessWithLoginForm()
+    {
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync("/Identity/Account/Login");
+
+        response.EnsureSuccessStatusCode();
+        var body = await response.Content.ReadAsStringAsync();
+        Assert.Contains("Input.Email", body);
+        Assert.Contains("Input.Password", body);
+    }
 }
