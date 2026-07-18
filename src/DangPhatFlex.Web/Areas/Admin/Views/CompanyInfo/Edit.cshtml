@@ -1,0 +1,21 @@
+@model DangPhatFlex.Web.Models.CompanyInfo
+
+<section class="container py-4">
+    <h1>Thông tin công ty</h1>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="mb-3"><label asp-for="LegalName" class="form-label"></label><input asp-for="LegalName" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="BrandName" class="form-label"></label><input asp-for="BrandName" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="Tagline" class="form-label"></label><input asp-for="Tagline" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="AboutContent" class="form-label"></label><textarea asp-for="AboutContent" class="form-control" rows="6">@Model.AboutContent</textarea></div>
+        <div class="mb-3"><label asp-for="Address" class="form-label"></label><input asp-for="Address" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="Hotline" class="form-label"></label><input asp-for="Hotline" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="Email" class="form-label"></label><input asp-for="Email" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="MapEmbedUrl" class="form-label"></label><input asp-for="MapEmbedUrl" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="CoreValueFast" class="form-label"></label><input asp-for="CoreValueFast" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="CoreValueBest" class="form-label"></label><input asp-for="CoreValueBest" class="form-control" /></div>
+        <div class="mb-3"><label asp-for="CoreValueCompetitivePrice" class="form-label"></label><input asp-for="CoreValueCompetitivePrice" class="form-control" /></div>
+        <button type="submit" class="btn btn-brand">Lưu</button>
+    </form>
+</section>
