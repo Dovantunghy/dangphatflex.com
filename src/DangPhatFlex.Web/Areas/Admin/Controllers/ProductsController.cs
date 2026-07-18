@@ -3,6 +3,7 @@ using DangPhatFlex.Web.Data;
 using DangPhatFlex.Web.Models;
 using DangPhatFlex.Web.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,9 @@ namespace DangPhatFlex.Web.Areas.Admin.Controllers;
 [Authorize(Roles = "Admin")]
 public class ProductsController : Controller
 {
+    private static readonly string[] AllowedImageExtensions = { ".jpg", ".jpeg", ".png", ".webp", ".gif" };
+    private static readonly string[] AllowedPdfExtensions = { ".pdf" };
+
     private readonly AppDbContext _context;
     private readonly ISlugService _slugService;
     private readonly IFileUploadService _fileUploadService;
@@ -21,6 +25,12 @@ public class ProductsController : Controller
         _context = context;
         _slugService = slugService;
         _fileUploadService = fileUploadService;
+    }
+
+    private static bool HasAllowedExtension(IFormFile file, IReadOnlyCollection<string> allowedExtensions)
+    {
+        var extension = Path.GetExtension(file.FileName);
+        return allowedExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
     }
 
     public async Task<IActionResult> Index()
@@ -43,6 +53,12 @@ public class ProductsController : Controller
             model.Slug = _slugService.GenerateSlug(model.Name);
             ModelState.Remove(nameof(model.Slug));
         }
+
+        if (model.MainImage is not null && !HasAllowedExtension(model.MainImage, AllowedImageExtensions))
+            ModelState.AddModelError(nameof(model.MainImage), "Chỉ chấp nhận file ảnh (jpg, png, webp, gif).");
+
+        if (model.DatasheetPdf is not null && !HasAllowedExtension(model.DatasheetPdf, AllowedPdfExtensions))
+            ModelState.AddModelError(nameof(model.DatasheetPdf), "Chỉ chấp nhận file PDF.");
 
         if (!ModelState.IsValid)
         {
@@ -122,6 +138,12 @@ public class ProductsController : Controller
             model.Slug = _slugService.GenerateSlug(model.Name);
             ModelState.Remove(nameof(model.Slug));
         }
+
+        if (model.MainImage is not null && !HasAllowedExtension(model.MainImage, AllowedImageExtensions))
+            ModelState.AddModelError(nameof(model.MainImage), "Chỉ chấp nhận file ảnh (jpg, png, webp, gif).");
+
+        if (model.DatasheetPdf is not null && !HasAllowedExtension(model.DatasheetPdf, AllowedPdfExtensions))
+            ModelState.AddModelError(nameof(model.DatasheetPdf), "Chỉ chấp nhận file PDF.");
 
         if (!ModelState.IsValid)
         {

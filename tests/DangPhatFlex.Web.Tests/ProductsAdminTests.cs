@@ -129,6 +129,122 @@ public class ProductsAdminTests : IClassFixture<TestWebApplicationFactory>
         Assert.False(noneCreated);
     }
 
+    [Fact]
+    public async Task Create_WithDisallowedMainImageExtension_FailsValidationAndDoesNotSave()
+    {
+        using var context = CreateInMemoryContext();
+        var category = new ProductCategory { Name = "Ống Mềm", Slug = "ong-mem" };
+        context.ProductCategories.Add(category);
+        await context.SaveChangesAsync();
+
+        var fileUploadServiceMock = new Mock<IFileUploadService>();
+        var controller = CreateController(context, fileUploadServiceMock);
+
+        var model = new ProductFormViewModel
+        {
+            ProductCategoryId = category.Id,
+            Name = "Sản phẩm ảnh không hợp lệ",
+            MainImageAlt = "ảnh sản phẩm",
+            MainImage = CreateFormFile("malicious.exe", "application/octet-stream")
+        };
+        PopulateModelStateFromDataAnnotations(controller, model);
+
+        var result = await controller.Create(model);
+
+        Assert.IsType<ViewResult>(result);
+        Assert.False(controller.ModelState.IsValid);
+        Assert.True(controller.ModelState.ContainsKey(nameof(model.MainImage)));
+
+        var noneCreated = await context.Products.AnyAsync(p => p.Name == model.Name);
+        Assert.False(noneCreated);
+        fileUploadServiceMock.Verify(
+            s => s.SaveAsync(It.IsAny<IFormFile>(), It.IsAny<string>()),
+            Times.Never);
+    }
+
+    [Fact]
+    public async Task Create_WithDisallowedDatasheetExtension_FailsValidationAndDoesNotSave()
+    {
+        using var context = CreateInMemoryContext();
+        var category = new ProductCategory { Name = "Ống Mềm", Slug = "ong-mem" };
+        context.ProductCategories.Add(category);
+        await context.SaveChangesAsync();
+
+        var fileUploadServiceMock = new Mock<IFileUploadService>();
+        var controller = CreateController(context, fileUploadServiceMock);
+
+        var model = new ProductFormViewModel
+        {
+            ProductCategoryId = category.Id,
+            Name = "Sản phẩm datasheet không hợp lệ",
+            MainImageAlt = "ảnh sản phẩm",
+            DatasheetPdf = CreateFormFile("script.html", "text/html")
+        };
+        PopulateModelStateFromDataAnnotations(controller, model);
+
+        var result = await controller.Create(model);
+
+        Assert.IsType<ViewResult>(result);
+        Assert.False(controller.ModelState.IsValid);
+        Assert.True(controller.ModelState.ContainsKey(nameof(model.DatasheetPdf)));
+
+        var noneCreated = await context.Products.AnyAsync(p => p.Name == model.Name);
+        Assert.False(noneCreated);
+        fileUploadServiceMock.Verify(
+            s => s.SaveAsync(It.IsAny<IFormFile>(), It.IsAny<string>()),
+            Times.Never);
+    }
+
+    [Fact]
+    public async Task Create_WithAllowedImageAndPdfExtensions_SucceedsAndUploadsFiles()
+    {
+        using var context = CreateInMemoryContext();
+        var category = new ProductCategory { Name = "Ống Mềm", Slug = "ong-mem" };
+        context.ProductCategories.Add(category);
+        await context.SaveChangesAsync();
+
+        var fileUploadServiceMock = new Mock<IFileUploadService>();
+        fileUploadServiceMock
+            .Setup(s => s.SaveAsync(It.IsAny<IFormFile>(), "products"))
+            .ReturnsAsync("/uploads/products/fake.png");
+        fileUploadServiceMock
+            .Setup(s => s.SaveAsync(It.IsAny<IFormFile>(), "datasheets"))
+            .ReturnsAsync("/uploads/datasheets/fake.pdf");
+        var controller = CreateController(context, fileUploadServiceMock);
+
+        var model = new ProductFormViewModel
+        {
+            ProductCategoryId = category.Id,
+            Name = "Sản phẩm hợp lệ",
+            MainImageAlt = "ảnh sản phẩm",
+            MainImage = CreateFormFile("photo.PNG", "image/png"),
+            DatasheetPdf = CreateFormFile("sheet.pdf", "application/pdf")
+        };
+        PopulateModelStateFromDataAnnotations(controller, model);
+
+        var result = await controller.Create(model);
+
+        Assert.IsType<RedirectToActionResult>(result);
+
+        var created = await context.Products.SingleOrDefaultAsync(p => p.Name == model.Name);
+        Assert.NotNull(created);
+        Assert.Equal("/uploads/products/fake.png", created!.MainImageUrl);
+        Assert.Equal("/uploads/datasheets/fake.pdf", created.DatasheetPdfUrl);
+        fileUploadServiceMock.Verify(s => s.SaveAsync(It.IsAny<IFormFile>(), "products"), Times.Once);
+        fileUploadServiceMock.Verify(s => s.SaveAsync(It.IsAny<IFormFile>(), "datasheets"), Times.Once);
+    }
+
+    private static IFormFile CreateFormFile(string fileName, string contentType)
+    {
+        var content = System.Text.Encoding.UTF8.GetBytes("dummy content");
+        var stream = new MemoryStream(content);
+        return new FormFile(stream, 0, content.Length, "file", fileName)
+        {
+            Headers = new HeaderDictionary(),
+            ContentType = contentType
+        };
+    }
+
     private static AppDbContext CreateInMemoryContext()
     {
         var options = new DbContextOptionsBuilder<AppDbContext>()
@@ -140,9 +256,9 @@ public class ProductsAdminTests : IClassFixture<TestWebApplicationFactory>
         return context;
     }
 
-    private static ProductsController CreateController(AppDbContext context)
+    private static ProductsController CreateController(AppDbContext context, Mock<IFileUploadService>? fileUploadServiceMock = null)
     {
-        var fileUploadServiceMock = new Mock<IFileUploadService>();
+        fileUploadServiceMock ??= new Mock<IFileUploadService>();
         var controller = new ProductsController(context, new SlugService(), fileUploadServiceMock.Object);
         controller.ControllerContext = new ControllerContext
         {
