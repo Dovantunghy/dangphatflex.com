@@ -3,11 +3,11 @@ using Xunit;
 
 namespace DangPhatFlex.Web.Tests;
 
-public class ProductsControllerTests : IClassFixture<WebApplicationFactory<Program>>
+public class ProductsControllerTests : IClassFixture<TestWebApplicationFactory>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public ProductsControllerTests(WebApplicationFactory<Program> factory)
+    public ProductsControllerTests(TestWebApplicationFactory factory)
     {
         _factory = factory;
     }

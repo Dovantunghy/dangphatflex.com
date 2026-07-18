@@ -3,11 +3,11 @@ using Xunit;
 
 namespace DangPhatFlex.Web.Tests;
 
-public class AdminAuthTests : IClassFixture<WebApplicationFactory<Program>>
+public class AdminAuthTests : IClassFixture<TestWebApplicationFactory>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public AdminAuthTests(WebApplicationFactory<Program> factory)
+    public AdminAuthTests(TestWebApplicationFactory factory)
     {
         _factory = factory;
     }

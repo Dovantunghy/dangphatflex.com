@@ -6,11 +6,11 @@ using Xunit;
 
 namespace DangPhatFlex.Web.Tests;
 
-public class ContactControllerTests : IClassFixture<WebApplicationFactory<Program>>
+public class ContactControllerTests : IClassFixture<TestWebApplicationFactory>
 {
     private readonly WebApplicationFactory<Program> _factory;
 
-    public ContactControllerTests(WebApplicationFactory<Program> factory)
+    public ContactControllerTests(TestWebApplicationFactory factory)
     {
         _factory = factory.WithWebHostBuilder(builder =>
         {
