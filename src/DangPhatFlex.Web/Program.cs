@@ -10,6 +10,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<ISlugService, SlugService>();
+builder.Services.AddScoped<IEmailSender, SmtpEmailSender>();
 
 // Responses are always served as UTF-8, so allow the full Unicode range through Razor's
 // HtmlEncoder instead of the ASCII-only default, which HTML-entity-encodes every
