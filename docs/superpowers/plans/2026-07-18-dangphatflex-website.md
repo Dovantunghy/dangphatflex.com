@@ -10,7 +10,7 @@
 
 ## Global Constraints
 
-- Target framework: `net8.0`
+- Target framework: `net9.0` (changed from the original `net8.0` — this machine only has .NET SDK/runtime 9.0 and 10.0 installed, no 8.0 runtime; approved 2026-07-18)
 - Database: SQLite by default (`Data Source=dangphatflex.db`), swappable via connection string / provider later
 - Language/content: Vietnamese only, no i18n
 - No shopping cart / payment, no blog, no third-party CMS (per spec: [2026-07-18-dangphatflex-website-design.md](../specs/2026-07-18-dangphatflex-website-design.md))
