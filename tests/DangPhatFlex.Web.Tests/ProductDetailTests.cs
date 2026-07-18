@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
@@ -21,7 +22,17 @@ public class ProductDetailTests : IClassFixture<WebApplicationFactory<Program>>
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
         Assert.Contains("DP25UB-15-700", content);
-        Assert.Contains("\"@type\": \"Product\"", content);
+
+        const string startTag = "<script type=\"application/ld+json\">";
+        var startIndex = content.IndexOf(startTag, StringComparison.Ordinal);
+        Assert.True(startIndex >= 0, "Expected an application/ld+json script tag in the response.");
+        startIndex += startTag.Length;
+        var endIndex = content.IndexOf("</script>", startIndex, StringComparison.Ordinal);
+        Assert.True(endIndex >= 0, "Expected a closing </script> tag for the JSON-LD block.");
+        var jsonLd = content[startIndex..endIndex];
+
+        using var document = JsonDocument.Parse(jsonLd);
+        Assert.Equal("Product", document.RootElement.GetProperty("@type").GetString());
     }
 
     [Fact]

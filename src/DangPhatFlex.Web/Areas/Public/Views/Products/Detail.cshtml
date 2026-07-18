@@ -15,7 +15,7 @@
             ["@type"] = "Brand",
             ["name"] = "Đăng Phát Flex"
         }
-    }, new JsonSerializerOptions { WriteIndented = true });
+    });
 }
 
 @*
@@ -23,8 +23,7 @@
     tag has its attributes and text content run through Razor's default HtmlEncoder (which HTML-entity-
     encodes both non-ASCII characters and the '+' in "ld+json"), corrupting both the mime type attribute
     and the JSON payload for real crawlers. Building the JSON with System.Text.Json and emitting it raw
-    avoids that. WriteIndented is used so the serialized output includes a space after each ":" (e.g.
-    "@type": "Product"), matching common JSON-LD formatting conventions.
+    avoids that.
 *@
 @Html.Raw($"<script type=\"application/ld+json\">{jsonLd}</script>")
 
