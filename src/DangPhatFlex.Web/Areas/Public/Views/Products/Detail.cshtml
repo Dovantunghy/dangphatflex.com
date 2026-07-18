@@ -1,6 +1,101 @@
 @model DangPhatFlex.Web.Models.Product
+@using System.Text.Json
+@{
+    ViewData["MetaTitle"] = Model.MetaTitle ?? Model.Name;
+    ViewData["MetaDescription"] = Model.MetaDescription ?? Model.Description;
+
+    var jsonLd = JsonSerializer.Serialize(new Dictionary<string, object?>
+    {
+        ["@context"] = "https://schema.org",
+        ["@type"] = "Product",
+        ["name"] = Model.Name,
+        ["description"] = Model.Description,
+        ["brand"] = new Dictionary<string, object?>
+        {
+            ["@type"] = "Brand",
+            ["name"] = "Đăng Phát Flex"
+        }
+    }, new JsonSerializerOptions { WriteIndented = true });
+}
+
+@*
+    Rendered via Html.Raw rather than plain Razor markup: a literal <script type="application/ld+json">
+    tag has its attributes and text content run through Razor's default HtmlEncoder (which HTML-entity-
+    encodes both non-ASCII characters and the '+' in "ld+json"), corrupting both the mime type attribute
+    and the JSON payload for real crawlers. Building the JSON with System.Text.Json and emitting it raw
+    avoids that. WriteIndented is used so the serialized output includes a space after each ":" (e.g.
+    "@type": "Product"), matching common JSON-LD formatting conventions.
+*@
+@Html.Raw($"<script type=\"application/ld+json\">{jsonLd}</script>")
 
 <section class="container py-5">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index">Sản phẩm</a></li>
+            <li class="breadcrumb-item active">@Model.Name</li>
+        </ol>
+    </nav>
+
     <h1>@Model.Name</h1>
-    <p>@Model.Description</p>
+    <p class="lead">@Model.Description</p>
+
+    @if (!string.IsNullOrEmpty(Model.MainImageUrl))
+    {
+        <img src="@Model.MainImageUrl" alt="@(Model.MainImageAlt ?? Model.Name)" class="img-fluid mb-4" />
+    }
+
+    <h2>Thông số kỹ thuật</h2>
+    <table class="table spec-table">
+        <tbody>
+            <tr><th>Đường kính ống</th><td>ID: @Model.InnerDiameter / OD: @Model.OuterDiameter</td></tr>
+            <tr><th>Loại ống</th><td>@Model.HoseType</td></tr>
+            <tr><th>Nhiệt độ hoạt động tối đa</th><td>@Model.MaxTemperature</td></tr>
+            <tr><th>Áp suất hoạt động tối đa</th><td>@Model.MaxPressure</td></tr>
+            <tr><th>Bán kính uốn cong nhỏ nhất</th><td>@Model.MinBendRadius</td></tr>
+            <tr><th>Tiêu chuẩn</th><td>@Model.Standards</td></tr>
+        </tbody>
+    </table>
+
+    <h2>Bảng mã sản phẩm</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Kết nối (Inlet x Outlet)</th>
+                    <th>Chiều dài lắp đặt (mm)</th>
+                    <th>Số lần uốn 90° tối đa</th>
+                    <th>Bán kính uốn cong tối thiểu (in)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var v in Model.Variants)
+                {
+                    <tr>
+                        <td>@v.ProductCode</td>
+                        <td>@v.InletOutlet</td>
+                        <td>@v.InstallLengthMm</td>
+                        <td>@v.MaxBends90</td>
+                        <td>@v.MinBendRadiusIn</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @if (Model.Accessories.Any())
+    {
+        <h2>Phụ kiện đi kèm</h2>
+        <ul>
+            @foreach (var a in Model.Accessories)
+            {
+                <li>@a.Name (SL: @a.DefaultQuantity)</li>
+            }
+        </ul>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.DatasheetPdfUrl))
+    {
+        <a class="btn btn-brand" href="@Model.DatasheetPdfUrl" target="_blank" rel="noopener">Tải Datasheet PDF</a>
+    }
 </section>
