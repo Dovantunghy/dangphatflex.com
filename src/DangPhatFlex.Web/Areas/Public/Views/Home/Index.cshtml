@@ -1,0 +1,86 @@
+@using DangPhatFlex.Web.Models
+@using System.Text.Json
+@{
+    var company = ViewData["CompanyInfo"] as CompanyInfo;
+    var featured = ViewData["FeaturedProducts"] as List<Product> ?? new();
+    ViewData["MetaTitle"] = $"{company?.BrandName} - {company?.Tagline}";
+    ViewData["MetaDescription"] = company?.AboutContent?.Length > 160
+        ? company.AboutContent[..160]
+        : company?.AboutContent;
+
+    var jsonLd = JsonSerializer.Serialize(new
+    {
+        context = "https://schema.org",
+        type = "Organization",
+        name = company?.LegalName,
+        alternateName = company?.BrandName,
+        email = company?.Email,
+        telephone = company?.Hotline,
+        address = company?.Address
+    }).Replace("\"context\"", "\"@context\"").Replace("\"type\"", "\"@type\"");
+}
+
+@*
+    Rendered via Html.Raw rather than plain Razor markup: a literal <script type="application/ld+json">
+    tag has its attributes and text content run through Razor's default HtmlEncoder (which HTML-entity-
+    encodes both non-ASCII characters and the '+' in "ld+json"), corrupting both the mime type attribute
+    and the JSON payload for real crawlers. Building the JSON with System.Text.Json and emitting it raw
+    avoids that.
+*@
+@Html.Raw($"<script type=\"application/ld+json\">{jsonLd}</script>")
+
+<section class="hero">
+    <div class="container text-center">
+        <h1>@company?.BrandName</h1>
+        <p class="lead">@company?.Tagline</p>
+        <a class="btn btn-brand btn-lg" asp-controller="Contact" asp-action="Index">Liên hệ tư vấn</a>
+    </div>
+</section>
+
+<section class="core-values py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 p-4">
+                    <h3>Nhanh nhất</h3>
+                    <p>@company?.CoreValueFast</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 p-4">
+                    <h3>Tốt nhất</h3>
+                    <p>@company?.CoreValueBest</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 p-4">
+                    <h3>Giá cạnh tranh nhất</h3>
+                    <p>@company?.CoreValueCompetitivePrice</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="featured-products py-5 bg-light">
+    <div class="container">
+        <h2 class="mb-4">Sản phẩm nổi bật</h2>
+        <div class="row g-4">
+            @foreach (var product in featured)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Description</p>
+                            <a class="btn btn-outline-primary"
+                               asp-controller="Products" asp-action="Detail"
+                               asp-route-categorySlug="@product.ProductCategory?.Slug"
+                               asp-route-productSlug="@product.Slug">Xem chi tiết</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
