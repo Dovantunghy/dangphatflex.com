@@ -31,11 +31,14 @@ public class ProductCategoriesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ProductCategory model)
     {
+        if (string.IsNullOrWhiteSpace(model.Slug) && !string.IsNullOrWhiteSpace(model.Name))
+        {
+            model.Slug = _slugService.GenerateSlug(model.Name);
+            ModelState.Remove(nameof(model.Slug));
+        }
+
         if (!ModelState.IsValid)
             return View(model);
-
-        if (string.IsNullOrWhiteSpace(model.Slug))
-            model.Slug = _slugService.GenerateSlug(model.Name);
 
         _context.ProductCategories.Add(model);
         await _context.SaveChangesAsync();
@@ -57,11 +60,14 @@ public class ProductCategoriesController : Controller
         if (id != model.Id)
             return BadRequest();
 
+        if (string.IsNullOrWhiteSpace(model.Slug) && !string.IsNullOrWhiteSpace(model.Name))
+        {
+            model.Slug = _slugService.GenerateSlug(model.Name);
+            ModelState.Remove(nameof(model.Slug));
+        }
+
         if (!ModelState.IsValid)
             return View(model);
-
-        if (string.IsNullOrWhiteSpace(model.Slug))
-            model.Slug = _slugService.GenerateSlug(model.Name);
 
         _context.Update(model);
         await _context.SaveChangesAsync();
