@@ -37,6 +37,14 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var slugService = scope.ServiceProvider.GetRequiredService<ISlugService>();
+    context.Database.Migrate();
+    DbSeeder.Seed(context, slugService);
+}
+
 app.Run();
 
 public partial class Program { }
