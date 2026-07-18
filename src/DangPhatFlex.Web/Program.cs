@@ -1,3 +1,5 @@
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using DangPhatFlex.Web.Data;
 using DangPhatFlex.Web.Services;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +10,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<ISlugService, SlugService>();
+
+// Responses are always served as UTF-8, so allow the full Unicode range through Razor's
+// HtmlEncoder instead of the ASCII-only default, which HTML-entity-encodes every
+// Vietnamese diacritic in dynamic (@expression) output.
+builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.All));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

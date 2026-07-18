@@ -1,0 +1,22 @@
+@model List<DangPhatFlex.Web.Models.Product>
+
+<section class="container py-5">
+    <h1>Sản phẩm</h1>
+    <div class="row g-4">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <a class="btn btn-outline-primary"
+                           asp-action="Detail"
+                           asp-route-categorySlug="@product.ProductCategory?.Slug"
+                           asp-route-productSlug="@product.Slug">Xem chi tiết</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
