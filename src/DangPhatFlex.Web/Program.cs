@@ -1,10 +1,13 @@
 using DangPhatFlex.Web.Data;
+using DangPhatFlex.Web.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<ISlugService, SlugService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
