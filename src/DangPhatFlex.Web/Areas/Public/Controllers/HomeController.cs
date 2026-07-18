@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using DangPhatFlex.Web.Data;
+using DangPhatFlex.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,5 +24,11 @@ public class HomeController : Controller
             .Take(3)
             .ToListAsync();
         return View();
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

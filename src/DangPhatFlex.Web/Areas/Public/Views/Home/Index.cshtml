@@ -8,16 +8,16 @@
         ? company.AboutContent[..160]
         : company?.AboutContent;
 
-    var jsonLd = JsonSerializer.Serialize(new
+    var jsonLd = JsonSerializer.Serialize(new Dictionary<string, object?>
     {
-        context = "https://schema.org",
-        type = "Organization",
-        name = company?.LegalName,
-        alternateName = company?.BrandName,
-        email = company?.Email,
-        telephone = company?.Hotline,
-        address = company?.Address
-    }).Replace("\"context\"", "\"@context\"").Replace("\"type\"", "\"@type\"");
+        ["@context"] = "https://schema.org",
+        ["@type"] = "Organization",
+        ["name"] = company?.LegalName,
+        ["alternateName"] = company?.BrandName,
+        ["email"] = company?.Email,
+        ["telephone"] = company?.Hotline,
+        ["address"] = company?.Address
+    });
 }
 
 @*
