@@ -17,6 +17,15 @@ public class CompanyInfo
 
     public string AboutContent { get; set; } = string.Empty;
 
+    [MaxLength(500)]
+    public string? Mission { get; set; }
+
+    [MaxLength(500)]
+    public string? Vision { get; set; }
+
+    /// <summary>One advantage per line, rendered as a bulleted list on the About page.</summary>
+    public string? Advantages { get; set; }
+
     [Required, MaxLength(400)]
     public string Address { get; set; } = string.Empty;
 

@@ -14,18 +14,31 @@ public static class DbSeeder
         {
             LegalName = "CÔNG TY TNHH CƠ ĐIỆN ĐĂNG PHÁT",
             BrandName = "Đăng Phát Flex",
-            Tagline = "Giải pháp khớp nối mềm inox",
-            AboutContent = "CÔNG TY TNHH CƠ ĐIỆN ĐĂNG PHÁT là đơn vị chuyên sản xuất, " +
-                "nhập khẩu, phân phối và cung cấp các sản phẩm đầu nối, ống kim loại dẻo " +
-                "bằng thép không gỉ. Chúng tôi tạo dựng uy tín trên thị trường bằng " +
-                "phương châm hoạt động xoay quanh ba yếu tố cơ bản: Nhanh nhất – Tốt nhất " +
-                "– Giá cả cạnh tranh nhất.",
+            Tagline = "Giải pháp khớp nối mềm inox cho ngành cơ điện M&E",
+            AboutContent = "CÔNG TY TNHH CƠ ĐIỆN ĐĂNG PHÁT là doanh nghiệp chuyên sản xuất, nhập khẩu và " +
+                "phân phối các giải pháp khớp nối mềm inox và ống mềm inox dùng trong hệ thống cơ điện " +
+                "(M&E), đặc biệt là hệ thống phòng cháy chữa cháy (Fire Protection), HVAC và cấp thoát " +
+                "nước công nghiệp. Công ty tập trung cung cấp những sản phẩm đạt tiêu chuẩn kỹ thuật quốc " +
+                "tế với khả năng giao hàng nhanh, giá cạnh tranh và dịch vụ kỹ thuật chuyên sâu. Chúng tôi " +
+                "tạo dựng uy tín trên thị trường bằng phương châm hoạt động xoay quanh ba yếu tố cơ bản: " +
+                "Nhanh nhất – Tốt nhất – Giá cả cạnh tranh nhất.",
+            Mission = "Mang đến cho thị trường Việt Nam các giải pháp khớp nối mềm inox chất lượng cao, " +
+                "giúp tăng độ an toàn cho công trình, giảm thời gian thi công, dễ dàng bảo trì, đáp ứng " +
+                "các tiêu chuẩn quốc tế và tối ưu chi phí cho nhà thầu và chủ đầu tư.",
+            Vision = "Trở thành thương hiệu hàng đầu Việt Nam về giải pháp ống mềm inox và phụ kiện cơ " +
+                "điện cho ngành M&E.",
+            Advantages = "Kho hàng lớn — luôn có sẵn hàng, đầy đủ chủng loại\n" +
+                "Giao hàng nhanh — có khả năng giao ngay đến công trình\n" +
+                "Chủ động nguồn hàng — nhập khẩu trực tiếp, không phụ thuộc nhiều vào trung gian\n" +
+                "Giá cạnh tranh — tối ưu chi phí cho nhà thầu\n" +
+                "Chất lượng — đạt tiêu chuẩn kỹ thuật quốc tế\n" +
+                "Hỗ trợ kỹ thuật — tư vấn lựa chọn sản phẩm phù hợp với từng hệ thống",
             Address = "Tầng 2, Khu X3-2 Ngõ 68/45, Đường Nguyễn Văn Linh, P. Long Biên, TP. Hà Nội",
             Hotline = "0364.983.444",
             Email = "Info.dangphat@gmail.com",
-            CoreValueFast = "Hàng hóa tại kho luôn đầy đủ chủng loại, giao hàng nhanh chóng đến tận chân công trình.",
-            CoreValueBest = "Đội ngũ luôn đi đầu nghiên cứu, tìm kiếm hàng hóa đạt chuẩn quốc tế, phù hợp mọi công trình.",
-            CoreValueCompetitivePrice = "Chủ động nguồn hàng giúp chúng tôi tự tin với giá cả cạnh tranh nhất."
+            CoreValueFast = "Hàng hóa tại kho luôn đầy đủ chủng loại, giao hàng nhanh chóng đến tận chân công trình, đáp ứng nhanh các dự án.",
+            CoreValueBest = "Nghiên cứu sản phẩm liên tục, đạt tiêu chuẩn quốc tế, tư vấn kỹ thuật chuyên nghiệp, phù hợp nhiều loại công trình.",
+            CoreValueCompetitivePrice = "Chủ động nguồn hàng, nhập khẩu trực tiếp, tối ưu chi phí, mang lại giá bán cạnh tranh nhất."
         });
 
         var category = new ProductCategory

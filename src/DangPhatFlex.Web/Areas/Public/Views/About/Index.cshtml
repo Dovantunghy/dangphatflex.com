@@ -19,6 +19,61 @@
                 <h2 class="section-title">Câu chuyện Đăng Phát Flex</h2>
                 <p class="about-content" style="white-space: pre-line; font-size: 1.05rem; color: var(--dpf-gray-700);">@Model?.AboutContent</p>
 
+                @if (!string.IsNullOrEmpty(Model?.Mission) || !string.IsNullOrEmpty(Model?.Vision))
+                {
+                    <div class="row g-3 mt-2">
+                        @if (!string.IsNullOrEmpty(Model?.Mission))
+                        {
+                            <div class="col-md-6">
+                                <div class="value-card h-100">
+                                    <span class="icon-box mb-2">@await Html.PartialAsync("_Icon", "award")</span>
+                                    <h3 class="h5">Sứ mệnh</h3>
+                                    <p class="mb-0">@Model.Mission</p>
+                                </div>
+                            </div>
+                        }
+                        @if (!string.IsNullOrEmpty(Model?.Vision))
+                        {
+                            <div class="col-md-6">
+                                <div class="value-card h-100">
+                                    <span class="icon-box icon-box--gold mb-2">@await Html.PartialAsync("_Icon", "shield-check")</span>
+                                    <h3 class="h5">Tầm nhìn</h3>
+                                    <p class="mb-0">@Model.Vision</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+                @{
+                    var advantages = (Model?.Advantages ?? string.Empty)
+                        .Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                }
+                @if (advantages.Length > 0)
+                {
+                    <h2 class="section-title mt-5">Lợi thế cạnh tranh</h2>
+                    <div class="row g-3">
+                        @foreach (var item in advantages)
+                        {
+                            var parts = item.Split('—', 2, StringSplitOptions.TrimEntries);
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-start gap-2">
+                                    <span class="icon-box icon-box--gold flex-shrink-0" style="width:2rem;height:2rem;">
+                                        @await Html.PartialAsync("_Icon", "check-circle")
+                                    </span>
+                                    <div>
+                                        <strong>@parts[0]</strong>
+                                        @if (parts.Length > 1)
+                                        {
+                                            <div class="text-body-secondary small">@parts[1]</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
                 <div class="row g-3 mt-4">
                     <div class="col-sm-4">
                         <div class="value-card text-center">
