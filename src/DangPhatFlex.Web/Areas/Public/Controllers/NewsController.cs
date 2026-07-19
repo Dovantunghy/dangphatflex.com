@@ -14,6 +14,7 @@ public class NewsController : Controller
         _context = context;
     }
 
+    [Route("/tin-tuc")]
     public async Task<IActionResult> Index()
     {
         ViewData["MetaTitle"] = "Tin tức - Kiến thức khớp nối mềm inox chữa cháy | Đăng Phát Flex";
@@ -25,7 +26,7 @@ public class NewsController : Controller
         return View(articles);
     }
 
-    [Route("Public/News/{slug}")]
+    [Route("/tin-tuc/{slug}")]
     public async Task<IActionResult> Detail(string slug)
     {
         var article = await _context.NewsArticles.FirstOrDefaultAsync(n => n.Slug == slug);

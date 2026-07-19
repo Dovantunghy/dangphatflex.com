@@ -17,7 +17,7 @@ public class ProductDetailTests : IClassFixture<TestWebApplicationFactory>
     public async Task ProductDetail_ReturnsOk_AndContainsVariantCodeAndJsonLd()
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Public/Products/khop-noi-mem-inox/dang-phat-flex-dp25");
+        var response = await client.GetAsync("/san-pham/khop-noi-mem-inox/dang-phat-flex-dp25");
 
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
@@ -39,7 +39,7 @@ public class ProductDetailTests : IClassFixture<TestWebApplicationFactory>
     public async Task ProductDetail_UnknownSlug_ReturnsNotFound()
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Public/Products/khop-noi-mem-inox/khong-ton-tai");
+        var response = await client.GetAsync("/san-pham/khop-noi-mem-inox/khong-ton-tai");
 
         Assert.Equal(System.Net.HttpStatusCode.NotFound, response.StatusCode);
     }

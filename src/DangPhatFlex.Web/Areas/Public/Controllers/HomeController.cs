@@ -16,6 +16,7 @@ public class HomeController : Controller
         _context = context;
     }
 
+    [Route("/")]
     public async Task<IActionResult> Index()
     {
         ViewData["CompanyInfo"] = await _context.CompanyInfos.FirstOrDefaultAsync();

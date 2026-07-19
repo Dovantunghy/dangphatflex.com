@@ -14,6 +14,7 @@ public class ProductsController : Controller
         _context = context;
     }
 
+    [Route("/san-pham")]
     public async Task<IActionResult> Index(string? categorySlug)
     {
         var query = _context.Products.Include(p => p.ProductCategory).AsQueryable();
@@ -26,7 +27,7 @@ public class ProductsController : Controller
         return View(await query.ToListAsync());
     }
 
-    [Route("Public/Products/{categorySlug}/{productSlug}")]
+    [Route("/san-pham/{categorySlug}/{productSlug}")]
     public async Task<IActionResult> Detail(string categorySlug, string productSlug)
     {
         var product = await _context.Products

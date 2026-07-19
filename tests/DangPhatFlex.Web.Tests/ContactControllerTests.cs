@@ -26,7 +26,7 @@ public class ContactControllerTests : IClassFixture<TestWebApplicationFactory>
     {
         var client = _factory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
-        var (token, cookie) = await GetAntiforgeryTokenAndCookieAsync(client, "/Public/Contact");
+        var (token, cookie) = await GetAntiforgeryTokenAndCookieAsync(client, "/lien-he");
 
         var form = new Dictionary<string, string>
         {
@@ -36,7 +36,7 @@ public class ContactControllerTests : IClassFixture<TestWebApplicationFactory>
             ["__RequestVerificationToken"] = token
         };
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "/Public/Contact")
+        var request = new HttpRequestMessage(HttpMethod.Post, "/lien-he")
         {
             Content = new FormUrlEncodedContent(form)
         };
@@ -52,7 +52,7 @@ public class ContactControllerTests : IClassFixture<TestWebApplicationFactory>
     {
         var client = _factory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false });
 
-        var (token, cookie) = await GetAntiforgeryTokenAndCookieAsync(client, "/Public/Contact");
+        var (token, cookie) = await GetAntiforgeryTokenAndCookieAsync(client, "/lien-he");
 
         var form = new Dictionary<string, string>
         {
@@ -62,7 +62,7 @@ public class ContactControllerTests : IClassFixture<TestWebApplicationFactory>
             ["__RequestVerificationToken"] = token
         };
 
-        var request = new HttpRequestMessage(HttpMethod.Post, "/Public/Contact")
+        var request = new HttpRequestMessage(HttpMethod.Post, "/lien-he")
         {
             Content = new FormUrlEncodedContent(form)
         };

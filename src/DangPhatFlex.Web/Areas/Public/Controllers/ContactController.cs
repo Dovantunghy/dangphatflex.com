@@ -19,6 +19,7 @@ public class ContactController : Controller
         _emailSender = emailSender;
     }
 
+    [HttpGet("/lien-he")]
     public async Task<IActionResult> Index()
     {
         ViewData["MetaTitle"] = "Liên hệ | Đăng Phát Flex";
@@ -27,7 +28,7 @@ public class ContactController : Controller
         return View(new ContactFormViewModel());
     }
 
-    [HttpPost]
+    [HttpPost("/lien-he")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index(ContactFormViewModel model)
     {

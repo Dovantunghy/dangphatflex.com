@@ -16,7 +16,7 @@ public class AboutControllerTests : IClassFixture<TestWebApplicationFactory>
     public async Task AboutPage_ReturnsOk_AndContainsCompanyLegalName()
     {
         var client = _factory.CreateClient();
-        var response = await client.GetAsync("/Public/About");
+        var response = await client.GetAsync("/gioi-thieu");
 
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();

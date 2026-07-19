@@ -14,6 +14,7 @@ public class AboutController : Controller
         _context = context;
     }
 
+    [Route("/gioi-thieu")]
     public async Task<IActionResult> Index()
     {
         var company = await _context.CompanyInfos.FirstOrDefaultAsync();
