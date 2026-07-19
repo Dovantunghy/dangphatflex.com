@@ -3,10 +3,9 @@
 @{
     var company = ViewData["CompanyInfo"] as CompanyInfo;
     var featured = ViewData["FeaturedProducts"] as List<Product> ?? new();
-    ViewData["MetaTitle"] = $"{company?.BrandName} - {company?.Tagline}";
-    ViewData["MetaDescription"] = company?.AboutContent?.Length > 160
-        ? company.AboutContent[..160]
-        : company?.AboutContent;
+    ViewData["MetaTitle"] = "Ống mềm nối đầu phun sprinkler - Dây mềm nối đầu phun | Đăng Phát Flex";
+    ViewData["MetaDescription"] = "Đăng Phát Flex chuyên sản xuất, phân phối ống mềm nối đầu phun sprinkler, " +
+        "dây mềm nối đầu phun sprinkler đạt chuẩn UL/FM/TCVN. Giao hàng nhanh, giá cạnh tranh toàn quốc.";
 
     var jsonLd = JsonSerializer.Serialize(new Dictionary<string, object?>
     {
@@ -35,8 +34,8 @@
             @await Html.PartialAsync("_Icon", "shield-check")
             Đạt chuẩn UL · FM · TCVN
         </span>
-        <h1>@company?.BrandName</h1>
-        <p class="lead">@company?.Tagline — chuyên sản xuất, nhập khẩu và phân phối khớp nối mềm inox cho hệ thống chữa cháy sprinkler.</p>
+        <h1>Ống mềm nối đầu phun sprinkler @company?.BrandName</h1>
+        <p class="lead">@company?.Tagline — chuyên sản xuất, nhập khẩu và phân phối ống mềm nối đầu phun sprinkler, dây mềm nối đầu phun sprinkler cho hệ thống chữa cháy tự động.</p>
         <div class="hero-cta">
             <a class="btn btn-brand btn-lg" asp-controller="Contact" asp-action="Index">
                 Liên hệ tư vấn
@@ -80,6 +79,22 @@
                     <span>107°C / 200psi</span>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="section pb-0">
+    <div class="container">
+        <div class="mx-auto text-center" style="max-width: 780px;">
+            <h2 class="section-title">Ống mềm nối đầu phun sprinkler là gì?</h2>
+            <p class="section-subtitle mx-auto">
+                <strong>Ống mềm nối đầu phun</strong> (hay còn gọi là <strong>dây mềm nối đầu phun sprinkler</strong>)
+                là đoạn ống inox dạng gân xoắn, dùng để kết nối linh hoạt giữa đường ống chính và đầu phun trong hệ
+                thống chữa cháy tự động. Đăng Phát Flex là đơn vị sản xuất và phân phối
+                <strong>ống mềm nối đầu phun sprinkler</strong> đạt chuẩn UL, FM, TCVN với đầy đủ chiều dài và cỡ kết
+                nối, sẵn hàng giao nhanh cho mọi công trình.
+                <a asp-controller="News" asp-action="Index">Xem thêm kiến thức về ống mềm nối đầu phun</a>.
+            </p>
         </div>
     </div>
 </section>
@@ -147,7 +162,7 @@
                                     }
                                 </div>
                             }
-                            <h5 class="card-title">@product.Name</h5>
+                            <h3 class="card-title">@product.Name</h3>
                             <p class="card-text">@product.Description</p>
                             <a class="btn btn-outline-primary"
                                asp-controller="Products" asp-action="Detail"

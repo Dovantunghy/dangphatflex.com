@@ -1,0 +1,26 @@
+@model List<DangPhatFlex.Web.Models.NewsArticle>
+
+<section class="container py-4">
+    <h1>Tin tức</h1>
+    <a class="btn btn-brand mb-3" asp-action="Create">Thêm bài viết</a>
+    <table class="table">
+        <thead><tr><th>Tiêu đề</th><th>Slug</th><th>Ngày đăng</th><th></th></tr></thead>
+        <tbody>
+            @foreach (var n in Model)
+            {
+                <tr>
+                    <td>@n.Title</td>
+                    <td>@n.Slug</td>
+                    <td>@n.PublishedAt.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@n.Id">Sửa</a>
+                        <form asp-action="Delete" asp-route-id="@n.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-link text-danger p-0 ms-2"
+                                    onclick="return confirm('Xóa bài viết này?');">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

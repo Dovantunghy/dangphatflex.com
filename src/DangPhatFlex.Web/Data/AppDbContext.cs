@@ -15,6 +15,7 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Accessory> Accessories => Set<Accessory>();
     public DbSet<CompanyInfo> CompanyInfos => Set<CompanyInfo>();
     public DbSet<ContactSubmission> ContactSubmissions => Set<ContactSubmission>();
+    public DbSet<NewsArticle> NewsArticles => Set<NewsArticle>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -46,5 +47,8 @@ public class AppDbContext : IdentityDbContext<IdentityUser>
             .WithMany(p => p.Accessories)
             .HasForeignKey(a => a.ProductId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<NewsArticle>()
+            .HasIndex(n => n.Slug).IsUnique();
     }
 }

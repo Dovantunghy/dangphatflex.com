@@ -32,9 +32,11 @@ public static class DbSeeder
         {
             Name = "Khớp nối mềm inox",
             Slug = slugService.GenerateSlug("Khớp nối mềm inox"),
-            Description = "Khớp nối mềm inox (ống mềm dạng gân xoắn) dùng cho hệ thống chữa cháy sprinkler.",
-            MetaTitle = "Khớp nối mềm inox chữa cháy | Đăng Phát Flex",
-            MetaDescription = "Khớp nối mềm inox đạt chuẩn UL/FM/TCVN cho hệ thống sprinkler, giao hàng nhanh, giá cạnh tranh."
+            Description = "Khớp nối mềm inox, hay còn gọi là ống mềm nối đầu phun sprinkler / dây mềm nối đầu phun " +
+                "sprinkler, là giải pháp kết nối linh hoạt giữa đường ống chính và đầu phun (sprinkler head) " +
+                "trong hệ thống chữa cháy tự động.",
+            MetaTitle = "Ống mềm nối đầu phun sprinkler - Khớp nối mềm inox | Đăng Phát Flex",
+            MetaDescription = "Chuyên cung cấp ống mềm nối đầu phun sprinkler, dây mềm nối đầu phun sprinkler đạt chuẩn UL/FM/TCVN. Giao hàng nhanh, giá cạnh tranh."
         };
 
         var product = new Product
@@ -42,8 +44,9 @@ public static class DbSeeder
             ProductCategory = category,
             Name = "Đăng Phát Flex DP25",
             Slug = slugService.GenerateSlug("Dang Phat Flex DP25"),
-            Description = "Ống mềm inox gân xoắn (Helical Corrugated Hose) dùng cho đầu phun sprinkler, " +
-                "có 2 phiên bản: DP25UB (không bện) và DP25B (có bện).",
+            Description = "Ống mềm nối đầu phun (còn gọi là dây mềm nối đầu phun sprinkler) DP25, cấu tạo dạng " +
+                "ống gân xoắn inox (Helical Corrugated Hose), dùng để nối mềm từ đường ống nhánh đến đầu phun " +
+                "sprinkler trong hệ thống chữa cháy tự động. Có 2 phiên bản: DP25UB (không bện) và DP25B (có bện).",
             InnerDiameter = "24.2mm",
             OuterDiameter = "24.8mm",
             HoseType = "Ống gân xoắn (Helical Corrugated Hose), loại ren (Threaded)",
@@ -51,8 +54,8 @@ public static class DbSeeder
             MaxPressure = "14kg/cm² (TCVN) / 200 psi (UL) / 200 psi (FM)",
             MinBendRadius = "4 inch (UL/ULC) / 9 inch (FM)",
             Standards = "UL, ULC, FM, TCVN",
-            MetaTitle = "Ống mềm inox DP25UB / DP25B | Đăng Phát Flex",
-            MetaDescription = "Thông số kỹ thuật đầy đủ dòng ống mềm inox DP25UB/DP25B: áp suất, nhiệt độ, bán kính uốn cong, đạt chuẩn UL/FM/TCVN."
+            MetaTitle = "Ống mềm nối đầu phun sprinkler DP25UB/DP25B - Đạt chuẩn UL/FM/TCVN | Đăng Phát Flex",
+            MetaDescription = "Ống mềm nối đầu phun sprinkler / dây mềm nối đầu phun sprinkler DP25UB, DP25B: đầy đủ thông số áp suất, nhiệt độ, bán kính uốn cong, đạt chuẩn UL/FM/TCVN."
         };
 
         var variantData = new (string Code, string InletOutlet, int LengthMm, int MaxBends)[]
@@ -99,6 +102,121 @@ public static class DbSeeder
 
         context.ProductCategories.Add(category);
         context.Products.Add(product);
+        context.SaveChanges();
+    }
+
+    public static void SeedNewsArticles(AppDbContext context, ISlugService slugService)
+    {
+        if (context.NewsArticles.Any())
+            return;
+
+        var articles = new[]
+        {
+            new NewsArticle
+            {
+                Title = "Ống mềm nối đầu phun là gì? Cấu tạo, phân loại và cách chọn mua",
+                Summary = "Ống mềm nối đầu phun là bộ phận kết nối linh hoạt giữa đường ống chính và đầu phun sprinkler. " +
+                    "Tìm hiểu cấu tạo, phân loại và tiêu chí chọn mua ống mềm nối đầu phun đạt chuẩn.",
+                Content = "Ống mềm nối đầu phun (flexible sprinkler hose) là đoạn ống kim loại dẻo dùng để kết nối " +
+                    "giữa đường ống chính (branch line) của hệ thống chữa cháy và đầu phun sprinkler gắn trên trần " +
+                    "nhà. Thay vì dùng ống thép cứng hàn cố định, ống mềm nối đầu phun cho phép lắp đặt nhanh hơn, " +
+                    "linh hoạt điều chỉnh vị trí đầu phun theo trần thả (trần thạch cao) mà không cần định vị " +
+                    "chính xác tuyệt đối vị trí ống chính từ đầu.\n\n" +
+                    "Cấu tạo của một bộ ống mềm nối đầu phun tiêu chuẩn gồm: thân ống dạng gân xoắn (helical " +
+                    "corrugated hose) làm từ thép không gỉ (inox 304), hai đầu ren kết nối (đầu vào 1 inch nối vào " +
+                    "ống chính, đầu ra 1/2 inch hoặc 3/4 inch nối vào đầu phun), cùng bộ phụ kiện đi kèm gồm côn " +
+                    "giảm, đai ốc, gioăng cao su làm kín và giá treo cố định (bracket).\n\n" +
+                    "Về phân loại, ống mềm nối đầu phun trên thị trường hiện có hai dạng chính: loại không bện " +
+                    "(unbraided) và loại có bện (braided) lớp lưới thép bên ngoài để tăng khả năng chịu áp lực và " +
+                    "chống rung động. Ống mềm nối đầu phun cũng được phân theo chiều dài lắp đặt (phổ biến từ 700mm " +
+                    "đến 1800mm) và theo cỡ đầu ra (1/2 inch hoặc 3/4 inch) tùy loại đầu phun sử dụng.\n\n" +
+                    "Khi chọn mua ống mềm nối đầu phun cho công trình, cần lưu ý các tiêu chí sau: sản phẩm phải " +
+                    "có chứng nhận UL Listed hoặc FM Approved (tiêu chuẩn quốc tế cho thiết bị phòng cháy chữa " +
+                    "cháy) hoặc đạt TCVN nếu áp dụng tiêu chuẩn Việt Nam; áp suất làm việc tối thiểu 175psi, nhiệt " +
+                    "độ hoạt động ổn định đến trên 100°C; bán kính uốn cong tối thiểu phải được nhà sản xuất công " +
+                    "bố rõ ràng để tránh gãy gập làm giảm lưu lượng nước khi chữa cháy.\n\n" +
+                    "Đăng Phát Flex hiện cung cấp dòng ống mềm nối đầu phun DP25UB (không bện) và DP25B (có bện), " +
+                    "đạt đầy đủ chứng nhận UL, FM và TCVN, đa dạng chiều dài và cỡ đầu ra, sẵn hàng giao nhanh toàn " +
+                    "quốc.",
+                CoverImageAlt = "Cấu tạo ống mềm nối đầu phun sprinkler DP25 Đăng Phát Flex",
+                PublishedAt = new DateTime(2026, 6, 2, 0, 0, 0, DateTimeKind.Utc),
+                MetaTitle = "Ống mềm nối đầu phun là gì? Cấu tạo, phân loại, cách chọn mua | Đăng Phát Flex",
+                MetaDescription = "Ống mềm nối đầu phun là gì, cấu tạo gồm những bộ phận nào, phân loại và tiêu chí chọn mua ống mềm nối đầu phun đạt chuẩn UL/FM/TCVN."
+            },
+            new NewsArticle
+            {
+                Title = "Ống mềm nối đầu phun sprinkler: Tiêu chuẩn UL/FM/TCVN và hướng dẫn lắp đặt",
+                Summary = "Hướng dẫn đọc hiểu tiêu chuẩn UL, FM, TCVN áp dụng cho ống mềm nối đầu phun sprinkler " +
+                    "và các bước lắp đặt đúng kỹ thuật để đảm bảo hệ thống chữa cháy vận hành an toàn.",
+                Content = "Trong hệ thống chữa cháy tự động (automatic sprinkler system), ống mềm nối đầu phun " +
+                    "sprinkler là thiết bị bắt buộc phải qua kiểm định nghiêm ngặt trước khi đưa vào sử dụng, vì " +
+                    "đây là điểm kết nối trực tiếp với đầu phun — nơi nước phải thoát ra tức thời khi có cháy. Ba " +
+                    "tiêu chuẩn phổ biến nhất cho ống mềm nối đầu phun sprinkler tại Việt Nam hiện nay là UL " +
+                    "(Underwriters Laboratories - Mỹ), FM (FM Approvals - Mỹ) và TCVN (Tiêu chuẩn Việt Nam).\n\n" +
+                    "Chứng nhận UL Listed xác nhận ống mềm nối đầu phun sprinkler đã được kiểm tra độc lập về khả " +
+                    "năng chịu áp suất, độ bền vật liệu và khả năng chống cháy trong điều kiện thử nghiệm tiêu " +
+                    "chuẩn hóa. FM Approved là chứng nhận song song, thường được các công trình có yêu cầu bảo " +
+                    "hiểm tài sản cao (nhà máy, kho hàng, trung tâm dữ liệu) yêu cầu bắt buộc. TCVN là bộ tiêu " +
+                    "chuẩn Việt Nam hóa, áp dụng cho các công trình cần nghiệm thu phòng cháy chữa cháy trong " +
+                    "nước theo quy định của Cục Cảnh sát PCCC.\n\n" +
+                    "Về thông số kỹ thuật, một bộ ống mềm nối đầu phun sprinkler đạt chuẩn thường có: áp suất làm " +
+                    "việc tối đa 200psi (đạt UL/FM) hoặc 14kg/cm² (đạt TCVN), nhiệt độ hoạt động tối đa khoảng " +
+                    "107°C (225°F), và bán kính uốn cong tối thiểu 4 inch theo UL/ULC hoặc 9 inch theo FM.\n\n" +
+                    "Về hướng dẫn lắp đặt: bước 1, xác định vị trí đầu phun theo bản vẽ hệ thống PCCC đã duyệt; " +
+                    "bước 2, lắp giá treo (bracket) cố định lên trần hoặc khung xương trần thả tại đúng vị trí đầu " +
+                    "phun; bước 3, nối đầu vào (1 inch) của ống mềm nối đầu phun sprinkler vào cút chờ trên đường " +
+                    "ống chính bằng ren tiêu chuẩn NPT/BSPT, siết chặt và dùng băng tan hoặc keo chuyên dụng để làm " +
+                    "kín; bước 4, luồn ống qua giá treo, tránh gập ống nhỏ hơn bán kính uốn cong tối thiểu cho " +
+                    "phép; bước 5, lắp đầu phun vào đầu ra (1/2 hoặc 3/4 inch) của ống mềm, căn chỉnh đầu phun " +
+                    "vuông góc với trần; bước 6, xả khí và thử áp suất toàn hệ thống trước khi hoàn thiện trần.\n\n" +
+                    "Đăng Phát Flex cung cấp ống mềm nối đầu phun sprinkler đạt đồng thời cả ba chứng nhận UL, FM " +
+                    "và TCVN, kèm hồ sơ kỹ thuật đầy đủ để phục vụ nghiệm thu công trình.",
+                CoverImageAlt = "Lắp đặt ống mềm nối đầu phun sprinkler đạt chuẩn UL FM TCVN",
+                PublishedAt = new DateTime(2026, 6, 16, 0, 0, 0, DateTimeKind.Utc),
+                MetaTitle = "Ống mềm nối đầu phun sprinkler: Chuẩn UL/FM/TCVN & hướng dẫn lắp đặt | Đăng Phát Flex",
+                MetaDescription = "Hướng dẫn tiêu chuẩn UL/FM/TCVN và các bước lắp đặt ống mềm nối đầu phun sprinkler đúng kỹ thuật, đảm bảo an toàn hệ thống chữa cháy."
+            },
+            new NewsArticle
+            {
+                Title = "Dây mềm nối đầu phun sprinkler DP25UB và DP25B: Nên chọn loại nào?",
+                Summary = "So sánh dây mềm nối đầu phun sprinkler DP25UB (không bện) và DP25B (có bện) về cấu tạo, " +
+                    "khả năng chịu lực và trường hợp sử dụng phù hợp cho từng loại công trình.",
+                Content = "Dây mềm nối đầu phun sprinkler là tên gọi khác của ống mềm nối đầu phun, thường được " +
+                    "gọi theo thói quen của đội thi công cơ điện (M&E) tại công trình. Trên thị trường, dây mềm " +
+                    "nối đầu phun sprinkler phổ biến nhất hiện có hai dòng: loại không bện (unbraided, ký hiệu " +
+                    "DP25UB) và loại có bện lưới thép bên ngoài (braided, ký hiệu DP25B). Nhiều chủ đầu tư và nhà " +
+                    "thầu thường phân vân không biết nên chọn loại nào cho công trình của mình.\n\n" +
+                    "Dây mềm nối đầu phun sprinkler DP25UB (không bện) có cấu tạo đơn giản hơn: chỉ gồm một lớp " +
+                    "ống gân xoắn inox. Ưu điểm của loại này là giá thành thấp hơn, trọng lượng nhẹ, dễ thi công " +
+                    "trong không gian trần hẹp. DP25UB phù hợp với các công trình dân dụng, văn phòng, trung tâm " +
+                    "thương mại có tải trọng rung động thấp và không yêu cầu khắt khe về khả năng chịu va đập cơ " +
+                    "học.\n\n" +
+                    "Dây mềm nối đầu phun sprinkler DP25B (có bện) được bổ sung thêm một lớp lưới thép không gỉ " +
+                    "bện quanh thân ống. Lớp bện này giúp tăng đáng kể khả năng chịu áp lực đột ngột, chống rung " +
+                    "động và hạn chế giãn nở khi có dòng nước áp suất cao đi qua đột ngột lúc kích hoạt chữa cháy. " +
+                    "DP25B thường được khuyến nghị cho nhà xưởng công nghiệp, kho hàng có xe nâng hoạt động (rung " +
+                    "chấn liên tục), hoặc các công trình yêu cầu chứng nhận FM Approved nghiêm ngặt.\n\n" +
+                    "Về thông số kỹ thuật, cả hai dòng dây mềm nối đầu phun sprinkler DP25UB và DP25B của Đăng " +
+                    "Phát Flex đều có đường kính trong 24.2mm, đường kính ngoài 24.8mm, đầu vào ren 1 inch, đầu ra " +
+                    "1/2 hoặc 3/4 inch, áp suất làm việc tối đa 200psi, nhiệt độ hoạt động tối đa 107°C, và đều đạt " +
+                    "chứng nhận UL, FM, TCVN. Sự khác biệt chính nằm ở khả năng chịu lực cơ học và giá thành — " +
+                    "DP25B cao hơn DP25UB khoảng do chi phí vật liệu lớp bện bổ sung.\n\n" +
+                    "Lời khuyên: nếu công trình là văn phòng, chung cư, khách sạn — dây mềm nối đầu phun sprinkler " +
+                    "DP25UB là lựa chọn kinh tế và đủ đáp ứng yêu cầu kỹ thuật. Nếu công trình là nhà xưởng, kho " +
+                    "vận, hoặc yêu cầu chứng nhận FM cho mục đích bảo hiểm — nên chọn DP25B để đảm bảo độ bền lâu " +
+                    "dài. Liên hệ Đăng Phát Flex để được tư vấn chọn đúng loại dây mềm nối đầu phun sprinkler cho " +
+                    "công trình cụ thể của bạn.",
+                CoverImageAlt = "So sánh dây mềm nối đầu phun sprinkler DP25UB và DP25B",
+                PublishedAt = new DateTime(2026, 7, 1, 0, 0, 0, DateTimeKind.Utc),
+                MetaTitle = "Dây mềm nối đầu phun sprinkler DP25UB vs DP25B: Nên chọn loại nào? | Đăng Phát Flex",
+                MetaDescription = "So sánh dây mềm nối đầu phun sprinkler DP25UB (không bện) và DP25B (có bện) - nên chọn loại nào phù hợp với công trình của bạn."
+            }
+        };
+
+        foreach (var article in articles)
+            article.Slug = slugService.GenerateSlug(article.Title);
+
+        context.NewsArticles.AddRange(articles);
         context.SaveChanges();
     }
 }

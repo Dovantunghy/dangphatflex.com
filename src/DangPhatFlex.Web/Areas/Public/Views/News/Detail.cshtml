@@ -1,0 +1,77 @@
+@model DangPhatFlex.Web.Models.NewsArticle
+@using System.Text.Json
+@using DangPhatFlex.Web.Models
+@{
+    ViewData["MetaTitle"] = Model.MetaTitle ?? Model.Title;
+    ViewData["MetaDescription"] = Model.MetaDescription ?? Model.Summary;
+    var related = ViewData["RelatedArticles"] as List<NewsArticle> ?? new();
+    var paragraphs = Model.Content.Split("\n\n", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+    var jsonLd = JsonSerializer.Serialize(new Dictionary<string, object?>
+    {
+        ["@context"] = "https://schema.org",
+        ["@type"] = "Article",
+        ["headline"] = Model.Title,
+        ["description"] = Model.Summary,
+        ["datePublished"] = Model.PublishedAt.ToString("yyyy-MM-dd"),
+        ["image"] = Model.CoverImageUrl,
+        ["author"] = new Dictionary<string, object?> { ["@type"] = "Organization", ["name"] = "Đăng Phát Flex" },
+        ["publisher"] = new Dictionary<string, object?> { ["@type"] = "Organization", ["name"] = "Đăng Phát Flex" }
+    });
+}
+
+@* See Home/Index.cshtml for why JSON-LD is built via Dictionary + JsonSerializer + Html.Raw. *@
+@Html.Raw($"<script type=\"application/ld+json\">{jsonLd}</script>")
+
+<section class="section pt-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index">Tin tức</a></li>
+                <li class="breadcrumb-item active">@Model.Title</li>
+            </ol>
+        </nav>
+
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <div class="text-body-secondary small mb-2">@Model.PublishedAt.ToString("dd/MM/yyyy")</div>
+                <h1>@Model.Title</h1>
+                <p class="lead">@Model.Summary</p>
+
+                @if (!string.IsNullOrEmpty(Model.CoverImageUrl))
+                {
+                    <img src="@Model.CoverImageUrl" alt="@(Model.CoverImageAlt ?? Model.Title)" class="img-fluid mb-4" style="border-radius: var(--dpf-radius-md);" />
+                }
+
+                <article style="font-size: 1.05rem; color: var(--dpf-gray-700);">
+                    @foreach (var p in paragraphs)
+                    {
+                        <p>@p</p>
+                    }
+                </article>
+
+                <div class="mt-4">
+                    <a class="btn btn-brand" asp-area="Public" asp-controller="Contact" asp-action="Index">Liên hệ tư vấn sản phẩm</a>
+                    <a class="btn btn-outline-primary" asp-area="Public" asp-controller="Products" asp-action="Index">Xem sản phẩm</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                @if (related.Any())
+                {
+                    <div class="contact-info-card">
+                        <h3 class="h5 mb-4">Bài viết liên quan</h3>
+                        <ul class="list-unstyled m-0">
+                            @foreach (var r in related)
+                            {
+                                <li class="mb-3">
+                                    <a asp-action="Detail" asp-route-slug="@r.Slug" class="fw-semibold">@r.Title</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

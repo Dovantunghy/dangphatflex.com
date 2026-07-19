@@ -1,0 +1,54 @@
+@model List<DangPhatFlex.Web.Models.NewsArticle>
+
+<section class="hero" style="padding: var(--dpf-space-7) 0;">
+    <div class="container text-center">
+        <span class="hero-badge">
+            @await Html.PartialAsync("_Icon", "boxes")
+            Tin tức &amp; Kiến thức
+        </span>
+        <h1>Cẩm nang khớp nối mềm inox chữa cháy</h1>
+        <p class="lead">Hướng dẫn chọn ống mềm nối đầu phun sprinkler, tiêu chuẩn kỹ thuật và tin tức sản phẩm từ Đăng Phát Flex.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="visually-hidden">Danh sách bài viết</h2>
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5">
+                <p class="section-subtitle mx-auto">Chưa có bài viết nào.</p>
+            </div>
+        }
+        <div class="row g-4">
+            @foreach (var article in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="product-card h-100">
+                        @if (!string.IsNullOrEmpty(article.CoverImageUrl))
+                        {
+                            <div class="product-card__media" style="background: var(--dpf-gray-100);">
+                                <img src="@article.CoverImageUrl" alt="@(article.CoverImageAlt ?? article.Title)" style="width:100%;height:100%;object-fit:cover;" />
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="product-card__media">
+                                @await Html.PartialAsync("_Icon", "boxes")
+                            </div>
+                        }
+                        <div class="product-card__body">
+                            <div class="text-body-secondary small mb-2">@article.PublishedAt.ToString("dd/MM/yyyy")</div>
+                            <h3 class="card-title">@article.Title</h3>
+                            <p class="card-text">@article.Summary</p>
+                            <a class="btn btn-outline-primary" asp-action="Detail" asp-route-slug="@article.Slug">
+                                Đọc tiếp
+                                @await Html.PartialAsync("_Icon", "arrow-right")
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

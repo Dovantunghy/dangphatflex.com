@@ -44,4 +44,30 @@ public class DbSeederTests
 
         Assert.Single(context.CompanyInfos);
     }
+
+    [Fact]
+    public void SeedNewsArticles_CreatesThreeArticlesWithUniqueSlugs()
+    {
+        using var context = CreateInMemoryContext();
+        var slugService = new SlugService();
+
+        DbSeeder.SeedNewsArticles(context, slugService);
+
+        var articles = context.NewsArticles.ToList();
+        Assert.Equal(3, articles.Count);
+        Assert.Equal(3, articles.Select(a => a.Slug).Distinct().Count());
+        Assert.All(articles, a => Assert.False(string.IsNullOrWhiteSpace(a.Slug)));
+    }
+
+    [Fact]
+    public void SeedNewsArticles_IsIdempotent()
+    {
+        using var context = CreateInMemoryContext();
+        var slugService = new SlugService();
+
+        DbSeeder.SeedNewsArticles(context, slugService);
+        DbSeeder.SeedNewsArticles(context, slugService);
+
+        Assert.Equal(3, context.NewsArticles.Count());
+    }
 }

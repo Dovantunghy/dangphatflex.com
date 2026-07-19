@@ -20,8 +20,8 @@ public class ProductsController : Controller
         if (!string.IsNullOrEmpty(categorySlug))
             query = query.Where(p => p.ProductCategory!.Slug == categorySlug);
 
-        ViewData["MetaTitle"] = "Sản phẩm khớp nối mềm inox | Đăng Phát Flex";
-        ViewData["MetaDescription"] = "Danh sách sản phẩm khớp nối mềm inox DP25UB, DP25B đạt chuẩn UL/FM/TCVN cho hệ thống chữa cháy.";
+        ViewData["MetaTitle"] = "Ống mềm nối đầu phun sprinkler DP25UB/DP25B | Đăng Phát Flex";
+        ViewData["MetaDescription"] = "Danh sách ống mềm nối đầu phun sprinkler, dây mềm nối đầu phun sprinkler DP25UB, DP25B đạt chuẩn UL/FM/TCVN cho hệ thống chữa cháy.";
         ViewData["Categories"] = await _context.ProductCategories.ToListAsync();
         return View(await query.ToListAsync());
     }
@@ -29,7 +29,6 @@ public class ProductsController : Controller
     [Route("Public/Products/{categorySlug}/{productSlug}")]
     public async Task<IActionResult> Detail(string categorySlug, string productSlug)
     {
-        // Full implementation in Task 9
         var product = await _context.Products
             .Include(p => p.ProductCategory)
             .Include(p => p.Variants)

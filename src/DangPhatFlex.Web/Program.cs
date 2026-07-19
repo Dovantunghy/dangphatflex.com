@@ -66,6 +66,7 @@ using (var scope = app.Services.CreateScope())
     var slugService = scope.ServiceProvider.GetRequiredService<ISlugService>();
     context.Database.Migrate();
     DbSeeder.Seed(context, slugService);
+    DbSeeder.SeedNewsArticles(context, slugService);
 
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();

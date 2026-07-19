@@ -19,10 +19,13 @@ public class SeoController : Controller
     public async Task<IActionResult> Sitemap()
     {
         var baseUrl = $"{Request.Scheme}://{Request.Host}";
-        var urls = new List<string> { $"{baseUrl}/", $"{baseUrl}/Public/About", $"{baseUrl}/Public/Products", $"{baseUrl}/Public/Contact" };
+        var urls = new List<string> { $"{baseUrl}/", $"{baseUrl}/Public/About", $"{baseUrl}/Public/Products", $"{baseUrl}/Public/News", $"{baseUrl}/Public/Contact" };
 
         var products = await _context.Products.Include(p => p.ProductCategory).ToListAsync();
         urls.AddRange(products.Select(p => $"{baseUrl}/Public/Products/{p.ProductCategory!.Slug}/{p.Slug}"));
+
+        var articles = await _context.NewsArticles.ToListAsync();
+        urls.AddRange(articles.Select(a => $"{baseUrl}/Public/News/{a.Slug}"));
 
         var sb = new StringBuilder();
         sb.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");

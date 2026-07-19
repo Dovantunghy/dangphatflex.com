@@ -388,6 +388,11 @@ a:hover {
     padding: var(--dpf-space-4);
 }
 
+.product-card .card-title {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+}
+
 .product-card .badge-standard {
     display: inline-block;
     font-size: 0.72rem;

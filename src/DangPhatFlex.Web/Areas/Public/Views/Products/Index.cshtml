@@ -11,13 +11,14 @@
             @await Html.PartialAsync("_Icon", "pipe")
             Danh mục sản phẩm
         </span>
-        <h1>Khớp nối mềm inox cho hệ thống chữa cháy</h1>
-        <p class="lead">Dòng sản phẩm DP25UB / DP25B đạt chuẩn UL, FM, TCVN — đầy đủ kích cỡ, chiều dài, sẵn hàng giao nhanh.</p>
+        <h1>Ống mềm nối đầu phun sprinkler</h1>
+        <p class="lead">Dây mềm nối đầu phun sprinkler dòng DP25UB / DP25B đạt chuẩn UL, FM, TCVN — đầy đủ kích cỡ, chiều dài, sẵn hàng giao nhanh.</p>
     </div>
 </section>
 
 <section class="section">
     <div class="container">
+        <h2 class="visually-hidden">Danh sách sản phẩm</h2>
         @if (categories.Count > 1)
         {
             <div class="d-flex flex-wrap gap-2 mb-5">
@@ -55,7 +56,7 @@
                                     }
                                 </div>
                             }
-                            <h5 class="card-title">@product.Name</h5>
+                            <h3 class="card-title">@product.Name</h3>
                             <p class="card-text">@product.Description</p>
                             <a class="btn btn-outline-primary"
                                asp-action="Detail"
