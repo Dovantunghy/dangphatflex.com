@@ -150,7 +150,14 @@
                 <div class="col-md-6 col-lg-4">
                     <div class="product-card">
                         <div class="product-card__media">
-                            @await Html.PartialAsync("_Icon", "pipe")
+                            @if (!string.IsNullOrEmpty(product.MainImageUrl))
+                            {
+                                <img src="@product.MainImageUrl" alt="@(product.MainImageAlt ?? product.Name)" style="width:100%;height:100%;object-fit:cover;" />
+                            }
+                            else
+                            {
+                                @await Html.PartialAsync("_Icon", "pipe")
+                            }
                         </div>
                         <div class="product-card__body">
                             @if (!string.IsNullOrEmpty(product.Standards))

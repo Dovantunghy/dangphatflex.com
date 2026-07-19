@@ -128,7 +128,14 @@
                     {
                         <div class="col-6 col-md-3">
                             <div class="value-card text-center py-3">
-                                <span class="icon-box icon-box--gold mx-auto mb-2">@await Html.PartialAsync("_Icon", "check-circle")</span>
+                                @if (!string.IsNullOrEmpty(a.ImageUrl))
+                                {
+                                    <img src="@a.ImageUrl" alt="@(a.ImageAlt ?? a.Name)" class="mx-auto mb-2" style="width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--dpf-radius-sm);" />
+                                }
+                                else
+                                {
+                                    <span class="icon-box icon-box--gold mx-auto mb-2">@await Html.PartialAsync("_Icon", "check-circle")</span>
+                                }
                                 <div class="fw-semibold small">@a.Name</div>
                                 <div class="text-body-secondary small">SL: @a.DefaultQuantity</div>
                             </div>

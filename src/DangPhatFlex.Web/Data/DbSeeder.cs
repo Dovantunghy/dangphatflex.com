@@ -107,11 +107,35 @@ public static class DbSeeder
             });
         }
 
+        product.MainImageUrl = "/images/products/product-dp25-lineup.jpg";
+        product.MainImageAlt = "Ống mềm nối đầu phun sprinkler DP25UB Đăng Phát Flex - dây mềm nối đầu phun sprinkler thành phẩm";
+
         product.Accessories.Add(new Accessory { Name = "Côn giảm", DefaultQuantity = 1 });
         product.Accessories.Add(new Accessory { Name = "Đai ốc", DefaultQuantity = 2 });
         product.Accessories.Add(new Accessory { Name = "Gioăng cao su", DefaultQuantity = 2 });
         product.Accessories.Add(new Accessory { Name = "Vòng đệm nhựa", DefaultQuantity = 2 });
-        product.Accessories.Add(new Accessory { Name = "Nipple", DefaultQuantity = 1 });
+        product.Accessories.Add(new Accessory { Name = "Thanh ngang", DefaultQuantity = 1 });
+        product.Accessories.Add(new Accessory
+        {
+            Name = "Kẹp giữa",
+            DefaultQuantity = 1,
+            ImageUrl = "/images/products/accessory-clamp-assembled.jpg",
+            ImageAlt = "Kẹp giữa phụ kiện khớp nối mềm inox Đăng Phát Flex"
+        });
+        product.Accessories.Add(new Accessory
+        {
+            Name = "Kẹp bên",
+            DefaultQuantity = 2,
+            ImageUrl = "/images/products/accessory-clamp-parts-1.jpg",
+            ImageAlt = "Kẹp bên phụ kiện khớp nối mềm inox Đăng Phát Flex"
+        });
+        product.Accessories.Add(new Accessory
+        {
+            Name = "Nipple",
+            DefaultQuantity = 1,
+            ImageUrl = "/images/products/accessory-nipple-reducer-washer.jpg",
+            ImageAlt = "Nipple, côn giảm và vòng đệm nhựa phụ kiện Đăng Phát Flex"
+        });
 
         context.ProductCategories.Add(category);
         context.Products.Add(product);
