@@ -35,6 +35,17 @@
     --dpf-space-8: 96px;
 }
 
+/* Global icon default size. SVGs with no width/height attribute fall back to the CSS-spec
+   default of 300x150px, so every .dpf-icon (see _Icon.cshtml) must be explicitly sized here
+   regardless of where it's used; more specific selectors below (.icon-box svg, etc.) override
+   this for contexts that need a different size. */
+.dpf-icon {
+    width: 1.15em;
+    height: 1.15em;
+    flex-shrink: 0;
+    vertical-align: -0.15em;
+}
+
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -280,11 +291,19 @@ a:hover {
 /* ---------- Buttons ---------- */
 
 .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
     font-family: var(--dpf-font-heading);
     font-weight: 600;
     border-radius: var(--dpf-radius-sm);
     padding: 12px 28px;
     transition: transform 150ms ease-out, box-shadow 150ms ease-out, background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+}
+
+.btn .dpf-icon {
+    vertical-align: 0;
 }
 
 .btn:focus-visible {
