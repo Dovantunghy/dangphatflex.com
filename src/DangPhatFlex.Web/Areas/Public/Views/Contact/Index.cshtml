@@ -1,37 +1,92 @@
 @model DangPhatFlex.Web.Areas.Public.Models.ContactFormViewModel
+@using DangPhatFlex.Web.Models
+@{
+    var company = ViewData["CompanyInfo"] as CompanyInfo;
+}
 
-<section class="container py-5">
-    <h1>Liên hệ</h1>
+<section class="hero" style="padding: var(--dpf-space-7) 0;">
+    <div class="container text-center">
+        <span class="hero-badge">
+            @await Html.PartialAsync("_Icon", "mail")
+            Liên hệ
+        </span>
+        <h1>Liên hệ với Đăng Phát Flex</h1>
+        <p class="lead">Gửi yêu cầu, chúng tôi sẽ phản hồi trong thời gian sớm nhất.</p>
+    </div>
+</section>
 
-    @if (TempData["ContactSuccess"] is string successMessage)
-    {
-        <div class="alert alert-success">@successMessage</div>
-    }
+<section class="section">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-7">
+                @if (TempData["ContactSuccess"] is string successMessage)
+                {
+                    <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+                        @await Html.PartialAsync("_Icon", "check-circle")
+                        <span>@successMessage</span>
+                    </div>
+                }
 
-    <form asp-action="Index" method="post" class="row g-3">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="col-md-6">
-            <label asp-for="FullName" class="form-label"></label>
-            <input asp-for="FullName" class="form-control" />
-            <span asp-validation-for="FullName" class="text-danger"></span>
+                <form asp-action="Index" method="post" class="row g-3">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="col-md-6">
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" class="form-control" placeholder="Nguyễn Văn A" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Phone" class="form-label"></label>
+                        <input asp-for="Phone" class="form-control" placeholder="09xx xxx xxx" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control" placeholder="ban@congty.vn" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="Message" class="form-label"></label>
+                        <textarea asp-for="Message" class="form-control" rows="5" placeholder="Nội dung yêu cầu, mã sản phẩm quan tâm..."></textarea>
+                        <span asp-validation-for="Message" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-brand btn-lg">Gửi liên hệ</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="contact-info-card mb-4">
+                    <h3 class="h5 mb-4">Thông tin liên hệ</h3>
+                    <div class="info-row">
+                        @await Html.PartialAsync("_Icon", "map-pin")
+                        <div>
+                            <div class="info-label">Địa chỉ</div>
+                            <div class="info-value">@company?.Address</div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        @await Html.PartialAsync("_Icon", "phone")
+                        <div>
+                            <div class="info-label">Hotline</div>
+                            <div class="info-value"><a href="tel:@(company?.Hotline?.Replace(".", "").Replace(" ", ""))">@company?.Hotline</a></div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        @await Html.PartialAsync("_Icon", "mail")
+                        <div>
+                            <div class="info-label">Email</div>
+                            <div class="info-value"><a href="mailto:@company?.Email">@company?.Email</a></div>
+                        </div>
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(company?.MapEmbedUrl))
+                {
+                    <div class="ratio ratio-4x3" style="border-radius: var(--dpf-radius-md); overflow: hidden;">
+                        <iframe src="@company.MapEmbedUrl" style="border:0;" loading="lazy" title="Bản đồ vị trí công ty"></iframe>
+                    </div>
+                }
+            </div>
         </div>
-        <div class="col-md-6">
-            <label asp-for="Phone" class="form-label"></label>
-            <input asp-for="Phone" class="form-control" />
-            <span asp-validation-for="Phone" class="text-danger"></span>
-        </div>
-        <div class="col-md-6">
-            <label asp-for="Email" class="form-label"></label>
-            <input asp-for="Email" class="form-control" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-        <div class="col-12">
-            <label asp-for="Message" class="form-label"></label>
-            <textarea asp-for="Message" class="form-control" rows="4"></textarea>
-            <span asp-validation-for="Message" class="text-danger"></span>
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-brand">Gửi liên hệ</button>
-        </div>
-    </form>
+    </div>
 </section>

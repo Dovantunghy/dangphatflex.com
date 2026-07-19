@@ -16,6 +16,9 @@
             ["name"] = "Đăng Phát Flex"
         }
     });
+
+    var standards = (Model.Standards ?? string.Empty)
+        .Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 }
 
 @*
@@ -27,74 +30,112 @@
 *@
 @Html.Raw($"<script type=\"application/ld+json\">{jsonLd}</script>")
 
-<section class="container py-5">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a asp-action="Index">Sản phẩm</a></li>
-            <li class="breadcrumb-item active">@Model.Name</li>
-        </ol>
-    </nav>
+<section class="section pt-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index">Sản phẩm</a></li>
+                <li class="breadcrumb-item active">@Model.Name</li>
+            </ol>
+        </nav>
 
-    <h1>@Model.Name</h1>
-    <p class="lead">@Model.Description</p>
-
-    @if (!string.IsNullOrEmpty(Model.MainImageUrl))
-    {
-        <img src="@Model.MainImageUrl" alt="@(Model.MainImageAlt ?? Model.Name)" class="img-fluid mb-4" />
-    }
-
-    <h2>Thông số kỹ thuật</h2>
-    <table class="table spec-table">
-        <tbody>
-            <tr><th>Đường kính ống</th><td>ID: @Model.InnerDiameter / OD: @Model.OuterDiameter</td></tr>
-            <tr><th>Loại ống</th><td>@Model.HoseType</td></tr>
-            <tr><th>Nhiệt độ hoạt động tối đa</th><td>@Model.MaxTemperature</td></tr>
-            <tr><th>Áp suất hoạt động tối đa</th><td>@Model.MaxPressure</td></tr>
-            <tr><th>Bán kính uốn cong nhỏ nhất</th><td>@Model.MinBendRadius</td></tr>
-            <tr><th>Tiêu chuẩn</th><td>@Model.Standards</td></tr>
-        </tbody>
-    </table>
-
-    <h2>Bảng mã sản phẩm</h2>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Mã sản phẩm</th>
-                    <th>Kết nối (Inlet x Outlet)</th>
-                    <th>Chiều dài lắp đặt (mm)</th>
-                    <th>Số lần uốn 90° tối đa</th>
-                    <th>Bán kính uốn cong tối thiểu (in)</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var v in Model.Variants)
+        <div class="row g-5">
+            <div class="col-lg-5">
+                @if (!string.IsNullOrEmpty(Model.MainImageUrl))
                 {
-                    <tr>
-                        <td>@v.ProductCode</td>
-                        <td>@v.InletOutlet</td>
-                        <td>@v.InstallLengthMm</td>
-                        <td>@v.MaxBends90</td>
-                        <td>@v.MinBendRadiusIn</td>
-                    </tr>
+                    <img src="@Model.MainImageUrl" alt="@(Model.MainImageAlt ?? Model.Name)" class="img-fluid rounded" style="border-radius: var(--dpf-radius-md);" />
                 }
-            </tbody>
-        </table>
+                else
+                {
+                    <div class="product-card__media" style="border-radius: var(--dpf-radius-md); aspect-ratio: 4/3;">
+                        @await Html.PartialAsync("_Icon", "pipe")
+                    </div>
+                }
+                @if (standards.Length > 0)
+                {
+                    <div class="mt-3">
+                        @foreach (var std in standards)
+                        {
+                            <span class="badge-standard">@std</span>
+                        }
+                    </div>
+                }
+            </div>
+            <div class="col-lg-7">
+                <h1>@Model.Name</h1>
+                <p class="lead">@Model.Description</p>
+
+                @if (!string.IsNullOrEmpty(Model.DatasheetPdfUrl))
+                {
+                    <a class="btn btn-brand mb-2" href="@Model.DatasheetPdfUrl" target="_blank" rel="noopener">
+                        @await Html.PartialAsync("_Icon", "download")
+                        Tải Datasheet PDF
+                    </a>
+                }
+                <a class="btn btn-outline-primary mb-2 ms-0 ms-sm-2" asp-area="Public" asp-controller="Contact" asp-action="Index">
+                    Yêu cầu báo giá
+                </a>
+
+                <h2 class="h4 mt-4">Thông số kỹ thuật</h2>
+                <table class="table spec-table">
+                    <tbody>
+                        <tr><th>Đường kính ống</th><td>ID: @Model.InnerDiameter / OD: @Model.OuterDiameter</td></tr>
+                        <tr><th>Loại ống</th><td>@Model.HoseType</td></tr>
+                        <tr><th>Nhiệt độ hoạt động tối đa</th><td>@Model.MaxTemperature</td></tr>
+                        <tr><th>Áp suất hoạt động tối đa</th><td>@Model.MaxPressure</td></tr>
+                        <tr><th>Bán kính uốn cong nhỏ nhất</th><td>@Model.MinBendRadius</td></tr>
+                        <tr><th>Tiêu chuẩn</th><td>@Model.Standards</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <h2 class="h4">Bảng mã sản phẩm</h2>
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <thead>
+                        <tr>
+                            <th>Mã sản phẩm</th>
+                            <th>Kết nối (Inlet x Outlet)</th>
+                            <th>Chiều dài lắp đặt (mm)</th>
+                            <th>Số lần uốn 90° tối đa</th>
+                            <th>Bán kính uốn cong tối thiểu (in)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var v in Model.Variants)
+                        {
+                            <tr>
+                                <td><code>@v.ProductCode</code></td>
+                                <td>@v.InletOutlet</td>
+                                <td>@v.InstallLengthMm</td>
+                                <td>@v.MaxBends90</td>
+                                <td>@v.MinBendRadiusIn</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        @if (Model.Accessories.Any())
+        {
+            <div class="mt-5">
+                <h2 class="h4">Phụ kiện đi kèm</h2>
+                <div class="row g-3">
+                    @foreach (var a in Model.Accessories)
+                    {
+                        <div class="col-6 col-md-3">
+                            <div class="value-card text-center py-3">
+                                <span class="icon-box icon-box--gold mx-auto mb-2">@await Html.PartialAsync("_Icon", "check-circle")</span>
+                                <div class="fw-semibold small">@a.Name</div>
+                                <div class="text-body-secondary small">SL: @a.DefaultQuantity</div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
     </div>
-
-    @if (Model.Accessories.Any())
-    {
-        <h2>Phụ kiện đi kèm</h2>
-        <ul>
-            @foreach (var a in Model.Accessories)
-            {
-                <li>@a.Name (SL: @a.DefaultQuantity)</li>
-            }
-        </ul>
-    }
-
-    @if (!string.IsNullOrEmpty(Model.DatasheetPdfUrl))
-    {
-        <a class="btn btn-brand" href="@Model.DatasheetPdfUrl" target="_blank" rel="noopener">Tải Datasheet PDF</a>
-    }
 </section>

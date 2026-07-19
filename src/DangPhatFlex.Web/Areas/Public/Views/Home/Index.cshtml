@@ -31,29 +31,84 @@
 
 <section class="hero">
     <div class="container text-center">
+        <span class="hero-badge">
+            @await Html.PartialAsync("_Icon", "shield-check")
+            Đạt chuẩn UL · FM · TCVN
+        </span>
         <h1>@company?.BrandName</h1>
-        <p class="lead">@company?.Tagline</p>
-        <a class="btn btn-brand btn-lg" asp-controller="Contact" asp-action="Index">Liên hệ tư vấn</a>
+        <p class="lead">@company?.Tagline — chuyên sản xuất, nhập khẩu và phân phối khớp nối mềm inox cho hệ thống chữa cháy sprinkler.</p>
+        <div class="hero-cta">
+            <a class="btn btn-brand btn-lg" asp-controller="Contact" asp-action="Index">
+                Liên hệ tư vấn
+            </a>
+            <a class="btn btn-outline-light btn-lg" asp-controller="Products" asp-action="Index">
+                Xem sản phẩm
+            </a>
+        </div>
+        <div class="hero-trust">
+            <span class="trust-item">@await Html.PartialAsync("_Icon", "truck") Giao hàng nhanh toàn quốc</span>
+            <span class="trust-item">@await Html.PartialAsync("_Icon", "award") Tiêu chuẩn quốc tế</span>
+            <span class="trust-item">@await Html.PartialAsync("_Icon", "tag") Giá cạnh tranh nhất</span>
+        </div>
     </div>
 </section>
 
-<section class="core-values py-5">
+<section class="cert-strip py-4">
     <div class="container">
+        <div class="row g-4 justify-content-center text-center text-md-start">
+            <div class="col-6 col-md-3">
+                <div class="cert-item justify-content-center justify-content-md-start">
+                    <span class="icon-box">@await Html.PartialAsync("_Icon", "shield-check")</span>
+                    <span>UL Listed</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="cert-item justify-content-center justify-content-md-start">
+                    <span class="icon-box">@await Html.PartialAsync("_Icon", "shield-check")</span>
+                    <span>FM Approved</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="cert-item justify-content-center justify-content-md-start">
+                    <span class="icon-box">@await Html.PartialAsync("_Icon", "check-circle")</span>
+                    <span>TCVN</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3">
+                <div class="cert-item justify-content-center justify-content-md-start">
+                    <span class="icon-box">@await Html.PartialAsync("_Icon", "clock")</span>
+                    <span>107°C / 200psi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="core-values section">
+    <div class="container">
+        <div class="text-center mx-auto mb-5" style="max-width:640px;">
+            <span class="section-eyebrow">Cam kết của chúng tôi</span>
+            <h2 class="section-title">Vì sao khách hàng tin chọn Đăng Phát Flex</h2>
+            <p class="section-subtitle mx-auto">Ba giá trị cốt lõi xuyên suốt mọi sản phẩm và dịch vụ chúng tôi cung cấp.</p>
+        </div>
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="card h-100 p-4">
+                <div class="value-card">
+                    <span class="icon-box">@await Html.PartialAsync("_Icon", "truck")</span>
                     <h3>Nhanh nhất</h3>
                     <p>@company?.CoreValueFast</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card h-100 p-4">
+                <div class="value-card">
+                    <span class="icon-box icon-box--gold">@await Html.PartialAsync("_Icon", "award")</span>
                     <h3>Tốt nhất</h3>
                     <p>@company?.CoreValueBest</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="card h-100 p-4">
+                <div class="value-card">
+                    <span class="icon-box">@await Html.PartialAsync("_Icon", "tag")</span>
                     <h3>Giá cạnh tranh nhất</h3>
                     <p>@company?.CoreValueCompetitivePrice</p>
                 </div>
@@ -62,25 +117,65 @@
     </div>
 </section>
 
-<section class="featured-products py-5 bg-light">
+<section class="featured-products section bg-light-section">
     <div class="container">
-        <h2 class="mb-4">Sản phẩm nổi bật</h2>
+        <div class="d-flex flex-wrap justify-content-between align-items-end mb-5 gap-3">
+            <div>
+                <span class="section-eyebrow">Sản phẩm</span>
+                <h2 class="section-title mb-0">Sản phẩm nổi bật</h2>
+            </div>
+            <a class="btn btn-outline-primary" asp-controller="Products" asp-action="Index">
+                Xem tất cả sản phẩm
+                @await Html.PartialAsync("_Icon", "arrow-right")
+            </a>
+        </div>
         <div class="row g-4">
             @foreach (var product in featured)
             {
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <div class="card-body">
+                <div class="col-md-6 col-lg-4">
+                    <div class="product-card">
+                        <div class="product-card__media">
+                            @await Html.PartialAsync("_Icon", "pipe")
+                        </div>
+                        <div class="product-card__body">
+                            @if (!string.IsNullOrEmpty(product.Standards))
+                            {
+                                <div class="mb-2">
+                                    @foreach (var std in product.Standards.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <span class="badge-standard">@std</span>
+                                    }
+                                </div>
+                            }
                             <h5 class="card-title">@product.Name</h5>
                             <p class="card-text">@product.Description</p>
                             <a class="btn btn-outline-primary"
                                asp-controller="Products" asp-action="Detail"
                                asp-route-categorySlug="@product.ProductCategory?.Slug"
-                               asp-route-productSlug="@product.Slug">Xem chi tiết</a>
+                               asp-route-productSlug="@product.Slug">
+                                Xem chi tiết
+                                @await Html.PartialAsync("_Icon", "arrow-right")
+                            </a>
                         </div>
                     </div>
                 </div>
             }
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="cta-banner">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-8">
+                    <h2 class="mb-2">Cần tư vấn giải pháp khớp nối mềm inox?</h2>
+                    <p class="mb-0">Đội ngũ kỹ thuật của Đăng Phát Flex sẵn sàng hỗ trợ chọn đúng sản phẩm cho công trình của bạn — nhanh chóng, chính xác, đúng tiêu chuẩn.</p>
+                </div>
+                <div class="col-lg-4 text-lg-end">
+                    <a class="btn btn-brand btn-lg" asp-controller="Contact" asp-action="Index">Liên hệ ngay</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>

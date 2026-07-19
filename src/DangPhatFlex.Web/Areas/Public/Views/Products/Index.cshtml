@@ -1,22 +1,73 @@
 @model List<DangPhatFlex.Web.Models.Product>
+@using DangPhatFlex.Web.Models
+@{
+    var categories = ViewData["Categories"] as List<ProductCategory> ?? new();
+    var activeSlug = Context.Request.Query["categorySlug"].ToString();
+}
 
-<section class="container py-5">
-    <h1>Sản phẩm</h1>
-    <div class="row g-4">
-        @foreach (var product in Model)
+<section class="hero" style="padding: var(--dpf-space-7) 0;">
+    <div class="container text-center">
+        <span class="hero-badge">
+            @await Html.PartialAsync("_Icon", "pipe")
+            Danh mục sản phẩm
+        </span>
+        <h1>Khớp nối mềm inox cho hệ thống chữa cháy</h1>
+        <p class="lead">Dòng sản phẩm DP25UB / DP25B đạt chuẩn UL, FM, TCVN — đầy đủ kích cỡ, chiều dài, sẵn hàng giao nhanh.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        @if (categories.Count > 1)
         {
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">@product.Name</h5>
-                        <p class="card-text">@product.Description</p>
-                        <a class="btn btn-outline-primary"
-                           asp-action="Detail"
-                           asp-route-categorySlug="@product.ProductCategory?.Slug"
-                           asp-route-productSlug="@product.Slug">Xem chi tiết</a>
-                    </div>
-                </div>
+            <div class="d-flex flex-wrap gap-2 mb-5">
+                <a class="btn @(string.IsNullOrEmpty(activeSlug) ? "btn-brand" : "btn-outline-primary")" asp-action="Index">Tất cả</a>
+                @foreach (var cat in categories)
+                {
+                    <a class="btn @(activeSlug == cat.Slug ? "btn-brand" : "btn-outline-primary")"
+                       asp-action="Index" asp-route-categorySlug="@cat.Slug">@cat.Name</a>
+                }
             </div>
         }
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5">
+                <p class="section-subtitle mx-auto">Chưa có sản phẩm nào trong danh mục này.</p>
+            </div>
+        }
+
+        <div class="row g-4">
+            @foreach (var product in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="product-card">
+                        <div class="product-card__media">
+                            @await Html.PartialAsync("_Icon", "pipe")
+                        </div>
+                        <div class="product-card__body">
+                            @if (!string.IsNullOrEmpty(product.Standards))
+                            {
+                                <div class="mb-2">
+                                    @foreach (var std in product.Standards.Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries))
+                                    {
+                                        <span class="badge-standard">@std</span>
+                                    }
+                                </div>
+                            }
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text">@product.Description</p>
+                            <a class="btn btn-outline-primary"
+                               asp-action="Detail"
+                               asp-route-categorySlug="@product.ProductCategory?.Slug"
+                               asp-route-productSlug="@product.Slug">
+                                Xem chi tiết
+                                @await Html.PartialAsync("_Icon", "arrow-right")
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </section>

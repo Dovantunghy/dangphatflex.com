@@ -19,10 +19,11 @@ public class ContactController : Controller
         _emailSender = emailSender;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         ViewData["MetaTitle"] = "Liên hệ | Đăng Phát Flex";
         ViewData["MetaDescription"] = "Liên hệ CÔNG TY TNHH CƠ ĐIỆN ĐĂNG PHÁT để được tư vấn khớp nối mềm inox cho hệ thống chữa cháy.";
+        ViewData["CompanyInfo"] = await _context.CompanyInfos.FirstOrDefaultAsync();
         return View(new ContactFormViewModel());
     }
 
@@ -31,7 +32,10 @@ public class ContactController : Controller
     public async Task<IActionResult> Index(ContactFormViewModel model)
     {
         if (!ModelState.IsValid)
+        {
+            ViewData["CompanyInfo"] = await _context.CompanyInfos.FirstOrDefaultAsync();
             return View(model);
+        }
 
         _context.ContactSubmissions.Add(new ContactSubmission
         {

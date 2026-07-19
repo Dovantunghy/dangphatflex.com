@@ -1,21 +1,73 @@
 @model DangPhatFlex.Web.Models.CompanyInfo
 
-<section class="container py-5">
-    <h1>Giới thiệu công ty</h1>
-    <h2 class="text-muted">@Model?.LegalName</h2>
-    <p class="lead">@Model?.Tagline</p>
-    <div class="about-content">
-        <p>@Model?.AboutContent</p>
+<section class="hero" style="padding: var(--dpf-space-7) 0;">
+    <div class="container text-center">
+        <span class="hero-badge">
+            @await Html.PartialAsync("_Icon", "boxes")
+            Giới thiệu công ty
+        </span>
+        <h1>@Model?.LegalName</h1>
+        <p class="lead">@Model?.Tagline</p>
     </div>
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <strong>Địa chỉ:</strong> @Model?.Address
-        </div>
-        <div class="col-md-3">
-            <strong>Hotline:</strong> @Model?.Hotline
-        </div>
-        <div class="col-md-3">
-            <strong>Email:</strong> @Model?.Email
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <span class="section-eyebrow">Về chúng tôi</span>
+                <h2 class="section-title">Câu chuyện Đăng Phát Flex</h2>
+                <p class="about-content" style="white-space: pre-line; font-size: 1.05rem; color: var(--dpf-gray-700);">@Model?.AboutContent</p>
+
+                <div class="row g-3 mt-4">
+                    <div class="col-sm-4">
+                        <div class="value-card text-center">
+                            <span class="icon-box mx-auto mb-2">@await Html.PartialAsync("_Icon", "truck")</span>
+                            <h3 class="h6 mb-0">Nhanh nhất</h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="value-card text-center">
+                            <span class="icon-box icon-box--gold mx-auto mb-2">@await Html.PartialAsync("_Icon", "award")</span>
+                            <h3 class="h6 mb-0">Tốt nhất</h3>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="value-card text-center">
+                            <span class="icon-box mx-auto mb-2">@await Html.PartialAsync("_Icon", "tag")</span>
+                            <h3 class="h6 mb-0">Giá cạnh tranh nhất</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="contact-info-card">
+                    <h3 class="h5 mb-4">Thông tin liên hệ</h3>
+                    <div class="info-row">
+                        @await Html.PartialAsync("_Icon", "map-pin")
+                        <div>
+                            <div class="info-label">Địa chỉ</div>
+                            <div class="info-value">@Model?.Address</div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        @await Html.PartialAsync("_Icon", "phone")
+                        <div>
+                            <div class="info-label">Hotline</div>
+                            <div class="info-value"><a href="tel:@(Model?.Hotline?.Replace(".", "").Replace(" ", ""))">@Model?.Hotline</a></div>
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        @await Html.PartialAsync("_Icon", "mail")
+                        <div>
+                            <div class="info-label">Email</div>
+                            <div class="info-value"><a href="mailto:@Model?.Email">@Model?.Email</a></div>
+                        </div>
+                    </div>
+                    <a class="btn btn-brand w-100 mt-3" asp-controller="Contact" asp-action="Index">Liên hệ ngay</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
