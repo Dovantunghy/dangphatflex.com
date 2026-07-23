@@ -40,7 +40,7 @@
         </nav>
 
         <div class="row g-5">
-            <div class="col-lg-5">
+            <div class="col-lg-5 product-detail-media">
                 @if (!string.IsNullOrEmpty(Model.MainImageUrl))
                 {
                     <img src="@Model.MainImageUrl" alt="@(Model.MainImageAlt ?? Model.Name)" class="img-fluid rounded" style="border-radius: var(--dpf-radius-md);" />
@@ -79,45 +79,66 @@
                 <h2 class="h4 mt-4">Thông số kỹ thuật</h2>
                 <table class="table spec-table">
                     <tbody>
-                        <tr><th>Đường kính ống</th><td>ID: @Model.InnerDiameter / OD: @Model.OuterDiameter</td></tr>
-                        <tr><th>Loại ống</th><td>@Model.HoseType</td></tr>
-                        <tr><th>Nhiệt độ hoạt động tối đa</th><td>@Model.MaxTemperature</td></tr>
-                        <tr><th>Áp suất hoạt động tối đa</th><td>@Model.MaxPressure</td></tr>
-                        <tr><th>Bán kính uốn cong nhỏ nhất</th><td>@Model.MinBendRadius</td></tr>
-                        <tr><th>Tiêu chuẩn</th><td>@Model.Standards</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="mt-5">
-            <h2 class="h4">Bảng mã sản phẩm</h2>
-            <div class="table-responsive">
-                <table class="table table-striped align-middle">
-                    <thead>
-                        <tr>
-                            <th>Mã sản phẩm</th>
-                            <th>Kết nối (Inlet x Outlet)</th>
-                            <th>Chiều dài lắp đặt (mm)</th>
-                            <th>Số lần uốn 90° tối đa</th>
-                            <th>Bán kính uốn cong tối thiểu (in)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var v in Model.Variants)
+                        @if (!string.IsNullOrWhiteSpace(Model.InnerDiameter) || !string.IsNullOrWhiteSpace(Model.OuterDiameter))
                         {
-                            <tr>
-                                <td><code>@v.ProductCode</code></td>
-                                <td>@v.InletOutlet</td>
-                                <td>@v.InstallLengthMm</td>
-                                <td>@v.MaxBends90</td>
-                                <td>@v.MinBendRadiusIn</td>
-                            </tr>
+                            <tr><th>Đường kính ống</th><td>ID: @Model.InnerDiameter / OD: @Model.OuterDiameter</td></tr>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.HoseType))
+                        {
+                            <tr><th>Loại ống / phụ kiện</th><td>@Model.HoseType</td></tr>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.MaxTemperature))
+                        {
+                            <tr><th>Nhiệt độ hoạt động tối đa</th><td>@Model.MaxTemperature</td></tr>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.MaxPressure))
+                        {
+                            <tr><th>Áp suất hoạt động tối đa</th><td>@Model.MaxPressure</td></tr>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.MinBendRadius))
+                        {
+                            <tr><th>Bán kính uốn cong nhỏ nhất</th><td>@Model.MinBendRadius</td></tr>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.Standards))
+                        {
+                            <tr><th>Tiêu chuẩn</th><td>@Model.Standards</td></tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
+
+        @if (Model.Variants.Any())
+        {
+            <div class="mt-5">
+                <h2 class="h4">Bảng mã sản phẩm</h2>
+                <div class="table-responsive">
+                    <table class="table table-striped align-middle">
+                        <thead>
+                            <tr>
+                                <th>Mã sản phẩm</th>
+                                <th>Kết nối (Inlet x Outlet)</th>
+                                <th>Chiều dài lắp đặt (mm)</th>
+                                <th>Số lần uốn 90° tối đa</th>
+                                <th>Bán kính uốn cong tối thiểu (in)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var v in Model.Variants)
+                            {
+                                <tr>
+                                    <td><code>@v.ProductCode</code></td>
+                                    <td>@v.InletOutlet</td>
+                                    <td>@v.InstallLengthMm</td>
+                                    <td>@v.MaxBends90</td>
+                                    <td>@v.MinBendRadiusIn</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        }
 
         @if (Model.Accessories.Any())
         {

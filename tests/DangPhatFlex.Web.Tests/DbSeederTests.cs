@@ -28,7 +28,8 @@ public class DbSeederTests
 
         Assert.Single(context.CompanyInfos);
         Assert.True(context.ProductCategories.Any(c => c.Slug == "khop-noi-mem-inox"));
-        var product = context.Products.Include(p => p.Variants).Single();
+        var product = context.Products.Include(p => p.Variants)
+            .First(p => p.Slug == "dang-phat-flex-dp25");
         Assert.True(product.Variants.Count >= 4);
         Assert.Contains(product.Variants, v => v.ProductCode == "DP25UB-15-700");
     }

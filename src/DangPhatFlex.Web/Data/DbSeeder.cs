@@ -38,7 +38,8 @@ public static class DbSeeder
             Email = "Info.dangphat@gmail.com",
             CoreValueFast = "Hàng hóa tại kho luôn đầy đủ chủng loại, giao hàng nhanh chóng đến tận chân công trình, đáp ứng nhanh các dự án.",
             CoreValueBest = "Nghiên cứu sản phẩm liên tục, đạt tiêu chuẩn quốc tế, tư vấn kỹ thuật chuyên nghiệp, phù hợp nhiều loại công trình.",
-            CoreValueCompetitivePrice = "Chủ động nguồn hàng, nhập khẩu trực tiếp, tối ưu chi phí, mang lại giá bán cạnh tranh nhất."
+            CoreValueCompetitivePrice = "Chủ động nguồn hàng, nhập khẩu trực tiếp, tối ưu chi phí, mang lại giá bán cạnh tranh nhất.",
+            MapEmbedUrl = "https://www.google.com/maps?q=Nguyen+Van+Linh,+Long+Bien,+Ha+Noi&output=embed"
         });
 
         var category = new ProductCategory
@@ -52,26 +53,54 @@ public static class DbSeeder
             MetaDescription = "Chuyên cung cấp ống mềm nối đầu phun sprinkler, dây mềm nối đầu phun sprinkler đạt chuẩn UL/FM/TCVN. Giao hàng nhanh, giá cạnh tranh."
         };
 
-        var product = new Product
-        {
-            ProductCategory = category,
-            Name = "Đăng Phát Flex DP25",
-            Slug = slugService.GenerateSlug("Dang Phat Flex DP25"),
-            Description = "Ống mềm nối đầu phun (còn gọi là dây mềm nối đầu phun sprinkler) DP25, cấu tạo dạng " +
-                "ống gân xoắn inox (Helical Corrugated Hose), dùng để nối mềm từ đường ống nhánh đến đầu phun " +
-                "sprinkler trong hệ thống chữa cháy tự động. Có 2 phiên bản: DP25UB (không bện) và DP25B (có bện).",
-            InnerDiameter = "24.2mm",
-            OuterDiameter = "24.8mm",
-            HoseType = "Ống gân xoắn (Helical Corrugated Hose), loại ren (Threaded)",
-            MaxTemperature = "107°C (225°F)",
-            MaxPressure = "14kg/cm² (TCVN) / 200 psi (UL) / 200 psi (FM)",
-            MinBendRadius = "4 inch (UL/ULC) / 9 inch (FM)",
-            Standards = "UL, ULC, FM, TCVN",
-            MetaTitle = "Ống mềm nối đầu phun sprinkler DP25UB/DP25B - Đạt chuẩn UL/FM/TCVN | Đăng Phát Flex",
-            MetaDescription = "Ống mềm nối đầu phun sprinkler / dây mềm nối đầu phun sprinkler DP25UB, DP25B: đầy đủ thông số áp suất, nhiệt độ, bán kính uốn cong, đạt chuẩn UL/FM/TCVN."
-        };
+        // Mỗi Accessory thuộc về đúng một Product, nên tạo mới danh sách phụ kiện cho từng
+        // sản phẩm thay vì dùng chung một tập instance.
+        List<Accessory> BuildStandardAccessories() =>
+        [
+            new() { Name = "Côn giảm", DefaultQuantity = 1 },
+            new() { Name = "Đai ốc", DefaultQuantity = 2 },
+            new() { Name = "Gioăng cao su", DefaultQuantity = 2 },
+            new() { Name = "Vòng đệm nhựa", DefaultQuantity = 2 },
+            new() { Name = "Thanh ngang", DefaultQuantity = 1 },
+            new()
+            {
+                Name = "Kẹp giữa",
+                DefaultQuantity = 1,
+                ImageUrl = "/images/products/accessory-clamp-assembled.jpg",
+                ImageAlt = "Kẹp giữa phụ kiện khớp nối mềm inox Đăng Phát Flex"
+            },
+            new()
+            {
+                Name = "Kẹp bên",
+                DefaultQuantity = 2,
+                ImageUrl = "/images/products/accessory-clamp-parts-1.jpg",
+                ImageAlt = "Kẹp bên phụ kiện khớp nối mềm inox Đăng Phát Flex"
+            },
+            new()
+            {
+                Name = "Nipple",
+                DefaultQuantity = 1,
+                ImageUrl = "/images/products/accessory-nipple-reducer-washer.jpg",
+                ImageAlt = "Nipple, côn giảm và vòng đệm nhựa phụ kiện Đăng Phát Flex"
+            },
+        ];
 
-        var variantData = new (string Code, string InletOutlet, int LengthMm, int MaxBends)[]
+        static void AddVariants(Product p, (string Code, string InletOutlet, int LengthMm, int MaxBends)[] data)
+        {
+            foreach (var v in data)
+            {
+                p.Variants.Add(new ProductVariant
+                {
+                    ProductCode = v.Code,
+                    InletOutlet = v.InletOutlet,
+                    InstallLengthMm = v.LengthMm,
+                    MaxBends90 = v.MaxBends,
+                    MinBendRadiusIn = "4",
+                });
+            }
+        }
+
+        var ubVariants = new (string Code, string InletOutlet, int LengthMm, int MaxBends)[]
         {
             ("DP25UB-15-700", "1x1/2", 700, 2),
             ("DP25UB-15-1000", "1x1/2", 1000, 3),
@@ -83,6 +112,10 @@ public static class DbSeeder
             ("DP25UB-20-1200", "1x3/4", 1200, 3),
             ("DP25UB-20-1500", "1x3/4", 1500, 3),
             ("DP25UB-20-1800", "1x3/4", 1800, 3),
+        };
+
+        var bVariants = new (string Code, string InletOutlet, int LengthMm, int MaxBends)[]
+        {
             ("DP25B-15-700", "1x1/2", 700, 2),
             ("DP25B-15-1000", "1x1/2", 1000, 3),
             ("DP25B-15-1200", "1x1/2", 1200, 3),
@@ -95,50 +128,76 @@ public static class DbSeeder
             ("DP25B-20-1800", "1x3/4", 1800, 3),
         };
 
-        foreach (var v in variantData)
+        // Sản phẩm 1: DP25UB (không bện). Giữ nguyên slug "dang-phat-flex-dp25" để không phá
+        // vỡ URL/SEO đã công bố.
+        var dp25ub = new Product
         {
-            product.Variants.Add(new ProductVariant
-            {
-                ProductCode = v.Code,
-                InletOutlet = v.InletOutlet,
-                InstallLengthMm = v.LengthMm,
-                MaxBends90 = v.MaxBends,
-                MinBendRadiusIn = "4",
-            });
-        }
+            ProductCategory = category,
+            Name = "Đăng Phát Flex DP25UB",
+            Slug = slugService.GenerateSlug("Dang Phat Flex DP25"),
+            Description = "Ống mềm nối đầu phun sprinkler DP25UB (không bện) — thân ống gân xoắn inox 304 " +
+                "(Helical Corrugated Hose), đầu vào ren 1\", đầu ra 1/2\" hoặc 3/4\". Trọng lượng nhẹ, thi công " +
+                "nhanh, phù hợp công trình dân dụng, văn phòng và trung tâm thương mại.",
+            InnerDiameter = "24.2mm",
+            OuterDiameter = "24.8mm",
+            HoseType = "Ống gân xoắn không bện (Unbraided Helical Corrugated Hose), loại ren (Threaded)",
+            MaxTemperature = "107°C (225°F)",
+            MaxPressure = "14kg/cm² (TCVN) / 200 psi (UL) / 200 psi (FM)",
+            MinBendRadius = "4 inch (UL/ULC) / 9 inch (FM)",
+            Standards = "UL, ULC, FM, TCVN",
+            MainImageUrl = "/images/products/product-dp25-lineup.jpg",
+            MainImageAlt = "Ống mềm nối đầu phun sprinkler DP25UB Đăng Phát Flex - dây mềm nối đầu phun sprinkler không bện",
+            MetaTitle = "Ống mềm nối đầu phun sprinkler DP25UB (không bện) - Đạt chuẩn UL/FM/TCVN | Đăng Phát Flex",
+            MetaDescription = "Ống mềm nối đầu phun sprinkler DP25UB không bện: đầy đủ thông số áp suất, nhiệt độ, bán kính uốn cong, đạt chuẩn UL/FM/TCVN."
+        };
+        AddVariants(dp25ub, ubVariants);
+        dp25ub.Accessories.AddRange(BuildStandardAccessories());
 
-        product.MainImageUrl = "/images/products/product-dp25-lineup.jpg";
-        product.MainImageAlt = "Ống mềm nối đầu phun sprinkler DP25UB Đăng Phát Flex - dây mềm nối đầu phun sprinkler thành phẩm";
+        // Sản phẩm 2: DP25B (có bện).
+        var dp25b = new Product
+        {
+            ProductCategory = category,
+            Name = "Đăng Phát Flex DP25B",
+            Slug = slugService.GenerateSlug("Dang Phat Flex DP25B"),
+            Description = "Ống mềm nối đầu phun sprinkler DP25B (có bện) — bổ sung lớp lưới thép inox bện quanh " +
+                "thân ống, tăng khả năng chịu áp lực đột ngột và chống rung động. Khuyến nghị cho nhà xưởng, kho " +
+                "vận và công trình yêu cầu chứng nhận FM.",
+            InnerDiameter = "24.2mm",
+            OuterDiameter = "24.8mm",
+            HoseType = "Ống gân xoắn có bện lưới thép (Braided Helical Corrugated Hose), loại ren (Threaded)",
+            MaxTemperature = "107°C (225°F)",
+            MaxPressure = "14kg/cm² (TCVN) / 200 psi (UL) / 200 psi (FM)",
+            MinBendRadius = "4 inch (UL/ULC) / 9 inch (FM)",
+            Standards = "UL, ULC, FM, TCVN",
+            MainImageUrl = "/images/products/product-packing-box.jpg",
+            MainImageAlt = "Ống mềm nối đầu phun sprinkler DP25B Đăng Phát Flex - dây mềm nối đầu phun sprinkler có bện",
+            MetaTitle = "Ống mềm nối đầu phun sprinkler DP25B (có bện) - Đạt chuẩn UL/FM/TCVN | Đăng Phát Flex",
+            MetaDescription = "Ống mềm nối đầu phun sprinkler DP25B có bện lưới thép: chịu áp lực và chống rung tốt, đạt chuẩn UL/FM/TCVN cho nhà xưởng, kho vận."
+        };
+        AddVariants(dp25b, bVariants);
+        dp25b.Accessories.AddRange(BuildStandardAccessories());
 
-        product.Accessories.Add(new Accessory { Name = "Côn giảm", DefaultQuantity = 1 });
-        product.Accessories.Add(new Accessory { Name = "Đai ốc", DefaultQuantity = 2 });
-        product.Accessories.Add(new Accessory { Name = "Gioăng cao su", DefaultQuantity = 2 });
-        product.Accessories.Add(new Accessory { Name = "Vòng đệm nhựa", DefaultQuantity = 2 });
-        product.Accessories.Add(new Accessory { Name = "Thanh ngang", DefaultQuantity = 1 });
-        product.Accessories.Add(new Accessory
+        // Sản phẩm 3: bộ phụ kiện & giá đỡ (không có biến thể) — trang chi tiết tự ẩn bảng mã
+        // sản phẩm và các dòng thông số bỏ trống.
+        var accessoriesKit = new Product
         {
-            Name = "Kẹp giữa",
-            DefaultQuantity = 1,
-            ImageUrl = "/images/products/accessory-clamp-assembled.jpg",
-            ImageAlt = "Kẹp giữa phụ kiện khớp nối mềm inox Đăng Phát Flex"
-        });
-        product.Accessories.Add(new Accessory
-        {
-            Name = "Kẹp bên",
-            DefaultQuantity = 2,
-            ImageUrl = "/images/products/accessory-clamp-parts-1.jpg",
-            ImageAlt = "Kẹp bên phụ kiện khớp nối mềm inox Đăng Phát Flex"
-        });
-        product.Accessories.Add(new Accessory
-        {
-            Name = "Nipple",
-            DefaultQuantity = 1,
-            ImageUrl = "/images/products/accessory-nipple-reducer-washer.jpg",
-            ImageAlt = "Nipple, côn giảm và vòng đệm nhựa phụ kiện Đăng Phát Flex"
-        });
+            ProductCategory = category,
+            Name = "Phụ kiện & giá đỡ khớp nối mềm inox",
+            Slug = slugService.GenerateSlug("Phu kien gia do khop noi mem inox"),
+            Description = "Bộ phụ kiện đồng bộ cho hệ khớp nối mềm inox: giá đỡ (kẹp giữa / kẹp bên), nipple, " +
+                "côn giảm, đai ốc, gioăng cao su và vòng đệm nhựa — đầy đủ chi tiết để lắp đặt hoàn thiện một " +
+                "điểm đầu phun sprinkler.",
+            HoseType = "Giá đỡ, nipple, côn giảm, đai ốc, gioăng cao su, vòng đệm nhựa",
+            Standards = "UL, FM, TCVN",
+            MainImageUrl = "/images/products/product-nipple-gasket-group.jpg",
+            MainImageAlt = "Bộ phụ kiện và giá đỡ khớp nối mềm inox Đăng Phát Flex - nipple, côn giảm, gioăng",
+            MetaTitle = "Phụ kiện & giá đỡ khớp nối mềm inox - Nipple, côn giảm, kẹp giữ | Đăng Phát Flex",
+            MetaDescription = "Bộ phụ kiện đồng bộ cho ống mềm nối đầu phun sprinkler: giá đỡ, nipple, côn giảm, gioăng, vòng đệm — đầy đủ để lắp đặt hoàn thiện."
+        };
+        accessoriesKit.Accessories.AddRange(BuildStandardAccessories());
 
         context.ProductCategories.Add(category);
-        context.Products.Add(product);
+        context.Products.AddRange(dp25ub, dp25b, accessoriesKit);
         context.SaveChanges();
     }
 
