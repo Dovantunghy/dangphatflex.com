@@ -3,6 +3,12 @@
 @inject AppDbContext LayoutDbContext
 @{
     var footerCompany = await LayoutDbContext.CompanyInfos.AsNoTracking().FirstOrDefaultAsync();
+    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+
+    string NavClass(string controllerName) =>
+        string.Equals(currentController, controllerName, StringComparison.OrdinalIgnoreCase)
+            ? "nav-link active"
+            : "nav-link";
 }
 <!DOCTYPE html>
 <html lang="vi">
@@ -16,32 +22,45 @@
 </head>
 <body>
     <header class="site-header">
+        <div class="topbar">
+            <div class="container topbar-inner">
+                <a class="topbar-item" href="mailto:@footerCompany?.Email">
+                    @await Html.PartialAsync("_Icon", "mail")
+                    <span>@footerCompany?.Email</span>
+                </a>
+                <span class="topbar-item d-none d-md-flex">
+                    @await Html.PartialAsync("_Icon", "clock")
+                    <span>Giờ làm việc: T2 - T7, 8:00 - 17:30</span>
+                </span>
+                <span class="topbar-item topbar-item--address d-none d-lg-flex ms-auto">
+                    @await Html.PartialAsync("_Icon", "map-pin")
+                    <span>@footerCompany?.Address</span>
+                </span>
+            </div>
+        </div>
         <nav class="navbar navbar-expand-lg site-navbar">
             <div class="container">
                 <a class="navbar-brand" asp-area="Public" asp-controller="Home" asp-action="Index">
                     <img src="~/images/logo.png" alt="Đăng Phát Flex - Giải pháp khớp nối mềm inox" height="52" />
                 </a>
-                <a class="navbar-hotline d-none d-lg-flex ms-auto me-4" href="tel:@(footerCompany?.Hotline?.Replace(".", "").Replace(" ", ""))">
-                    @await Html.PartialAsync("_Icon", "phone")
-                    <span>@footerCompany?.Hotline</span>
-                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Mở menu điều hướng">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="mainNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item"><a class="nav-link" asp-area="Public" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="Public" asp-controller="About" asp-action="Index">Giới thiệu</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="Public" asp-controller="Products" asp-action="Index">Sản phẩm</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="Public" asp-controller="News" asp-action="Index">Tin tức</a></li>
-                        <li class="nav-item"><a class="nav-link" asp-area="Public" asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
-                        <li class="nav-item d-lg-none">
-                            <a class="nav-link navbar-hotline" href="tel:@(footerCompany?.Hotline?.Replace(".", "").Replace(" ", ""))">
-                                @await Html.PartialAsync("_Icon", "phone")
-                                <span>@footerCompany?.Hotline</span>
-                            </a>
-                        </li>
+                    <ul class="navbar-nav mx-lg-auto">
+                        <li class="nav-item"><a class="@NavClass("Home")" asp-area="Public" asp-controller="Home" asp-action="Index">Trang chủ</a></li>
+                        <li class="nav-item"><a class="@NavClass("About")" asp-area="Public" asp-controller="About" asp-action="Index">Giới thiệu</a></li>
+                        <li class="nav-item"><a class="@NavClass("Products")" asp-area="Public" asp-controller="Products" asp-action="Index">Sản phẩm</a></li>
+                        <li class="nav-item"><a class="@NavClass("News")" asp-area="Public" asp-controller="News" asp-action="Index">Tin tức</a></li>
+                        <li class="nav-item"><a class="@NavClass("Contact")" asp-area="Public" asp-controller="Contact" asp-action="Index">Liên hệ</a></li>
                     </ul>
+                    <div class="navbar-cta">
+                        <a class="navbar-hotline" href="tel:@(footerCompany?.Hotline?.Replace(".", "").Replace(" ", ""))">
+                            @await Html.PartialAsync("_Icon", "phone")
+                            <span>@footerCompany?.Hotline</span>
+                        </a>
+                        <a class="btn btn-brand" asp-area="Public" asp-controller="Contact" asp-action="Index">Yêu cầu báo giá</a>
+                    </div>
                 </div>
             </div>
         </nav>
