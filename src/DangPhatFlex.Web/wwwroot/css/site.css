@@ -153,12 +153,70 @@ a:hover {
     z-index: 1030;
 }
 
+.topbar {
+    background: var(--dpf-blue-darker);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.82rem;
+}
+
+.topbar-inner {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    padding: 7px 0;
+}
+
+.topbar-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: inherit;
+    white-space: nowrap;
+}
+
+a.topbar-item:hover {
+    color: #fff;
+}
+
+.topbar-item .dpf-icon {
+    width: 0.95em;
+    height: 0.95em;
+    color: var(--dpf-gold);
+}
+
+.topbar-item--address span {
+    max-width: 360px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .site-header .site-navbar {
     background: #fff;
     box-shadow: var(--dpf-shadow-sm);
     padding-top: 10px;
     padding-bottom: 10px;
     transition: box-shadow 200ms ease-out;
+}
+
+.navbar-cta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 24px;
+    padding-left: 24px;
+    border-left: 1px solid var(--dpf-gray-200);
+}
+
+@media (max-width: 991.98px) {
+    .navbar-cta {
+        margin: 16px 0 0;
+        padding: 16px 0 0;
+        border-left: none;
+        border-top: 1px solid var(--dpf-gray-200);
+        justify-content: space-between;
+    }
 }
 
 .navbar-brand img {
@@ -183,6 +241,7 @@ a:hover {
 }
 
 .site-navbar .nav-link {
+    position: relative;
     color: var(--dpf-gray-700);
     font-weight: 600;
     padding: 10px 16px !important;
@@ -198,6 +257,27 @@ a:hover {
 
 .site-navbar .nav-link.active {
     color: var(--dpf-blue);
+}
+
+.site-navbar .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 2px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--dpf-gold);
+}
+
+@media (max-width: 991.98px) {
+    .site-navbar .nav-link.active::after {
+        display: none;
+    }
+
+    .site-navbar .nav-link.active {
+        background: rgba(11, 95, 168, 0.08);
+    }
 }
 
 /* ---------- Hero ---------- */
