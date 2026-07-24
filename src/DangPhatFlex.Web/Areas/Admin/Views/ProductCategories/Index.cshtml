@@ -1,25 +1,54 @@
 @model List<DangPhatFlex.Web.Models.ProductCategory>
 
-<section class="container py-4">
+<div class="admin-page-head">
     <h1>Danh mục sản phẩm</h1>
-    <a class="btn btn-brand mb-3" asp-action="Create">Thêm danh mục</a>
-    <table class="table">
-        <thead><tr><th>Tên</th><th>Slug</th><th></th></tr></thead>
-        <tbody>
-            @foreach (var c in Model)
-            {
-                <tr>
-                    <td>@c.Name</td>
-                    <td>@c.Slug</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@c.Id">Sửa</a>
-                        <form asp-action="Delete" asp-route-id="@c.Id" method="post" class="d-inline">
-                            <button type="submit" class="btn btn-link text-danger p-0 ms-2"
-                                    onclick="return confirm('Xóa danh mục này?');">Xóa</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</section>
+    <a class="btn btn-brand" asp-action="Create">
+        @await Html.PartialAsync("_Icon", "plus")
+        Thêm danh mục
+    </a>
+</div>
+
+<div class="admin-card admin-card--flush">
+    @if (!Model.Any())
+    {
+        <div class="admin-empty">Chưa có danh mục nào. Bấm “Thêm danh mục” để tạo mới.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Tên danh mục</th>
+                        <th>Đường dẫn</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td class="fw-semibold">@c.Name</td>
+                            <td><span class="admin-slug">@c.Slug</span></td>
+                            <td>
+                                <div class="admin-table__actions">
+                                    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@c.Id">
+                                        @await Html.PartialAsync("_Icon", "edit")
+                                        Sửa
+                                    </a>
+                                    <form asp-action="Delete" asp-route-id="@c.Id" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-outline-danger"
+                                                onclick="return confirm('Xóa danh mục “@c.Name”?');">
+                                            @await Html.PartialAsync("_Icon", "trash")
+                                            Xóa
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

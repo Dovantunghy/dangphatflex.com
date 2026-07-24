@@ -4,8 +4,11 @@
     var categories = ViewData["Categories"] as List<DangPhatFlex.Web.Models.ProductCategory> ?? new();
 }
 
-<section class="container py-4">
+<div class="admin-page-head">
     <h1>Sửa sản phẩm</h1>
+</div>
+
+<div class="admin-card admin-form">
     <form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -51,4 +54,4 @@
         <div class="mb-3"><label asp-for="MetaDescription" class="form-label"></label><textarea asp-for="MetaDescription" class="form-control"></textarea></div>
         <button type="submit" class="btn btn-brand">Lưu</button>
     </form>
-</section>
+</div>

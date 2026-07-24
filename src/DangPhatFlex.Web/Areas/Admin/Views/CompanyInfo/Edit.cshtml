@@ -1,7 +1,10 @@
 @model DangPhatFlex.Web.Models.CompanyInfo
 
-<section class="container py-4">
+<div class="admin-page-head">
     <h1>Thông tin công ty</h1>
+</div>
+
+<div class="admin-card admin-form">
     <form asp-action="Edit" method="post">
         <input type="hidden" asp-for="Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -21,4 +24,4 @@
         <div class="mb-3"><label asp-for="CoreValueCompetitivePrice" class="form-label"></label><input asp-for="CoreValueCompetitivePrice" class="form-control" /></div>
         <button type="submit" class="btn btn-brand">Lưu</button>
     </form>
-</section>
+</div>

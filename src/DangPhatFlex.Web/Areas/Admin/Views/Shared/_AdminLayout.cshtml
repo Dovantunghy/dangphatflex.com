@@ -1,0 +1,91 @@
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> AdminUserManager
+@{
+    // Đánh dấu mục menu đang mở dựa trên controller hiện tại.
+    var current = (ViewContext.RouteData.Values["controller"] as string) ?? string.Empty;
+    Func<string, string> navClass = c =>
+        string.Equals(current, c, StringComparison.OrdinalIgnoreCase)
+            ? "admin-nav__link is-active"
+            : "admin-nav__link";
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Quản trị · Đăng Phát Flex</title>
+    <link rel="icon" href="~/favicon.ico" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/admin.css" asp-append-version="true" />
+</head>
+<body class="admin-body">
+    <div class="admin-shell">
+        <aside class="admin-sidebar">
+            <a class="admin-brand" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                <img src="~/images/logo.png" alt="Đăng Phát Flex" height="34" />
+                <span>Quản trị</span>
+            </a>
+
+            <nav class="admin-nav" aria-label="Menu quản trị">
+                <a class="@navClass("Dashboard")" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                    @await Html.PartialAsync("_Icon", "grid")
+                    <span>Bảng điều khiển</span>
+                </a>
+                <a class="@navClass("ProductCategories")" asp-area="Admin" asp-controller="ProductCategories" asp-action="Index">
+                    @await Html.PartialAsync("_Icon", "layers")
+                    <span>Danh mục sản phẩm</span>
+                </a>
+                <a class="@navClass("Products")" asp-area="Admin" asp-controller="Products" asp-action="Index">
+                    @await Html.PartialAsync("_Icon", "pipe")
+                    <span>Sản phẩm</span>
+                </a>
+                <a class="@navClass("News")" asp-area="Admin" asp-controller="News" asp-action="Index">
+                    @await Html.PartialAsync("_Icon", "file-text")
+                    <span>Tin tức</span>
+                </a>
+                <a class="@navClass("CompanyInfo")" asp-area="Admin" asp-controller="CompanyInfo" asp-action="Edit">
+                    @await Html.PartialAsync("_Icon", "building")
+                    <span>Thông tin công ty</span>
+                </a>
+                <a class="@navClass("ContactSubmissions")" asp-area="Admin" asp-controller="ContactSubmissions" asp-action="Index">
+                    @await Html.PartialAsync("_Icon", "inbox")
+                    <span>Liên hệ khách gửi</span>
+                </a>
+            </nav>
+
+            <a class="admin-sidebar__foot" asp-area="Public" asp-controller="Home" asp-action="Index" target="_blank" rel="noopener">
+                @await Html.PartialAsync("_Icon", "external-link")
+                <span>Xem website</span>
+            </a>
+        </aside>
+
+        <div class="admin-main">
+            <header class="admin-topbar">
+                <span class="admin-topbar__label">Khu vực quản trị</span>
+                <div class="admin-user">
+                    <span class="admin-user__name" title="Tài khoản đang đăng nhập">
+                        @AdminUserManager.GetUserName(User)
+                    </span>
+                    <form asp-area="Identity" asp-page="/Account/Logout"
+                          asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Public" })"
+                          method="post">
+                        <button type="submit" class="btn btn-sm btn-outline-primary admin-logout">
+                            @await Html.PartialAsync("_Icon", "log-out")
+                            <span>Đăng xuất</span>
+                        </button>
+                    </form>
+                </div>
+            </header>
+
+            <main class="admin-content">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

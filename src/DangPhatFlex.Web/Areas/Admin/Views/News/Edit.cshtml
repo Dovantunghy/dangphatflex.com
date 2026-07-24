@@ -1,7 +1,10 @@
 @model DangPhatFlex.Web.Areas.Admin.Models.NewsArticleFormViewModel
 
-<section class="container py-4">
+<div class="admin-page-head">
     <h1>Sửa bài viết</h1>
+</div>
+
+<div class="admin-card admin-form">
     <form asp-action="Edit" asp-route-id="@Model.Id" method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -43,4 +46,4 @@
         </div>
         <button type="submit" class="btn btn-brand">Lưu</button>
     </form>
-</section>
+</div>

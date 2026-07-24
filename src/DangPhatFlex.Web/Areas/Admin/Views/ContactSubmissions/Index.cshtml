@@ -1,29 +1,68 @@
 @model List<DangPhatFlex.Web.Models.ContactSubmission>
 
-<section class="container py-4">
+<div class="admin-page-head">
     <h1>Liên hệ khách gửi</h1>
-    <table class="table">
-        <thead><tr><th>Ngày</th><th>Họ tên</th><th>SĐT</th><th>Email</th><th>Nội dung</th><th>Trạng thái</th><th></th></tr></thead>
-        <tbody>
-            @foreach (var c in Model)
-            {
-                <tr class="@(c.IsProcessed ? "" : "table-warning")">
-                    <td>@c.SubmittedAt.ToString("dd/MM/yyyy HH:mm")</td>
-                    <td>@c.FullName</td>
-                    <td>@c.Phone</td>
-                    <td>@c.Email</td>
-                    <td>@c.Message</td>
-                    <td>@(c.IsProcessed ? "Đã xử lý" : "Mới")</td>
-                    <td>
-                        @if (!c.IsProcessed)
-                        {
-                            <form asp-action="MarkProcessed" asp-route-id="@c.Id" method="post">
-                                <button type="submit" class="btn btn-sm btn-outline-success">Đánh dấu đã xử lý</button>
-                            </form>
-                        }
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-</section>
+    <span class="text-body-secondary small">
+        @Model.Count(c => !c.IsProcessed) chưa xử lý / @Model.Count tổng cộng
+    </span>
+</div>
+
+<div class="admin-card admin-card--flush">
+    @if (!Model.Any())
+    {
+        <div class="admin-empty">Chưa có liên hệ nào được gửi từ website.</div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>Ngày gửi</th>
+                        <th>Họ tên</th>
+                        <th>SĐT</th>
+                        <th>Email</th>
+                        <th>Nội dung</th>
+                        <th>Trạng thái</th>
+                        <th class="text-end">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var c in Model)
+                    {
+                        <tr>
+                            <td class="text-nowrap">@c.SubmittedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                            <td class="fw-semibold">@c.FullName</td>
+                            <td class="text-nowrap">@c.Phone</td>
+                            <td>@c.Email</td>
+                            <td style="min-width:260px;">@c.Message</td>
+                            <td>
+                                @if (c.IsProcessed)
+                                {
+                                    <span class="badge-done">Đã xử lý</span>
+                                }
+                                else
+                                {
+                                    <span class="badge-new">Mới</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="admin-table__actions">
+                                    @if (!c.IsProcessed)
+                                    {
+                                        <form asp-action="MarkProcessed" asp-route-id="@c.Id" method="post">
+                                            <button type="submit" class="btn btn-outline-primary text-nowrap">
+                                                @await Html.PartialAsync("_Icon", "check-circle")
+                                                Đánh dấu đã xử lý
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

@@ -1,7 +1,10 @@
 @model DangPhatFlex.Web.Models.ProductCategory
 
-<section class="container py-4">
+<div class="admin-page-head">
     <h1>Thêm danh mục</h1>
+</div>
+
+<div class="admin-card admin-form">
     <form asp-action="Create" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="mb-3">
@@ -18,4 +21,4 @@
         </div>
         <button type="submit" class="btn btn-brand">Lưu</button>
     </form>
-</section>
+</div>

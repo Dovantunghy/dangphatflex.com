@@ -1,18 +1,117 @@
-<section class="container py-4">
+@{
+    var recent = ViewData["RecentContacts"] as List<ContactSubmission> ?? new();
+    var newContacts = (int)(ViewData["NewContactCount"] ?? 0);
+}
+
+<div class="admin-page-head">
     <h1>Bảng điều khiển</h1>
-    <div class="row g-3">
-        <div class="col-md-4">
-            <div class="card p-3"><strong>Sản phẩm:</strong> @ViewData["ProductCount"]</div>
-        </div>
-        <div class="col-md-4">
-            <div class="card p-3"><strong>Liên hệ mới:</strong> @ViewData["NewContactCount"]</div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <a class="stat-card" asp-controller="Products" asp-action="Index">
+            <span class="icon-box">@await Html.PartialAsync("_Icon", "pipe")</span>
+            <span>
+                <span class="stat-card__value">@ViewData["ProductCount"]</span>
+                <span class="stat-card__label d-block">Sản phẩm</span>
+            </span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <a class="stat-card" asp-controller="ProductCategories" asp-action="Index">
+            <span class="icon-box">@await Html.PartialAsync("_Icon", "layers")</span>
+            <span>
+                <span class="stat-card__value">@ViewData["CategoryCount"]</span>
+                <span class="stat-card__label d-block">Danh mục</span>
+            </span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <a class="stat-card" asp-controller="News" asp-action="Index">
+            <span class="icon-box">@await Html.PartialAsync("_Icon", "file-text")</span>
+            <span>
+                <span class="stat-card__value">@ViewData["NewsCount"]</span>
+                <span class="stat-card__label d-block">Bài viết</span>
+            </span>
+        </a>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <a class="stat-card @(newContacts > 0 ? "stat-card--alert" : "")" asp-controller="ContactSubmissions" asp-action="Index">
+            <span class="icon-box icon-box--gold">@await Html.PartialAsync("_Icon", "inbox")</span>
+            <span>
+                <span class="stat-card__value">@newContacts</span>
+                <span class="stat-card__label d-block">Liên hệ chưa xử lý</span>
+            </span>
+        </a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="admin-card admin-card--flush">
+            <div class="d-flex align-items-center justify-content-between p-3 border-bottom">
+                <h2 class="h6 mb-0">Liên hệ gần đây</h2>
+                <a class="btn btn-sm btn-outline-primary" asp-controller="ContactSubmissions" asp-action="Index">
+                    Xem tất cả
+                    @await Html.PartialAsync("_Icon", "arrow-right")
+                </a>
+            </div>
+            @if (!recent.Any())
+            {
+                <div class="admin-empty">Chưa có liên hệ nào được gửi.</div>
+            }
+            else
+            {
+                <table class="table">
+                    <thead>
+                        <tr><th>Ngày</th><th>Họ tên</th><th>SĐT</th><th>Trạng thái</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var c in recent)
+                        {
+                            <tr>
+                                <td>@c.SubmittedAt.ToString("dd/MM/yyyy HH:mm")</td>
+                                <td>@c.FullName</td>
+                                <td>@c.Phone</td>
+                                <td>
+                                    @if (c.IsProcessed)
+                                    {
+                                        <span class="badge-done">Đã xử lý</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge-new">Mới</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
     </div>
-    <ul class="mt-4">
-        <li><a asp-controller="ProductCategories" asp-action="Index">Quản lý danh mục sản phẩm</a></li>
-        <li><a asp-controller="Products" asp-action="Index">Quản lý sản phẩm</a></li>
-        <li><a asp-controller="News" asp-action="Index">Quản lý tin tức</a></li>
-        <li><a asp-controller="CompanyInfo" asp-action="Edit">Thông tin công ty</a></li>
-        <li><a asp-controller="ContactSubmissions" asp-action="Index">Danh sách liên hệ</a></li>
-    </ul>
-</section>
+
+    <div class="col-lg-5">
+        <div class="admin-card">
+            <h2 class="h6 mb-3">Thao tác nhanh</h2>
+            <div class="d-grid gap-2">
+                <a class="btn btn-brand" asp-controller="Products" asp-action="Create">
+                    @await Html.PartialAsync("_Icon", "plus")
+                    Thêm sản phẩm
+                </a>
+                <a class="btn btn-outline-primary" asp-controller="News" asp-action="Create">
+                    @await Html.PartialAsync("_Icon", "plus")
+                    Thêm bài viết
+                </a>
+                <a class="btn btn-outline-primary" asp-controller="ProductCategories" asp-action="Create">
+                    @await Html.PartialAsync("_Icon", "plus")
+                    Thêm danh mục
+                </a>
+                <a class="btn btn-outline-primary" asp-controller="CompanyInfo" asp-action="Edit">
+                    @await Html.PartialAsync("_Icon", "building")
+                    Sửa thông tin công ty
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
