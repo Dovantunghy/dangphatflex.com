@@ -85,6 +85,10 @@
                         <span>@footerCompany?.Address</span>
                     </div>
                     <div class="footer-contact-row">
+                        @await Html.PartialAsync("_Icon", "boxes")
+                        <span>Nhà máy: Tổ 26, Phường Việt Hưng, TP. Hà Nội</span>
+                    </div>
+                    <div class="footer-contact-row">
                         @await Html.PartialAsync("_Icon", "phone")
                         <a href="tel:@(footerCompany?.Hotline?.Replace(".", "").Replace(" ", ""))">@footerCompany?.Hotline</a>
                     </div>
@@ -95,7 +99,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; @DateTime.Now.Year @footerCompany?.LegalName - Đăng Phát Flex. Đã đăng ký bản quyền.
+                &copy; @DateTime.Now.Year @footerCompany?.LegalName - Đăng Phát Flex. MST: 0109665394. Đã đăng ký bản quyền.
             </div>
         </div>
     </footer>

@@ -57,11 +57,41 @@ public static class DbSeeder
         // sản phẩm thay vì dùng chung một tập instance.
         List<Accessory> BuildStandardAccessories() =>
         [
-            new() { Name = "Côn giảm", DefaultQuantity = 1 },
-            new() { Name = "Đai ốc", DefaultQuantity = 2 },
-            new() { Name = "Gioăng cao su", DefaultQuantity = 2 },
-            new() { Name = "Vòng đệm nhựa", DefaultQuantity = 2 },
-            new() { Name = "Thanh ngang", DefaultQuantity = 1 },
+            new()
+            {
+                Name = "Côn giảm",
+                DefaultQuantity = 1,
+                ImageUrl = "/images/products/accessory-reducer.jpg",
+                ImageAlt = "Côn giảm ren 1/2\" - 3/4\" cho ống mềm nối đầu phun sprinkler Đăng Phát Flex"
+            },
+            new()
+            {
+                Name = "Đai ốc",
+                DefaultQuantity = 2,
+                ImageUrl = "/images/products/product-dp25-label-detail.jpg",
+                ImageAlt = "Đai ốc siết đầu nối ống mềm nối đầu phun sprinkler Đăng Phát Flex"
+            },
+            new()
+            {
+                Name = "Gioăng cao su",
+                DefaultQuantity = 2,
+                ImageUrl = "/images/products/product-nipple-gasket-group.jpg",
+                ImageAlt = "Gioăng cao su làm kín đầu nối ống mềm inox Đăng Phát Flex"
+            },
+            new()
+            {
+                Name = "Vòng đệm nhựa",
+                DefaultQuantity = 2,
+                ImageUrl = "/images/products/accessory-nipple-reducer-washer.jpg",
+                ImageAlt = "Vòng đệm nhựa phụ kiện ống mềm nối đầu phun sprinkler Đăng Phát Flex"
+            },
+            new()
+            {
+                Name = "Thanh ngang",
+                DefaultQuantity = 1,
+                ImageUrl = "/images/products/accessory-square-bar.jpg",
+                ImageAlt = "Thanh ngang (square bar) gá ống mềm nối đầu phun trên khung trần"
+            },
             new()
             {
                 Name = "Kẹp giữa",
@@ -100,6 +130,8 @@ public static class DbSeeder
             }
         }
 
+        // Dải mã đầy đủ theo bảng "List sp" trong báo giá của công ty. MaxBends = 0 nghĩa là
+        // chưa có số liệu công bố cho chiều dài đó (view sẽ hiển thị "—" thay vì số bịa).
         var ubVariants = new (string Code, string InletOutlet, int LengthMm, int MaxBends)[]
         {
             ("DP25UB-15-700", "1x1/2", 700, 2),
@@ -107,11 +139,17 @@ public static class DbSeeder
             ("DP25UB-15-1200", "1x1/2", 1200, 3),
             ("DP25UB-15-1500", "1x1/2", 1500, 3),
             ("DP25UB-15-1800", "1x1/2", 1800, 3),
+            ("DP25UB-15-2000", "1x1/2", 2000, 0),
+            ("DP25UB-15-2500", "1x1/2", 2500, 0),
+            ("DP25UB-15-3000", "1x1/2", 3000, 0),
             ("DP25UB-20-700", "1x3/4", 700, 2),
             ("DP25UB-20-1000", "1x3/4", 1000, 3),
             ("DP25UB-20-1200", "1x3/4", 1200, 3),
             ("DP25UB-20-1500", "1x3/4", 1500, 3),
             ("DP25UB-20-1800", "1x3/4", 1800, 3),
+            ("DP25UB-20-2000", "1x3/4", 2000, 0),
+            ("DP25UB-20-2500", "1x3/4", 2500, 0),
+            ("DP25UB-20-3000", "1x3/4", 3000, 0),
         };
 
         var bVariants = new (string Code, string InletOutlet, int LengthMm, int MaxBends)[]
@@ -136,8 +174,9 @@ public static class DbSeeder
             Name = "Đăng Phát Flex DP25UB",
             Slug = slugService.GenerateSlug("Dang Phat Flex DP25"),
             Description = "Ống mềm nối đầu phun sprinkler DP25UB (không bện) — thân ống gân xoắn inox 304 " +
-                "(Helical Corrugated Hose), đầu vào ren 1\", đầu ra 1/2\" hoặc 3/4\". Trọng lượng nhẹ, thi công " +
-                "nhanh, phù hợp công trình dân dụng, văn phòng và trung tâm thương mại.",
+                "(Helical Corrugated Hose), đầu vào ren 1\", đầu ra 1/2\" hoặc 3/4\", đủ chiều dài từ 700mm " +
+                "đến 3000mm. Trọng lượng nhẹ, thi công nhanh, phù hợp công trình dân dụng, văn phòng và " +
+                "trung tâm thương mại.",
             InnerDiameter = "24.2mm",
             OuterDiameter = "24.8mm",
             HoseType = "Ống gân xoắn không bện (Unbraided Helical Corrugated Hose), loại ren (Threaded)",
@@ -160,8 +199,8 @@ public static class DbSeeder
             Name = "Đăng Phát Flex DP25B",
             Slug = slugService.GenerateSlug("Dang Phat Flex DP25B"),
             Description = "Ống mềm nối đầu phun sprinkler DP25B (có bện) — bổ sung lớp lưới thép inox bện quanh " +
-                "thân ống, tăng khả năng chịu áp lực đột ngột và chống rung động. Khuyến nghị cho nhà xưởng, kho " +
-                "vận và công trình yêu cầu chứng nhận FM.",
+                "thân ống, tăng khả năng chịu áp lực đột ngột và chống rung động, chiều dài 700–1800mm. " +
+                "Khuyến nghị cho nhà xưởng, kho vận và công trình yêu cầu chứng nhận FM.",
             InnerDiameter = "24.2mm",
             OuterDiameter = "24.8mm",
             HoseType = "Ống gân xoắn có bện lưới thép (Braided Helical Corrugated Hose), loại ren (Threaded)",

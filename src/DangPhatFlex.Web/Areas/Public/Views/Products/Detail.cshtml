@@ -130,19 +130,37 @@
                                     <td><code>@v.ProductCode</code></td>
                                     <td>@v.InletOutlet</td>
                                     <td>@v.InstallLengthMm</td>
-                                    <td>@v.MaxBends90</td>
+                                    <td>@(v.MaxBends90 > 0 ? v.MaxBends90.ToString() : "—")</td>
                                     <td>@v.MinBendRadiusIn</td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
+                @if (Model.Variants.Any(v => v.MaxBends90 == 0))
+                {
+                    <p class="text-body-secondary small mb-0">
+                        (—) Số lần uốn 90° tối đa cho các chiều dài từ 2000mm trở lên: vui lòng liên hệ bộ phận
+                        kỹ thuật để có số liệu theo đúng hồ sơ chứng nhận.
+                    </p>
+                }
             </div>
         }
 
         @if (Model.Accessories.Any())
         {
             <div class="mt-5">
+                <div class="kit-callout mb-4">
+                    <span class="icon-box icon-box--gold">@await Html.PartialAsync("_Icon", "boxes")</span>
+                    <div>
+                        <h3>Bộ hàng tiêu chuẩn — giao đủ @Model.Accessories.Count phụ kiện lắp đặt</h3>
+                        <p>
+                            Mỗi bộ giao đến công trình gồm ống mềm inox, <strong>tem kiểm định</strong> và đầy đủ
+                            <strong>@Model.Accessories.Count phụ kiện lắp đặt</strong> — trong đó có 1 thanh ngang,
+                            1 kẹp giữa và 2 kẹp bên. Lắp được ngay, không phải mua thêm chi tiết rời.
+                        </p>
+                    </div>
+                </div>
                 <h2 class="h4">Phụ kiện đi kèm</h2>
                 <div class="row g-3">
                     @foreach (var a in Model.Accessories)
@@ -165,5 +183,24 @@
                 </div>
             </div>
         }
+
+        <div class="mt-5">
+            <h2 class="h4">Sơ đồ &amp; hình ảnh lắp đặt</h2>
+            <p class="text-body-secondary">
+                Vị trí lắp đặt điển hình của bộ ống mềm nối đầu phun trên khung trần thả — từ đường ống chính
+                xuống đầu phun sprinkler.
+            </p>
+            <div class="row g-4 align-items-start">
+                <div class="col-lg-8">
+                    @await Html.PartialAsync("_InstallDiagram")
+                </div>
+                <div class="col-lg-4">
+                    <img src="~/images/products/install-context.jpg"
+                         alt="Ống mềm nối đầu phun sprinkler lắp trên khung trần thả, kết nối xuống đầu phun"
+                         class="img-fluid" style="border-radius: var(--dpf-radius-md); width:100%;" loading="lazy" />
+                    <p class="text-body-secondary small mt-2 mb-0">Ứng dụng thực tế trên khung trần thả.</p>
+                </div>
+            </div>
+        </div>
     </div>
 </section>

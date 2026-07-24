@@ -1,0 +1,111 @@
+@*
+    Sơ đồ lắp đặt bộ ống mềm nối đầu phun sprinkler — hình vector gốc do Đăng Phát Flex dựng,
+    không dùng lại hình ảnh/catalogue của bên thứ ba. Các số 1–8 tương ứng đúng 8 phụ kiện
+    lắp đặt đi kèm mỗi bộ hàng; chú thích để ngoài SVG (HTML) cho dễ đọc và dễ dịch.
+*@
+<div class="install-diagram">
+    <svg viewBox="0 0 880 396" role="img"
+         aria-label="Sơ đồ lắp đặt ống mềm nối đầu phun sprinkler: từ đường ống chính qua nipple, ống mềm inox, thanh ngang và kẹp giữ, côn giảm xuống đầu phun sprinkler dưới trần">
+        <defs>
+            <linearGradient id="dpfSteel" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#E3E8EE" />
+                <stop offset="45%" stop-color="#AEB8C4" />
+                <stop offset="100%" stop-color="#7C8794" />
+            </linearGradient>
+            <linearGradient id="dpfZinc" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#F2DC9A" />
+                <stop offset="55%" stop-color="#D9B65C" />
+                <stop offset="100%" stop-color="#B98D29" />
+            </linearGradient>
+            <linearGradient id="dpfHose" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#D7DEE6" />
+                <stop offset="50%" stop-color="#A8B3BF" />
+                <stop offset="100%" stop-color="#77828F" />
+            </linearGradient>
+        </defs>
+
+        <!-- Đường ống chính -->
+        <rect x="40" y="58" width="800" height="28" rx="7" fill="url(#dpfSteel)" />
+        <rect x="40" y="63" width="800" height="6" rx="3" fill="#fff" opacity=".3" />
+        <text x="44" y="46" font-size="13" font-weight="600" fill="#344054">Đường ống chính (branch line) — ren 1"</text>
+
+        <!-- 1. Nipple -->
+        <rect x="168" y="86" width="26" height="24" rx="3" fill="url(#dpfSteel)" stroke="#7C8794" stroke-width="1" />
+        <!-- 2. Gioăng cao su -->
+        <rect x="164" y="110" width="34" height="8" rx="4" fill="#3A3F47" />
+        <!-- 3. Đai ốc -->
+        <rect x="161" y="118" width="40" height="18" rx="4" fill="url(#dpfZinc)" stroke="#B98D29" stroke-width="1" />
+
+        <!-- Ống mềm inox (gân xoắn) -->
+        <path id="dpfHosePath" d="M181,136 C181,208 250,246 332,264 C414,282 470,297 548,299"
+              fill="none" stroke="#6F7A87" stroke-width="22" stroke-linecap="round" />
+        <path d="M181,136 C181,208 250,246 332,264 C414,282 470,297 548,299"
+              fill="none" stroke="url(#dpfHose)" stroke-width="17" stroke-linecap="round" />
+        <path d="M181,136 C181,208 250,246 332,264 C414,282 470,297 548,299"
+              fill="none" stroke="#6F7A87" stroke-width="17" stroke-linecap="butt"
+              stroke-dasharray="2 7" opacity=".55" />
+        <text x="196" y="332" font-size="13" font-weight="600" fill="#344054">Ống mềm inox DP25 (gân xoắn, inox 304)</text>
+
+        <!-- 4. Thanh ngang -->
+        <rect x="452" y="286" width="312" height="12" rx="3" fill="url(#dpfZinc)" stroke="#B98D29" stroke-width="1" />
+        <!-- 6. Kẹp bên (x2) -->
+        <rect x="442" y="278" width="20" height="28" rx="3" fill="url(#dpfZinc)" stroke="#B98D29" stroke-width="1" />
+        <rect x="754" y="278" width="20" height="28" rx="3" fill="url(#dpfZinc)" stroke="#B98D29" stroke-width="1" />
+        <!-- 5. Kẹp giữa -->
+        <rect x="530" y="274" width="44" height="34" rx="4" fill="url(#dpfZinc)" stroke="#B98D29" stroke-width="1.2" />
+        <rect x="541" y="283" width="22" height="16" rx="2" fill="#fff" opacity=".85" />
+
+        <!-- nối xuống đầu phun -->
+        <rect x="544" y="299" width="16" height="12" fill="url(#dpfSteel)" />
+        <!-- 7. Côn giảm -->
+        <polygon points="539,311 565,311 560,338 544,338" fill="url(#dpfSteel)" stroke="#7C8794" stroke-width="1" />
+        <!-- 8. Vòng đệm nhựa -->
+        <rect x="537" y="338" width="30" height="7" rx="3" fill="#5B6470" />
+
+        <!-- Trần thạch cao -->
+        <rect x="40" y="352" width="800" height="9" fill="#E4E7EC" />
+        <line x1="40" y1="352" x2="840" y2="352" stroke="#98A2B3" stroke-width="1.5" stroke-dasharray="7 5" />
+        <text x="44" y="379" font-size="12.5" fill="#5B6470">Trần thạch cao</text>
+
+        <!-- Đầu phun sprinkler -->
+        <rect x="545" y="345" width="14" height="18" fill="url(#dpfSteel)" />
+        <rect x="531" y="363" width="42" height="6" rx="2" fill="url(#dpfSteel)" />
+        <line x1="552" y1="369" x2="552" y2="376" stroke="#7C8794" stroke-width="2" />
+        <text x="590" y="374" font-size="12.5" fill="#5B6470">Đầu phun sprinkler (không kèm theo)</text>
+
+        <!-- Callouts -->
+        <g font-size="12" font-weight="700" text-anchor="middle">
+            <g stroke="#98A2B3" stroke-width="1" fill="none">
+                <line x1="118" y1="95" x2="166" y2="97" />
+                <line x1="118" y1="127" x2="162" y2="116" />
+                <line x1="118" y1="160" x2="159" y2="133" />
+                <line x1="806" y1="292" x2="768" y2="292" />
+                <line x1="552" y1="254" x2="552" y2="273" />
+                <line x1="452" y1="258" x2="452" y2="277" />
+                <line x1="624" y1="324" x2="566" y2="324" />
+                <line x1="624" y1="352" x2="569" y2="343" />
+            </g>
+            <g>
+                <circle cx="104" cy="94" r="13" fill="#0B5FA8" /><text x="104" y="99" fill="#fff">1</text>
+                <circle cx="104" cy="127" r="13" fill="#0B5FA8" /><text x="104" y="132" fill="#fff">2</text>
+                <circle cx="104" cy="160" r="13" fill="#0B5FA8" /><text x="104" y="165" fill="#fff">3</text>
+                <circle cx="820" cy="292" r="13" fill="#0B5FA8" /><text x="820" y="297" fill="#fff">4</text>
+                <circle cx="552" cy="241" r="13" fill="#0B5FA8" /><text x="552" y="246" fill="#fff">5</text>
+                <circle cx="452" cy="245" r="13" fill="#0B5FA8" /><text x="452" y="250" fill="#fff">6</text>
+                <circle cx="638" cy="324" r="13" fill="#0B5FA8" /><text x="638" y="329" fill="#fff">7</text>
+                <circle cx="638" cy="352" r="13" fill="#0B5FA8" /><text x="638" y="357" fill="#fff">8</text>
+            </g>
+        </g>
+    </svg>
+</div>
+
+<ol class="install-legend">
+    <li><span class="install-legend__no">1</span> Nipple đầu vào (ren 1" NPT/BSPT)</li>
+    <li><span class="install-legend__no">2</span> Gioăng cao su làm kín</li>
+    <li><span class="install-legend__no">3</span> Đai ốc siết đầu nối</li>
+    <li><span class="install-legend__no">4</span> Thanh ngang gá trên khung trần</li>
+    <li><span class="install-legend__no">5</span> Kẹp giữa định vị đầu ra</li>
+    <li><span class="install-legend__no">6</span> Kẹp bên cố định 2 đầu thanh ngang (×2)</li>
+    <li><span class="install-legend__no">7</span> Côn giảm xuống 1/2" hoặc 3/4"</li>
+    <li><span class="install-legend__no">8</span> Vòng đệm nhựa</li>
+</ol>
