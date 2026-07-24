@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
     --dpf-blue: #0B5FA8;
@@ -14,8 +14,8 @@
     --dpf-gray-100: #F5F7FA;
     --dpf-surface: #FFFFFF;
 
-    --dpf-font-heading: "Poppins", "Segoe UI", sans-serif;
-    --dpf-font-body: "Open Sans", "Segoe UI", sans-serif;
+    --dpf-font-heading: "Inter", "Segoe UI", sans-serif;
+    --dpf-font-body: "Inter", "Segoe UI", sans-serif;
 
     --dpf-radius-sm: 8px;
     --dpf-radius-md: 14px;
