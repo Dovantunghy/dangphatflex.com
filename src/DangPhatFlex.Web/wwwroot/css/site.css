@@ -1167,3 +1167,156 @@ a.topbar-item:hover {
     opacity: 1;
     transform: none;
 }
+
+/* ---------- Nút chat Zalo nổi ---------- */
+
+.zalo-widget {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 1045;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+.zalo-fab {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-direction: row-reverse;
+}
+
+.zalo-fab__icon {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #0068FF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 22px rgba(0, 104, 255, 0.45);
+    flex-shrink: 0;
+    transition: transform 150ms ease-out;
+}
+
+.zalo-fab:hover .zalo-fab__icon {
+    transform: translateY(-2px);
+}
+
+.zalo-fab__icon svg {
+    width: 42px;
+    height: 42px;
+}
+
+.zalo-fab__pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: #0068FF;
+    z-index: -1;
+    pointer-events: none;
+    animation: zaloPulse 2.2s ease-out infinite;
+}
+
+@keyframes zaloPulse {
+    0% { transform: scale(1); opacity: 0.5; }
+    100% { transform: scale(1.85); opacity: 0; }
+}
+
+.zalo-fab__label {
+    background: #fff;
+    color: var(--dpf-gray-900);
+    font-family: var(--dpf-font-heading);
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 9px 16px;
+    border-radius: 999px;
+    box-shadow: var(--dpf-shadow-md);
+    white-space: nowrap;
+}
+
+.zalo-widget__pop {
+    position: relative;
+    max-width: 250px;
+    background: #fff;
+    border-radius: var(--dpf-radius-md);
+    box-shadow: var(--dpf-shadow-lg);
+    border: 1px solid var(--dpf-gray-200);
+    padding: 16px 16px 14px;
+    animation: zaloPopIn 300ms ease-out;
+}
+
+.zalo-widget__pop[hidden] {
+    display: none;
+}
+
+@keyframes zaloPopIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+}
+
+.zalo-widget__text {
+    margin: 0 0 12px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--dpf-gray-700);
+}
+
+.zalo-widget__text strong {
+    display: block;
+    color: var(--dpf-gray-900);
+    margin-bottom: 4px;
+}
+
+.zalo-widget__cta {
+    display: inline-block;
+    background: #0068FF;
+    color: #fff;
+    font-family: var(--dpf-font-heading);
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 8px 18px;
+    border-radius: 999px;
+}
+
+.zalo-widget__cta:hover {
+    background: #0056d6;
+    color: #fff;
+}
+
+.zalo-widget__x {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    border: 0;
+    background: transparent;
+    font-size: 1.35rem;
+    line-height: 1;
+    color: var(--dpf-gray-400);
+    cursor: pointer;
+    padding: 2px 6px;
+}
+
+.zalo-widget__x:hover {
+    color: var(--dpf-gray-700);
+}
+
+@media (max-width: 575.98px) {
+    .zalo-widget {
+        right: 14px;
+        bottom: 14px;
+    }
+
+    .zalo-fab__label {
+        display: none;
+    }
+
+    .zalo-fab__icon {
+        width: 52px;
+        height: 52px;
+    }
+}

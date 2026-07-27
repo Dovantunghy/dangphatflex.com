@@ -126,6 +126,30 @@
             </div>
         </div>
     </footer>
+
+    @* Nút chat Zalo nổi — kết nối thẳng tới Zalo tư vấn (Ms Ngọc). *@
+    <div class="zalo-widget">
+        <div class="zalo-widget__pop" id="zaloPop" hidden>
+            <button type="button" class="zalo-widget__x" id="zaloClose" aria-label="Đóng">&times;</button>
+            <p class="zalo-widget__text">
+                <strong>👋 Cần tư vấn ống mềm sprinkler?</strong>
+                Chat Zalo với Ms Ngọc để được báo giá nhanh nhất.
+            </p>
+            <a class="zalo-widget__cta" href="https://zalo.me/0336046668" target="_blank" rel="noopener">Chat ngay</a>
+        </div>
+        <a class="zalo-fab" href="https://zalo.me/0336046668" target="_blank" rel="noopener"
+           aria-label="Chat Zalo tư vấn với Ms Ngọc, số 0336046668">
+            <span class="zalo-fab__pulse" aria-hidden="true"></span>
+            <span class="zalo-fab__icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 9C14.6 9 7 15.2 7 22.9c0 4.4 2.4 8.3 6.2 10.9-.2 1.7-.9 3.9-2.4 5.6-.5.6.1 1.4.8 1.2 3.1-.5 5.8-1.8 7.5-3 1.8.5 3.8.8 5.9.8 9.4 0 17-6.3 17-14S33.4 9 24 9Z" fill="#fff"/>
+                    <text x="24" y="27.5" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="12.5" font-weight="700" fill="#0068FF">Zalo</text>
+                </svg>
+            </span>
+            <span class="zalo-fab__label">Chat Zalo tư vấn</span>
+        </a>
+    </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

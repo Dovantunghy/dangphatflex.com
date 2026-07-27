@@ -139,3 +139,38 @@
         boot();
     }
 })();
+
+// Zalo greeting bubble: pops up shortly after load to invite a chat. The floating
+// button itself works with or without this; the bubble just adds a gentle nudge and
+// stays dismissed for the rest of the browsing session once closed.
+(function () {
+    "use strict";
+
+    function boot() {
+        var pop = document.getElementById("zaloPop");
+        var close = document.getElementById("zaloClose");
+        if (!pop || !close) {
+            return;
+        }
+
+        var dismissed = false;
+        try {
+            dismissed = window.sessionStorage.getItem("zaloPopClosed") === "1";
+        } catch (e) { /* sessionStorage may be unavailable */ }
+
+        if (!dismissed) {
+            setTimeout(function () { pop.hidden = false; }, 2500);
+        }
+
+        close.addEventListener("click", function () {
+            pop.hidden = true;
+            try { window.sessionStorage.setItem("zaloPopClosed", "1"); } catch (e) { /* ignore */ }
+        });
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", boot);
+    } else {
+        boot();
+    }
+})();
