@@ -22,7 +22,7 @@ public class ProductsController : Controller
             query = query.Where(p => p.ProductCategory!.Slug == categorySlug);
 
         ViewData["MetaTitle"] = "Ống mềm nối đầu phun sprinkler DP25UB/DP25B | Đăng Phát Flex";
-        ViewData["MetaDescription"] = "Danh sách ống mềm nối đầu phun sprinkler, dây mềm nối đầu phun sprinkler DP25UB, DP25B đạt chuẩn UL/FM/TCVN cho hệ thống chữa cháy.";
+        ViewData["MetaDescription"] = "Danh sách ống mềm nối đầu phun sprinkler, dây mềm nối đầu phun sprinkler DP25UB, DP25B sản xuất theo tiêu chuẩn UL/FM/TCVN cho hệ thống chữa cháy.";
         ViewData["Categories"] = await _context.ProductCategories.ToListAsync();
         return View(await query.ToListAsync());
     }

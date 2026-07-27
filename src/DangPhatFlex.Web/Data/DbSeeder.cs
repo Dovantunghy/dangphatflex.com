@@ -18,7 +18,7 @@ public static class DbSeeder
             AboutContent = "CÔNG TY TNHH CƠ ĐIỆN ĐĂNG PHÁT là doanh nghiệp chuyên sản xuất, nhập khẩu và " +
                 "phân phối các giải pháp khớp nối mềm inox và ống mềm inox dùng trong hệ thống cơ điện " +
                 "(M&E), đặc biệt là hệ thống phòng cháy chữa cháy (Fire Protection), HVAC và cấp thoát " +
-                "nước công nghiệp. Công ty tập trung cung cấp những sản phẩm đạt tiêu chuẩn kỹ thuật quốc " +
+                "nước công nghiệp. Công ty tập trung cung cấp những sản phẩm sản xuất theo tiêu chuẩn kỹ thuật quốc " +
                 "tế với khả năng giao hàng nhanh, giá cạnh tranh và dịch vụ kỹ thuật chuyên sâu. Chúng tôi " +
                 "tạo dựng uy tín trên thị trường bằng phương châm hoạt động xoay quanh ba yếu tố cơ bản: " +
                 "Nhanh nhất – Tốt nhất – Giá cả cạnh tranh nhất.",
@@ -31,13 +31,13 @@ public static class DbSeeder
                 "Giao hàng nhanh — có khả năng giao ngay đến công trình\n" +
                 "Chủ động nguồn hàng — nhập khẩu trực tiếp, không phụ thuộc nhiều vào trung gian\n" +
                 "Giá cạnh tranh — tối ưu chi phí cho nhà thầu\n" +
-                "Chất lượng — đạt tiêu chuẩn kỹ thuật quốc tế\n" +
+                "Chất lượng — sản xuất theo tiêu chuẩn kỹ thuật quốc tế\n" +
                 "Hỗ trợ kỹ thuật — tư vấn lựa chọn sản phẩm phù hợp với từng hệ thống",
             Address = "Tầng 2, Khu X3-2 Ngõ 68/45, Đường Nguyễn Văn Linh, P. Long Biên, TP. Hà Nội",
             Hotline = "0364.983.444",
             Email = "Info.dangphat@gmail.com",
             CoreValueFast = "Hàng hóa tại kho luôn đầy đủ chủng loại, giao hàng nhanh chóng đến tận chân công trình, đáp ứng nhanh các dự án.",
-            CoreValueBest = "Nghiên cứu sản phẩm liên tục, đạt tiêu chuẩn quốc tế, tư vấn kỹ thuật chuyên nghiệp, phù hợp nhiều loại công trình.",
+            CoreValueBest = "Nghiên cứu sản phẩm liên tục, sản xuất theo tiêu chuẩn quốc tế, tư vấn kỹ thuật chuyên nghiệp, phù hợp nhiều loại công trình.",
             CoreValueCompetitivePrice = "Chủ động nguồn hàng, nhập khẩu trực tiếp, tối ưu chi phí, mang lại giá bán cạnh tranh nhất.",
             MapEmbedUrl = "https://www.google.com/maps?q=Nguyen+Van+Linh,+Long+Bien,+Ha+Noi&output=embed"
         });
@@ -50,7 +50,7 @@ public static class DbSeeder
                 "sprinkler, là giải pháp kết nối linh hoạt giữa đường ống chính và đầu phun (sprinkler head) " +
                 "trong hệ thống chữa cháy tự động.",
             MetaTitle = "Ống mềm nối đầu phun sprinkler - Khớp nối mềm inox | Đăng Phát Flex",
-            MetaDescription = "Chuyên cung cấp ống mềm nối đầu phun sprinkler, dây mềm nối đầu phun sprinkler đạt chuẩn UL/FM/TCVN. Giao hàng nhanh, giá cạnh tranh."
+            MetaDescription = "Chuyên cung cấp ống mềm nối đầu phun sprinkler, dây mềm nối đầu phun sprinkler sản xuất theo tiêu chuẩn UL/FM/TCVN. Giao hàng nhanh, giá cạnh tranh."
         };
 
         // Mỗi Accessory thuộc về đúng một Product, nên tạo mới danh sách phụ kiện cho từng
@@ -186,8 +186,8 @@ public static class DbSeeder
             Standards = "UL, ULC, FM, TCVN",
             MainImageUrl = "/images/products/product-dp25-lineup.jpg",
             MainImageAlt = "Ống mềm nối đầu phun sprinkler DP25UB Đăng Phát Flex - dây mềm nối đầu phun sprinkler không bện",
-            MetaTitle = "Ống mềm nối đầu phun sprinkler DP25UB (không bện) - Đạt chuẩn UL/FM/TCVN | Đăng Phát Flex",
-            MetaDescription = "Ống mềm nối đầu phun sprinkler DP25UB không bện: đầy đủ thông số áp suất, nhiệt độ, bán kính uốn cong, đạt chuẩn UL/FM/TCVN."
+            MetaTitle = "Ống mềm nối đầu phun sprinkler DP25UB (không bện) - Sản xuất theo tiêu chuẩn UL/FM/TCVN | Đăng Phát Flex",
+            MetaDescription = "Ống mềm nối đầu phun sprinkler DP25UB không bện: đầy đủ thông số áp suất, nhiệt độ, bán kính uốn cong, sản xuất theo tiêu chuẩn UL/FM/TCVN."
         };
         AddVariants(dp25ub, ubVariants);
         dp25ub.Accessories.AddRange(BuildStandardAccessories());
@@ -200,7 +200,7 @@ public static class DbSeeder
             Slug = slugService.GenerateSlug("Dang Phat Flex DP25B"),
             Description = "Ống mềm nối đầu phun sprinkler DP25B (có bện) — bổ sung lớp lưới thép inox bện quanh " +
                 "thân ống, tăng khả năng chịu áp lực đột ngột và chống rung động, chiều dài 700–1800mm. " +
-                "Khuyến nghị cho nhà xưởng, kho vận và công trình yêu cầu chứng nhận FM.",
+                "Khuyến nghị cho nhà xưởng, kho vận và công trình đòi hỏi độ bền, chống rung cao.",
             InnerDiameter = "24.2mm",
             OuterDiameter = "24.8mm",
             HoseType = "Ống gân xoắn có bện lưới thép (Braided Helical Corrugated Hose), loại ren (Threaded)",
@@ -210,8 +210,8 @@ public static class DbSeeder
             Standards = "UL, ULC, FM, TCVN",
             MainImageUrl = "/images/products/product-packing-box.jpg",
             MainImageAlt = "Ống mềm nối đầu phun sprinkler DP25B Đăng Phát Flex - dây mềm nối đầu phun sprinkler có bện",
-            MetaTitle = "Ống mềm nối đầu phun sprinkler DP25B (có bện) - Đạt chuẩn UL/FM/TCVN | Đăng Phát Flex",
-            MetaDescription = "Ống mềm nối đầu phun sprinkler DP25B có bện lưới thép: chịu áp lực và chống rung tốt, đạt chuẩn UL/FM/TCVN cho nhà xưởng, kho vận."
+            MetaTitle = "Ống mềm nối đầu phun sprinkler DP25B (có bện) - Sản xuất theo tiêu chuẩn UL/FM/TCVN | Đăng Phát Flex",
+            MetaDescription = "Ống mềm nối đầu phun sprinkler DP25B có bện lưới thép: chịu áp lực và chống rung tốt, sản xuất theo tiêu chuẩn UL/FM/TCVN cho nhà xưởng, kho vận."
         };
         AddVariants(dp25b, bVariants);
         dp25b.Accessories.AddRange(BuildStandardAccessories());
@@ -271,7 +271,7 @@ public static class DbSeeder
                     "độ hoạt động ổn định đến trên 100°C; bán kính uốn cong tối thiểu phải được nhà sản xuất công " +
                     "bố rõ ràng để tránh gãy gập làm giảm lưu lượng nước khi chữa cháy.\n\n" +
                     "Đăng Phát Flex hiện cung cấp dòng ống mềm nối đầu phun DP25UB (không bện) và DP25B (có bện), " +
-                    "đạt đầy đủ chứng nhận UL, FM và TCVN, đa dạng chiều dài và cỡ đầu ra, sẵn hàng giao nhanh toàn " +
+                    "được sản xuất theo tiêu chuẩn UL, FM và TCVN, đa dạng chiều dài và cỡ đầu ra, sẵn hàng giao nhanh toàn " +
                     "quốc.",
                 CoverImageAlt = "Cấu tạo ống mềm nối đầu phun sprinkler DP25 Đăng Phát Flex",
                 PublishedAt = new DateTime(2026, 6, 2, 0, 0, 0, DateTimeKind.Utc),
@@ -304,9 +304,9 @@ public static class DbSeeder
                     "kín; bước 4, luồn ống qua giá treo, tránh gập ống nhỏ hơn bán kính uốn cong tối thiểu cho " +
                     "phép; bước 5, lắp đầu phun vào đầu ra (1/2 hoặc 3/4 inch) của ống mềm, căn chỉnh đầu phun " +
                     "vuông góc với trần; bước 6, xả khí và thử áp suất toàn hệ thống trước khi hoàn thiện trần.\n\n" +
-                    "Đăng Phát Flex cung cấp ống mềm nối đầu phun sprinkler đạt đồng thời cả ba chứng nhận UL, FM " +
+                    "Đăng Phát Flex cung cấp ống mềm nối đầu phun sprinkler sản xuất theo cả ba tiêu chuẩn UL, FM " +
                     "và TCVN, kèm hồ sơ kỹ thuật đầy đủ để phục vụ nghiệm thu công trình.",
-                CoverImageAlt = "Lắp đặt ống mềm nối đầu phun sprinkler đạt chuẩn UL FM TCVN",
+                CoverImageAlt = "Lắp đặt ống mềm nối đầu phun sprinkler sản xuất theo tiêu chuẩn UL FM TCVN",
                 PublishedAt = new DateTime(2026, 6, 16, 0, 0, 0, DateTimeKind.Utc),
                 MetaTitle = "Ống mềm nối đầu phun sprinkler: Chuẩn UL/FM/TCVN & hướng dẫn lắp đặt | Đăng Phát Flex",
                 MetaDescription = "Hướng dẫn tiêu chuẩn UL/FM/TCVN và các bước lắp đặt ống mềm nối đầu phun sprinkler đúng kỹ thuật, đảm bảo an toàn hệ thống chữa cháy."
@@ -330,15 +330,15 @@ public static class DbSeeder
                     "bện quanh thân ống. Lớp bện này giúp tăng đáng kể khả năng chịu áp lực đột ngột, chống rung " +
                     "động và hạn chế giãn nở khi có dòng nước áp suất cao đi qua đột ngột lúc kích hoạt chữa cháy. " +
                     "DP25B thường được khuyến nghị cho nhà xưởng công nghiệp, kho hàng có xe nâng hoạt động (rung " +
-                    "chấn liên tục), hoặc các công trình yêu cầu chứng nhận FM Approved nghiêm ngặt.\n\n" +
+                    "chấn liên tục), hoặc các công trình đòi hỏi tiêu chuẩn kỹ thuật khắt khe.\n\n" +
                     "Về thông số kỹ thuật, cả hai dòng dây mềm nối đầu phun sprinkler DP25UB và DP25B của Đăng " +
                     "Phát Flex đều có đường kính trong 24.2mm, đường kính ngoài 24.8mm, đầu vào ren 1 inch, đầu ra " +
-                    "1/2 hoặc 3/4 inch, áp suất làm việc tối đa 200psi, nhiệt độ hoạt động tối đa 107°C, và đều đạt " +
-                    "chứng nhận UL, FM, TCVN. Sự khác biệt chính nằm ở khả năng chịu lực cơ học và giá thành — " +
+                    "1/2 hoặc 3/4 inch, áp suất làm việc tối đa 200psi, nhiệt độ hoạt động tối đa 107°C, và đều được " +
+                    "sản xuất theo tiêu chuẩn UL, FM, TCVN. Sự khác biệt chính nằm ở khả năng chịu lực cơ học và giá thành — " +
                     "DP25B cao hơn DP25UB khoảng do chi phí vật liệu lớp bện bổ sung.\n\n" +
                     "Lời khuyên: nếu công trình là văn phòng, chung cư, khách sạn — dây mềm nối đầu phun sprinkler " +
                     "DP25UB là lựa chọn kinh tế và đủ đáp ứng yêu cầu kỹ thuật. Nếu công trình là nhà xưởng, kho " +
-                    "vận, hoặc yêu cầu chứng nhận FM cho mục đích bảo hiểm — nên chọn DP25B để đảm bảo độ bền lâu " +
+                    "vận, hoặc đòi hỏi độ bền cao cho mục đích bảo hiểm — nên chọn DP25B để đảm bảo độ bền lâu " +
                     "dài. Liên hệ Đăng Phát Flex để được tư vấn chọn đúng loại dây mềm nối đầu phun sprinkler cho " +
                     "công trình cụ thể của bạn.",
                 CoverImageAlt = "So sánh dây mềm nối đầu phun sprinkler DP25UB và DP25B",

@@ -54,6 +54,7 @@
                 @if (standards.Length > 0)
                 {
                     <div class="mt-3">
+                        <div class="text-body-secondary small mb-1">Sản xuất theo tiêu chuẩn:</div>
                         @foreach (var std in standards)
                         {
                             <span class="badge-standard">@std</span>
@@ -101,7 +102,7 @@
                         }
                         @if (!string.IsNullOrWhiteSpace(Model.Standards))
                         {
-                            <tr><th>Tiêu chuẩn</th><td>@Model.Standards</td></tr>
+                            <tr><th>Sản xuất theo tiêu chuẩn</th><td>@Model.Standards</td></tr>
                         }
                     </tbody>
                 </table>
@@ -141,7 +142,7 @@
                 {
                     <p class="text-body-secondary small mb-0">
                         (—) Số lần uốn 90° tối đa cho các chiều dài từ 2000mm trở lên: vui lòng liên hệ bộ phận
-                        kỹ thuật để có số liệu theo đúng hồ sơ chứng nhận.
+                        kỹ thuật để có số liệu theo đúng hồ sơ kỹ thuật.
                     </p>
                 }
             </div>
