@@ -463,6 +463,60 @@ a.topbar-item:hover {
     color: var(--dpf-gold-dark);
 }
 
+/* Hero slideshow (crossfade) */
+.hero-slider__track {
+    position: absolute;
+    inset: 0;
+}
+
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 800ms ease;
+}
+
+.hero-slide.is-active {
+    opacity: 1;
+}
+
+.hero-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.hero-slider__dots {
+    position: absolute;
+    right: 14px;
+    bottom: 16px;
+    z-index: 3;
+    display: flex;
+    gap: 7px;
+}
+
+.hero-slider__dots button {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    transition: background 200ms ease, width 200ms ease;
+}
+
+.hero-slider__dots button:hover {
+    background: rgba(255, 255, 255, 0.85);
+}
+
+.hero-slider__dots button.is-active {
+    background: #fff;
+    width: 22px;
+}
+
 @media (max-width: 991.98px) {
     .hero--home {
         padding: var(--dpf-space-6) 0 var(--dpf-space-7);

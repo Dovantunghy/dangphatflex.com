@@ -52,3 +52,90 @@
         init();
     }
 })();
+
+// Hero image slideshow: crossfades through product photos, with clickable dots.
+// Auto-rotation pauses on hover and is disabled when the user prefers reduced motion
+// (dots still work for manual browsing). Degrades to a single static image without JS.
+(function () {
+    "use strict";
+
+    var reduce = window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function initSlider(el) {
+        var slides = Array.prototype.slice.call(el.querySelectorAll(".hero-slide"));
+        if (slides.length < 2) {
+            return;
+        }
+
+        var dotsWrap = el.querySelector(".hero-slider__dots");
+        var interval = parseInt(el.getAttribute("data-interval"), 10) || 4000;
+        var idx = 0;
+        var timer = null;
+        var dots = [];
+
+        if (dotsWrap) {
+            slides.forEach(function (_, i) {
+                var b = document.createElement("button");
+                b.type = "button";
+                b.setAttribute("aria-label", "Ảnh " + (i + 1));
+                if (i === 0) {
+                    b.className = "is-active";
+                }
+                b.addEventListener("click", function () {
+                    go(i);
+                    restart();
+                });
+                dotsWrap.appendChild(b);
+                dots.push(b);
+            });
+        }
+
+        function go(n) {
+            slides[idx].classList.remove("is-active");
+            if (dots[idx]) {
+                dots[idx].classList.remove("is-active");
+            }
+            idx = (n + slides.length) % slides.length;
+            slides[idx].classList.add("is-active");
+            if (dots[idx]) {
+                dots[idx].classList.add("is-active");
+            }
+        }
+
+        function start() {
+            if (!reduce && timer === null) {
+                timer = setInterval(function () { go(idx + 1); }, interval);
+            }
+        }
+
+        function stop() {
+            if (timer !== null) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        function restart() {
+            stop();
+            start();
+        }
+
+        el.addEventListener("mouseenter", stop);
+        el.addEventListener("mouseleave", start);
+        start();
+    }
+
+    function boot() {
+        Array.prototype.forEach.call(
+            document.querySelectorAll(".hero-slider"),
+            initSlider
+        );
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", boot);
+    } else {
+        boot();
+    }
+})();

@@ -54,12 +54,26 @@
                 </div>
             </div>
             <div class="col-lg-6 hero-media-col">
-                <div class="hero-media">
-                    <img src="~/images/products/product-dp25-lineup.jpg" alt="Ống mềm nối đầu phun sprinkler DP25 Đăng Phát Flex - dây mềm nối đầu phun sprinkler inox" />
+                <div class="hero-media hero-slider" data-interval="3800" aria-label="Ảnh sản phẩm ống mềm nối đầu phun Đăng Phát Flex">
+                    <div class="hero-slider__track">
+                        <div class="hero-slide is-active">
+                            <img src="~/images/products/product-dp25-lineup.jpg" alt="Dàn ống mềm nối đầu phun sprinkler DP25 Đăng Phát Flex" />
+                        </div>
+                        <div class="hero-slide">
+                            <img src="~/images/products/product-packing-box.jpg" alt="Ống mềm nối đầu phun sprinkler DP25 thành phẩm, đầu nối ren inox" />
+                        </div>
+                        <div class="hero-slide">
+                            <img src="~/images/products/product-box-dp25ub-1200.jpg" alt="Hộp sản phẩm ống mềm sprinkler DP25UB-1200 thương hiệu Đăng Phát Flex" />
+                        </div>
+                        <div class="hero-slide">
+                            <img src="~/images/products/product-dp25-label-detail.jpg" alt="Chi tiết đầu nối và tem sản phẩm ống mềm nối đầu phun DP25" />
+                        </div>
+                    </div>
                     <span class="hero-media__chip">
                         @await Html.PartialAsync("_Icon", "shield-check")
                         Theo tiêu chuẩn UL · FM · TCVN
                     </span>
+                    <div class="hero-slider__dots" role="tablist" aria-label="Chọn ảnh"></div>
                 </div>
             </div>
         </div>
