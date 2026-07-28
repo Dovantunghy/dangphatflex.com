@@ -32,7 +32,7 @@ public class ProductDetailTests : IClassFixture<TestWebApplicationFactory>
         var jsonLd = content[startIndex..endIndex];
 
         using var document = JsonDocument.Parse(jsonLd);
-        Assert.Equal("Product", document.RootElement.GetProperty("@type").GetString());
+        Assert.Equal("Thing", document.RootElement.GetProperty("@type").GetString());
     }
 
     [Fact]
