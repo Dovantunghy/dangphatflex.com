@@ -108,4 +108,47 @@ public class DbSeederTests
 
         Assert.Equal(contentAfterFirstUpdate, contentAfterSecondUpdate);
     }
+
+    [Fact]
+    public void NewsBacklogSeeder_Creates24ArticlesWithUniqueSlugsCoverImagesAndKeywords()
+    {
+        using var context = CreateInMemoryContext();
+        var slugService = new SlugService();
+
+        DbSeeder.SeedNewsArticles(context, slugService);
+        NewsBacklogSeeder.Seed(context, slugService);
+
+        var backlog = context.NewsArticles
+            .Where(a => a.PublishedAt >= new DateTime(2026, 7, 20))
+            .ToList();
+
+        Assert.Equal(24, backlog.Count);
+        Assert.Equal(24, backlog.Select(a => a.Slug).Distinct().Count());
+        Assert.Equal(27, context.NewsArticles.Select(a => a.Slug).Distinct().Count());
+        Assert.All(backlog, a => Assert.False(string.IsNullOrWhiteSpace(a.CoverImageUrl)));
+        Assert.All(backlog, a => Assert.Contains("## ", a.Content));
+        Assert.All(backlog, a =>
+        {
+            var haystack = a.Title + " " + a.Content;
+            Assert.Contains("ống mềm nối đầu phun", haystack);
+        });
+
+        // 12 days x 2 posts (08:00 and 17:00), 20/07-31/07/2026.
+        var days = backlog.Select(a => a.PublishedAt.Date).Distinct().OrderBy(d => d).ToList();
+        Assert.Equal(12, days.Count);
+        Assert.All(days, d => Assert.Equal(2, backlog.Count(a => a.PublishedAt.Date == d)));
+    }
+
+    [Fact]
+    public void NewsBacklogSeeder_IsIdempotent()
+    {
+        using var context = CreateInMemoryContext();
+        var slugService = new SlugService();
+
+        DbSeeder.SeedNewsArticles(context, slugService);
+        NewsBacklogSeeder.Seed(context, slugService);
+        NewsBacklogSeeder.Seed(context, slugService);
+
+        Assert.Equal(27, context.NewsArticles.Count());
+    }
 }
