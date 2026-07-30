@@ -2,7 +2,8 @@
     var metaTitle = ViewData["MetaTitle"] as string ?? "Đăng Phát Flex - Giải pháp khớp nối mềm inox";
     var metaDescription = ViewData["MetaDescription"] as string ?? "Chuyên sản xuất, phân phối khớp nối mềm inox cho hệ thống chữa cháy sprinkler. Nhanh nhất - Tốt nhất - Giá cạnh tranh nhất.";
     var canonicalUrl = ViewData["CanonicalUrl"] as string ?? $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}";
-    var ogImage = ViewData["OgImage"] as string ?? "/images/og-default.jpg";
+    var ogImageRaw = ViewData["OgImage"] as string ?? "/images/products/product-dp25-lineup.jpg";
+    var ogImage = ogImageRaw.StartsWith("http") ? ogImageRaw : $"{Context.Request.Scheme}://{Context.Request.Host}{ogImageRaw}";
 }
 <title>@metaTitle</title>
 <meta name="google-site-verification" content="4tUdvZBqTsUzoVFN79-xETQqUqojcTfddIHymXroPI4" />

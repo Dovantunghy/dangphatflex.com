@@ -827,6 +827,33 @@ a.topbar-item:hover {
     vertical-align: middle;
 }
 
+/* ---------- News article body ---------- */
+
+.news-article {
+    font-size: 1.05rem;
+    color: var(--dpf-gray-700);
+}
+
+.news-article h2 {
+    font-size: 1.4rem;
+    margin-top: var(--dpf-space-5);
+    margin-bottom: var(--dpf-space-2);
+}
+
+.news-article ul,
+.news-article ol {
+    padding-left: 1.4rem;
+    margin-bottom: var(--dpf-space-3);
+}
+
+.news-article li {
+    margin-bottom: 0.4rem;
+}
+
+.news-article a {
+    font-weight: 600;
+}
+
 /* ---------- Contact page ---------- */
 
 .contact-info-card {
