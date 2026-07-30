@@ -1154,6 +1154,81 @@ a.topbar-item:hover {
     color: var(--dpf-gray-900);
 }
 
+/* ---------- FAQ ---------- */
+
+.faq {
+    max-width: 860px;
+}
+
+.faq__item {
+    background: #fff;
+    border: 1px solid var(--dpf-gray-200);
+    border-radius: var(--dpf-radius-md);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: box-shadow 200ms ease-out;
+}
+
+.faq__item[open] {
+    box-shadow: var(--dpf-shadow-sm);
+    border-color: rgba(11, 95, 168, 0.30);
+}
+
+.faq__item summary {
+    position: relative;
+    cursor: pointer;
+    list-style: none;
+    padding: 18px 54px 18px 20px;
+    font-family: var(--dpf-font-heading);
+    font-weight: 700;
+    color: var(--dpf-gray-900);
+    font-size: 1.02rem;
+    line-height: 1.4;
+}
+
+.faq__item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq__item summary::after {
+    content: "+";
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(11, 95, 168, 0.08);
+    color: var(--dpf-blue);
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.faq__item[open] summary,
+.faq__item summary:hover {
+    color: var(--dpf-blue);
+}
+
+.faq__item[open] summary::after {
+    content: "\2212";
+    background: var(--dpf-blue);
+    color: #fff;
+}
+
+.faq__body {
+    padding: 0 20px 18px;
+    color: var(--dpf-gray-600);
+}
+
+.faq__body p {
+    margin: 0;
+}
+
 /* ---------- Khu chứng nhận (ISO) ---------- */
 
 .cert-showcase {
