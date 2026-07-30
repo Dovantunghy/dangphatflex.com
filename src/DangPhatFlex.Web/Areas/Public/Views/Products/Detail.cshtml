@@ -4,10 +4,14 @@
     ViewData["MetaTitle"] = Model.MetaTitle ?? Model.Name;
     ViewData["MetaDescription"] = Model.MetaDescription ?? Model.Description;
 
+    // Intentionally NOT "@type": "Product" — Google's Product rich result requires offers/review/
+    // aggregateRating, and this site is quote-based with no fixed listed price, so claiming Product
+    // eligibility would mean fabricating pricing data. "Thing" keeps descriptive structured data
+    // without triggering that requirement.
     var jsonLd = JsonSerializer.Serialize(new Dictionary<string, object?>
     {
         ["@context"] = "https://schema.org",
-        ["@type"] = "Product",
+        ["@type"] = "Thing",
         ["name"] = Model.Name,
         ["description"] = Model.Description,
         ["brand"] = new Dictionary<string, object?>
