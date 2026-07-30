@@ -1,11 +1,21 @@
 @model DangPhatFlex.Web.Models.NewsArticle
 @using System.Text.Json
+@using System.Text.RegularExpressions
+@using System.Net
 @using DangPhatFlex.Web.Models
+@using Microsoft.AspNetCore.Html
 @{
     ViewData["MetaTitle"] = Model.MetaTitle ?? Model.Title;
     ViewData["MetaDescription"] = Model.MetaDescription ?? Model.Summary;
     var related = ViewData["RelatedArticles"] as List<NewsArticle> ?? new();
-    var paragraphs = Model.Content.Split("\n\n", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+    var blocks = Model.Content.Split("\n\n", StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+    string? absoluteImageUrl = null;
+    if (!string.IsNullOrEmpty(Model.CoverImageUrl))
+    {
+        absoluteImageUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Model.CoverImageUrl}";
+        ViewData["OgImage"] = absoluteImageUrl;
+    }
 
     var jsonLd = JsonSerializer.Serialize(new Dictionary<string, object?>
     {
@@ -14,10 +24,35 @@
         ["headline"] = Model.Title,
         ["description"] = Model.Summary,
         ["datePublished"] = Model.PublishedAt.ToString("yyyy-MM-dd"),
-        ["image"] = Model.CoverImageUrl,
+        ["dateModified"] = Model.PublishedAt.ToString("yyyy-MM-dd"),
+        ["image"] = absoluteImageUrl,
+        ["mainEntityOfPage"] = new Dictionary<string, object?>
+        {
+            ["@type"] = "WebPage",
+            ["@id"] = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.Path}"
+        },
         ["author"] = new Dictionary<string, object?> { ["@type"] = "Organization", ["name"] = "Đăng Phát Flex" },
         ["publisher"] = new Dictionary<string, object?> { ["@type"] = "Organization", ["name"] = "Đăng Phát Flex" }
     });
+
+    // Renders the content markup convention from DbSeeder.BuildNewsArticles: "[text](url)" links
+    // inside otherwise-plain text. All free text is still HTML-encoded — only the bracket/paren
+    // syntax we control turns into a tag, so this stays safe for admin-authored content.
+    IHtmlContent RenderInline(string text)
+    {
+        var linkPattern = new Regex(@"\[([^\]]+)\]\(([^)]+)\)");
+        var sb = new System.Text.StringBuilder();
+        var lastIndex = 0;
+        foreach (Match m in linkPattern.Matches(text))
+        {
+            sb.Append(WebUtility.HtmlEncode(text[lastIndex..m.Index]));
+            sb.Append("<a href=\"").Append(WebUtility.HtmlEncode(m.Groups[2].Value)).Append("\">")
+              .Append(WebUtility.HtmlEncode(m.Groups[1].Value)).Append("</a>");
+            lastIndex = m.Index + m.Length;
+        }
+        sb.Append(WebUtility.HtmlEncode(text[lastIndex..]));
+        return new HtmlString(sb.ToString());
+    }
 }
 
 @* See Home/Index.cshtml for why JSON-LD is built via Dictionary + JsonSerializer + Html.Raw. *@
@@ -43,10 +78,39 @@
                     <img src="@Model.CoverImageUrl" alt="@(Model.CoverImageAlt ?? Model.Title)" class="img-fluid mb-4" style="border-radius: var(--dpf-radius-md);" />
                 }
 
-                <article style="font-size: 1.05rem; color: var(--dpf-gray-700);">
-                    @foreach (var p in paragraphs)
+                <article class="news-article">
+                    @foreach (var block in blocks)
                     {
-                        <p>@p</p>
+                        if (block.StartsWith("## "))
+                        {
+                            <h2>@block[3..]</h2>
+                        }
+                        else
+                        {
+                            var lines = block.Split('\n', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                            if (lines.Length > 1 && lines.All(l => l.StartsWith("- ")))
+                            {
+                                <ul>
+                                    @foreach (var line in lines)
+                                    {
+                                        <li>@RenderInline(line[2..])</li>
+                                    }
+                                </ul>
+                            }
+                            else if (lines.Length > 1 && lines.All(l => Regex.IsMatch(l, @"^\d+\.\s")))
+                            {
+                                <ol>
+                                    @foreach (var line in lines)
+                                    {
+                                        <li>@RenderInline(Regex.Replace(line, @"^\d+\.\s", ""))</li>
+                                    }
+                                </ol>
+                            }
+                            else
+                            {
+                                <p>@RenderInline(block)</p>
+                            }
+                        }
                     }
                 </article>
 

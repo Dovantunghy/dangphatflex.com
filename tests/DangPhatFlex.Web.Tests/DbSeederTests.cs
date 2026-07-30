@@ -71,4 +71,41 @@ public class DbSeederTests
 
         Assert.Equal(3, context.NewsArticles.Count());
     }
+
+    [Fact]
+    public void UpdateNewsArticleSeoContent_BackfillsCoverImagesOnOldRows()
+    {
+        using var context = CreateInMemoryContext();
+        var slugService = new SlugService();
+
+        // Simulate a production database seeded before cover images/H2 content existed.
+        DbSeeder.SeedNewsArticles(context, slugService);
+        foreach (var article in context.NewsArticles)
+        {
+            article.CoverImageUrl = null;
+        }
+        context.SaveChanges();
+
+        DbSeeder.UpdateNewsArticleSeoContent(context, slugService);
+
+        Assert.Equal(3, context.NewsArticles.Count());
+        Assert.All(context.NewsArticles, a => Assert.False(string.IsNullOrEmpty(a.CoverImageUrl)));
+        Assert.All(context.NewsArticles, a => Assert.Contains("## ", a.Content));
+    }
+
+    [Fact]
+    public void UpdateNewsArticleSeoContent_IsIdempotent()
+    {
+        using var context = CreateInMemoryContext();
+        var slugService = new SlugService();
+
+        DbSeeder.SeedNewsArticles(context, slugService);
+        DbSeeder.UpdateNewsArticleSeoContent(context, slugService);
+        var contentAfterFirstUpdate = context.NewsArticles.Select(a => a.Content).OrderBy(c => c).ToList();
+
+        DbSeeder.UpdateNewsArticleSeoContent(context, slugService);
+        var contentAfterSecondUpdate = context.NewsArticles.Select(a => a.Content).OrderBy(c => c).ToList();
+
+        Assert.Equal(contentAfterFirstUpdate, contentAfterSecondUpdate);
+    }
 }
