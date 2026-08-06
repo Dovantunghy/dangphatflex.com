@@ -69,6 +69,7 @@ using (var scope = app.Services.CreateScope())
     DbSeeder.SeedNewsArticles(context, slugService);
     DbSeeder.UpdateNewsArticleSeoContent(context, slugService);
     NewsBacklogSeeder.Seed(context, slugService);
+    NewsBacklogSeeder2.Seed(context, slugService);
 
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
