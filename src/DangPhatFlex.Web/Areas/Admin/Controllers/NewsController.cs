@@ -18,13 +18,28 @@ public class NewsController : Controller
     private readonly AppDbContext _context;
     private readonly ISlugService _slugService;
     private readonly IFileUploadService _fileUploadService;
+    private readonly IIndexNowService _indexNowService;
+    private readonly IWebHostEnvironment _environment;
 
-    public NewsController(AppDbContext context, ISlugService slugService, IFileUploadService fileUploadService)
+    public NewsController(
+        AppDbContext context,
+        ISlugService slugService,
+        IFileUploadService fileUploadService,
+        IIndexNowService indexNowService,
+        IWebHostEnvironment environment)
     {
         _context = context;
         _slugService = slugService;
         _fileUploadService = fileUploadService;
+        _indexNowService = indexNowService;
+        _environment = environment;
     }
+
+    // Only production has a real, publicly-crawlable URL worth telling Bing/Yandex about.
+    private Task NotifyIndexNowAsync(string slug) =>
+        _environment.IsProduction()
+            ? _indexNowService.NotifyUrlAsync($"https://dangphatflex.com/tin-tuc/{slug}")
+            : Task.CompletedTask;
 
     private static bool HasAllowedExtension(IFormFile file, IReadOnlyCollection<string> allowedExtensions)
     {
@@ -75,6 +90,7 @@ public class NewsController : Controller
 
         _context.NewsArticles.Add(article);
         await _context.SaveChangesAsync();
+        await NotifyIndexNowAsync(article.Slug);
         return RedirectToAction(nameof(Index));
     }
 
@@ -134,6 +150,7 @@ public class NewsController : Controller
             article.CoverImageUrl = await _fileUploadService.SaveAsync(model.CoverImage, "news");
 
         await _context.SaveChangesAsync();
+        await NotifyIndexNowAsync(article.Slug);
         return RedirectToAction(nameof(Index));
     }
 
